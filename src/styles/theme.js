@@ -1,7 +1,7 @@
 export const theme = {
   fonts: {
     logoFont: "'Passion One', cursive",
-    displayFont: "Oswald', sans-serif",
+    displayFont: "'Oswald', sans-serif",
     mainFont: "'Lato', sans-serif",
   },
   colors: {
@@ -13,6 +13,7 @@ export const theme = {
     inputBackground: "#EFEFEF",
     buttonBackground: "#1877F2",
     likeButton: "#AC0000",
+    placeholder: "#9F9F9F",
   },
   spacing: {
     maxBodyWidth: "940px",
