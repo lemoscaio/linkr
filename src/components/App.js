@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components"
 
 import GlobalStyle from "../styles/globalStyle.js"
 import { theme } from "../styles/theme.js"
+import { MenuProvider } from "../contexts/MenuContext.js"
 
 import DefaultPage from "../layouts/DefaultPage.js"
 
@@ -13,14 +14,16 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <GlobalStyle />
-          <Routes>
-            <Route path="/" element={<DefaultPage />}>
-              <Route path="/" element={<ExamplePage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <MenuProvider>
+          <BrowserRouter>
+            <GlobalStyle />
+            <Routes>
+              <Route path="/" element={<DefaultPage />}>
+                <Route path="/" element={<ExamplePage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </MenuProvider>
       </ThemeProvider>
     </>
   )
