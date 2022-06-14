@@ -54,6 +54,11 @@ body {
   font-family: ${({ theme }) => theme.fonts.mainFont};
   background-color: ${({ theme }) => theme.colors.mainBackground};
 }
+
+a{
+	color: inherit;
+	text-decoration: none;
+}
 `
 
 export default GlobalStyle
