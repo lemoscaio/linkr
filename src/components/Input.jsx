@@ -1,7 +1,7 @@
 import { useState } from "react"
 import * as S from "../styles/style.js"
 
-export const Input = ({
+export default function Input({
   type,
   name,
   id,
@@ -14,7 +14,7 @@ export const Input = ({
   pattern,
   min,
   step,
-}) => {
+}) {
   const [focused, setFocused] = useState(false)
 
   return (

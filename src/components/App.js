@@ -20,11 +20,11 @@ export default function App() {
           <BrowserRouter>
             <GlobalStyle />
             <Routes>
-              <Route path="/" element={<DefaultPage />}>
-                <Route path="/" element={<ExamplePage />} />
+              <Route path="/timeline" element={<DefaultPage />}>
+                <Route path="/timeline" element={<ExamplePage />} />
               </Route>
               <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/" element={<SignIn />} />
             </Routes>
           </BrowserRouter>
         </MenuProvider>

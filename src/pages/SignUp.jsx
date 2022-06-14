@@ -1,8 +1,8 @@
 import * as S from "../styles/style.js"
-import { Input } from "../components/Input.jsx"
+import Input from "../components/Input.jsx"
+import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { Button } from "../components/Button.jsx"
 //import axios from "axios"
 
 export default function SignUp() {
@@ -20,11 +20,11 @@ export default function SignUp() {
     event.preventDefault()
     setDisable(true)
     try {
-      //const promise = axios.post(URL, userSignup)
+      //axios.post(URL, userSignup)
       console.log(userSignup)
-      navigate("/sign-in")
-    } catch (error) {
-      console.log("erro front criar user", error)
+      navigate("/")
+    } catch (e) {
+      console.log("SignUp Error", e)
     }
   }
 
@@ -94,7 +94,7 @@ export default function SignUp() {
           message="Url inválida"
         />
         <Button type="submit" disabled={disable} text="Sign Up" />
-        <Link to="/sign-in">
+        <Link to="/">
           <span>Switch back to log in</span>
         </Link>
       </S.AuthForm>
