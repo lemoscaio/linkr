@@ -122,3 +122,11 @@ export const Button = styled.button`
   align-items: center;
   cursor: pointer;
 `
+export const TrendingBox = styled.div`
+  color: ${({ theme }) => theme.colors.secondary};
+  background-color: #171717;
+  border-radius: 16px;
+  width: 301px;
+  height: auto;
+  font-weight: 700;
+`
