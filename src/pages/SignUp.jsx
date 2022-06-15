@@ -3,16 +3,16 @@ import Input from "../components/Input.jsx"
 import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
-//import axios from "axios"
+import axios from "axios"
 
 export default function SignUp() {
   const navigate = useNavigate()
-  //const URL = `${process.env.REACT_APP_API_URL}/signup`
+  const URL = `${process.env.REACT_APP_API_URL}/signup`
   const [userSignup, setUserSignup] = useState({
     email: "",
     password: "",
     username: "",
-    pictureUrl: "",
+    profile_image: "",
   })
   const [disable, setDisable] = useState(false)
 
@@ -20,11 +20,10 @@ export default function SignUp() {
     event.preventDefault()
     setDisable(true)
     try {
-      //axios.post(URL, userSignup)
-      console.log(userSignup)
+      await axios.post(URL, userSignup)
       navigate("/")
-    } catch (e) {
-      console.log("SignUp Error", e)
+    } catch ({ response }) {
+      alert(response.data)
     }
   }
 
@@ -87,9 +86,9 @@ export default function SignUp() {
           required
           placeholder="picture url"
           onChange={(e) =>
-            setUserSignup({ ...userSignup, pictureUrl: e.target.value })
+            setUserSignup({ ...userSignup, profile_image: e.target.value })
           }
-          value={userSignup.pictureUrl}
+          value={userSignup.profile_image}
           disabled={disable}
           message="Url inválida"
         />
