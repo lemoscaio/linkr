@@ -8,7 +8,7 @@ export default function Input({
   placeholder,
   onChange,
   value,
-  disable,
+  disabled,
   message,
   minLength,
   pattern,
@@ -27,7 +27,7 @@ export default function Input({
         placeholder={placeholder}
         onChange={onChange}
         value={value}
-        disabled={disable}
+        disabled={disabled}
         pattern={pattern}
         minLength={minLength}
         min={min}
