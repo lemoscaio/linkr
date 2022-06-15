@@ -4,7 +4,7 @@ export const UserContext = createContext()
 
 export function UserProvider(props) {
   const [user, setUser] = useState({
-    name: "",
+    username: "",
     email: "",
     profile_image: "",
     token: "",

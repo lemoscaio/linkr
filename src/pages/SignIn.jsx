@@ -21,12 +21,10 @@ export default function SignIn() {
     event.preventDefault()
     setDisabled(true)
     try {
-      /*const res = await axios.post(URL, userSignin)
-      console.log(res)
+      const res = await axios.post(URL, userSignin)
       const { data } = res
-      const { name, email, profile_image, token } = data
-      setUser({ ...user })*/
-
+      const { username, email, profile_image, token } = data
+      setUser({ ...user, username, email, profile_image, token })
       navigate("/timeline")
     } catch ({ response }) {
       alert(response.data)
