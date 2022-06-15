@@ -11,22 +11,25 @@ import DefaultPage from "../layouts/DefaultPage.js"
 import ExamplePage from "../pages/ExamplePage.js"
 import SignUp from "../pages/SignUp.jsx"
 import SignIn from "../pages/SignIn.jsx"
+import { UserProvider } from "../contexts/UserContext.js"
 
 export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
         <MenuProvider>
-          <BrowserRouter>
-            <GlobalStyle />
-            <Routes>
-              <Route path="/timeline" element={<DefaultPage />}>
-                <Route path="/timeline" element={<ExamplePage />} />
-              </Route>
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/" element={<SignIn />} />
-            </Routes>
-          </BrowserRouter>
+          <UserProvider>
+            <BrowserRouter>
+              <GlobalStyle />
+              <Routes>
+                <Route path="/timeline" element={<DefaultPage />}>
+                  <Route path="/timeline" element={<ExamplePage />} />
+                </Route>
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/" element={<SignIn />} />
+              </Routes>
+            </BrowserRouter>
+          </UserProvider>
         </MenuProvider>
       </ThemeProvider>
     </>

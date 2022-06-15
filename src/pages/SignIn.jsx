@@ -2,8 +2,9 @@ import * as S from "../styles/style.js"
 import Input from "../components/Input.jsx"
 import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import axios from "axios"
+import { UserContext } from "../contexts/UserContext.js"
 
 export default function SignIn() {
   const navigate = useNavigate()
@@ -14,20 +15,23 @@ export default function SignIn() {
   })
   const [disabled, setDisabled] = useState(false)
 
+  const { user, setUser } = useContext(UserContext)
+
   async function Login(event) {
     event.preventDefault()
     setDisabled(true)
-    /*try {
-      const res = await axios.post(URL, userSignin)
+    try {
+      /*const res = await axios.post(URL, userSignin)
       console.log(res)
       const { data } = res
       const { name, email, profile_image, token } = data
+      setUser({ ...user })*/
 
       navigate("/timeline")
     } catch ({ response }) {
       alert(response.data)
       setDisabled(false)
-    }*/
+    }
   }
 
   return (
