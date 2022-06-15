@@ -25,6 +25,13 @@ export default function SignIn() {
       const { data } = res
       const { username, email, profile_image, token } = data
       setUser({ ...user, username, email, profile_image, token })
+      const userSerialized = JSON.stringify({
+        username,
+        email,
+        profile_image,
+        token,
+      })
+      localStorage.setItem("user", userSerialized)
       navigate("/timeline")
     } catch ({ response }) {
       alert(response.data)
