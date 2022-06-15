@@ -14,6 +14,7 @@ export const theme = {
     buttonBackground: "#1877F2",
     likeButton: "#AC0000",
     placeholder: "#9F9F9F",
+    error: "#ff3b1f",
   },
   spacing: {
     maxBodyWidth: "940px",
