@@ -1,6 +1,8 @@
 import styled from "styled-components"
 
 export * from "../components/Header/style.js"
+export * from "../components/FeedPage/style.js"
+export * from "../components/shared/Labels/style.js"
 
 export const PageContainer = styled.main`
   width: 100%;

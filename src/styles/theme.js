@@ -10,6 +10,7 @@ export const theme = {
     secondary: "#FFFFFF",
     text1: "#707070",
     text2: "#949494",
+    postMessage: "#B7B7B7",
     inputBackground: "#EFEFEF",
     buttonBackground: "#1877F2",
     likeButton: "#AC0000",
@@ -24,5 +25,8 @@ export const theme = {
     tablet: "481px",
     laptop: "769px",
     desktop: "1279px",
+  },
+  borderRadius: {
+    post: "16px",
   },
 }

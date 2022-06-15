@@ -15,7 +15,6 @@ import { DropdownMenu } from "./DropdownMenu"
 
 export default function Header() {
   const { menuIsOpen, setMenuIsOpen } = useContext(MenuContext)
-  console.log({ S })
 
   function handleMenuClick() {
     setMenuIsOpen(!menuIsOpen)
@@ -23,7 +22,7 @@ export default function Header() {
 
   return (
     <S.Header>
-      <Link to="/">
+      <Link to="/feed">
         <h1>linkr</h1>
       </Link>
       <Navbar>
