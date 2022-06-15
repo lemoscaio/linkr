@@ -3,15 +3,19 @@ import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
 
-import profilePic from "../assets/profile-placeholder.jpg"
+import profilePic from "../../assets/profile-placeholder.jpg"
 
-import * as S from "../styles/style.js"
+import * as S from "../../styles/style.js"
 
-import { MenuContext } from "../contexts/MenuContext.js"
+import { MenuContext } from "../../contexts/MenuContext.js"
+import { Navbar } from "./Navbar"
+import { NavItem } from "./NavItem"
+import { NavItemHidden } from "./NavItemHidden"
+import { DropdownMenu } from "./DropdownMenu"
 
 export default function Header() {
   const { menuIsOpen, setMenuIsOpen } = useContext(MenuContext)
-  console.log(S)
+  console.log({ S })
 
   function handleMenuClick() {
     setMenuIsOpen(!menuIsOpen)
@@ -37,25 +41,4 @@ export default function Header() {
       </Navbar>
     </S.Header>
   )
-}
-
-function Navbar(props) {
-  return (
-    <nav>
-      <ul> {props.children}</ul>
-    </nav>
-  )
-}
-
-function NavItem(props) {
-  return <li>{props.children}</li>
-}
-
-function NavItemHidden(props) {
-  const { menuIsOpen } = useContext(MenuContext)
-  return <>{menuIsOpen && props.children}</>
-}
-
-function DropdownMenu(props) {
-  return <S.DropdownMenu>{props.children}</S.DropdownMenu>
 }
