@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as S from "../styles/style.js"
 import Input from "../components/Input.jsx"
 import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../contexts/UserContext.js"
+import { ThreeDots } from "react-loader-spinner"
 
 export default function SignIn() {
   const navigate = useNavigate()
@@ -37,6 +39,37 @@ export default function SignIn() {
       alert(response.data)
       setDisabled(false)
     }
+  }
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  }
+  const autoLoginUrl = `${process.env.REACT_APP_API_URL}/auto-login`
+  const [tokenIsValid, setTokenIsValid] = useState(true)
+  useEffect(() => {
+    async function autoLogin() {
+      if (user.token?.length) {
+        try {
+          await axios.post(autoLoginUrl, {}, config)
+          navigate("/timeline")
+        } catch ({ response }) {
+          setTokenIsValid(false)
+          alert(response.data)
+        }
+      }
+    }
+    autoLogin()
+  }, [])
+
+  if (user.token?.length && tokenIsValid) {
+    return (
+      <S.Loading>
+        <h1>Logando...</h1>
+        <ThreeDots color="#000000" height={80} width={80} />
+      </S.Loading>
+    )
   }
 
   return (
