@@ -184,3 +184,22 @@ export const TrendingBox = styled.div`
   height: auto;
   font-weight: 700;
 `
+
+export const Loading = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    font-size: 30px;
+    color: ${({ theme }) => theme.colors.secondary};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    h1 {
+      font-size: 26px;
+    }
+  }
+`

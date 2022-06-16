@@ -15,7 +15,7 @@ import { DropdownMenu } from "./DropdownMenu"
 
 export default function Header() {
   const { menuIsOpen, setMenuIsOpen } = useContext(MenuContext)
-  console.log({ S })
+  //console.log({ S })
 
   function handleMenuClick() {
     setMenuIsOpen(!menuIsOpen)
