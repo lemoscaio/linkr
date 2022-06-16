@@ -1,6 +1,8 @@
 import styled from "styled-components"
 
 export * from "../components/Header/style.js"
+export * from "../components/shared/Posts/style.js"
+export * from "../components/shared/Labels/style.js"
 
 export const PageContainer = styled.main`
   width: 100%;
@@ -8,9 +10,11 @@ export const PageContainer = styled.main`
   min-height: calc(100vh - ${({ theme }) => theme.spacing.headerHeight});
   margin-top: ${({ theme }) => theme.spacing.headerHeight};
 
+  transition: all 300ms ease;
+
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    width: ${({ theme }) => theme.spacing.maxBodyWidth};
-    margin: 0 auto;
+    max-width: ${({ theme }) => theme.spacing.maxBodyWidth};
+    padding: 0 25px;
     margin-top: ${({ theme }) => theme.spacing.headerHeight};
   }
 `

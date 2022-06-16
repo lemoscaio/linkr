@@ -33,6 +33,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+  	font-family: ${({ theme }) => theme.fonts.mainFont};
+  	background-color: ${({ theme }) => theme.colors.mainBackground};
 }
 ol, ul {
 	list-style: none;
@@ -48,11 +50,6 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}
-
-body {
-  font-family: ${({ theme }) => theme.fonts.mainFont};
-  background-color: ${({ theme }) => theme.colors.mainBackground};
 }
 
 a{

@@ -10,10 +10,14 @@ export const theme = {
     secondary: "#FFFFFF",
     text1: "#707070",
     text2: "#949494",
+    postMessage: "#B7B7B7",
     inputBackground: "#EFEFEF",
     buttonBackground: "#1877F2",
     likeButton: "#AC0000",
     placeholder: "#9F9F9F",
+    linkPreviewBorder: "#4D4D4D",
+    linkPreviewTitle: "#CECECE",
+    linkPreviewDescription: "#9B9595",
     error: "#ff3b1f",
   },
   spacing: {
@@ -25,5 +29,8 @@ export const theme = {
     tablet: "481px",
     laptop: "769px",
     desktop: "1279px",
+  },
+  borderRadius: {
+    post: "16px",
   },
 }

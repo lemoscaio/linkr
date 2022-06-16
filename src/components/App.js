@@ -5,13 +5,13 @@ import { ThemeProvider } from "styled-components"
 import GlobalStyle from "../styles/globalStyle.js"
 import { theme } from "../styles/theme.js"
 import { MenuProvider } from "../contexts/MenuContext.js"
+import { UserProvider } from "../contexts/UserContext.js"
 
 import DefaultPage from "../layouts/DefaultPage.js"
 
-import ExamplePage from "../pages/ExamplePage.js"
+import TimelinePage from "../pages/TimelinePage.js"
 import SignUp from "../pages/SignUp.jsx"
 import SignIn from "../pages/SignIn.jsx"
-import { UserProvider } from "../contexts/UserContext.js"
 
 export default function App() {
   return (
@@ -22,8 +22,8 @@ export default function App() {
             <BrowserRouter>
               <GlobalStyle />
               <Routes>
-                <Route path="/timeline" element={<DefaultPage />}>
-                  <Route path="/timeline" element={<ExamplePage />} />
+                <Route path="/" element={<DefaultPage />}>
+                  <Route path="/timeline" element={<TimelinePage />} />
                 </Route>
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/" element={<SignIn />} />
