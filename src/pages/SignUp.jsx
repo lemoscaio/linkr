@@ -14,16 +14,17 @@ export default function SignUp() {
     username: "",
     profile_image: "",
   })
-  const [disable, setDisable] = useState(false)
+  const [disabled, setDisabled] = useState(false)
 
   async function createUser(event) {
     event.preventDefault()
-    setDisable(true)
+    setDisabled(true)
     try {
       await axios.post(URL, userSignup)
       navigate("/")
     } catch ({ response }) {
       alert(response.data)
+      setDisabled(false)
     }
   }
 
@@ -48,7 +49,7 @@ export default function SignUp() {
             setUserSignup({ ...userSignup, email: e.target.value })
           }
           value={userSignup.email}
-          disabled={disable}
+          disabled={disabled}
           message="Email inválido"
         />
         <Input
@@ -61,7 +62,7 @@ export default function SignUp() {
             setUserSignup({ ...userSignup, password: e.target.value })
           }
           value={userSignup.password}
-          disabled={disable}
+          disabled={disabled}
           minLength="3"
           pattern="^[a-zA-Z0-9]{3,}$"
           message="Apenas letras e números. Tamanho mínimo de 3 caracteres."
@@ -76,7 +77,7 @@ export default function SignUp() {
             setUserSignup({ ...userSignup, username: e.target.value })
           }
           value={userSignup.username}
-          disabled={disable}
+          disabled={disabled}
           message="Nome inválido"
         />
         <Input
@@ -89,10 +90,10 @@ export default function SignUp() {
             setUserSignup({ ...userSignup, profile_image: e.target.value })
           }
           value={userSignup.profile_image}
-          disabled={disable}
+          disabled={disabled}
           message="Url inválida"
         />
-        <Button type="submit" disabled={disable} text="Sign Up" />
+        <Button type="submit" disabled={disabled} text="Sign Up" />
         <Link to="/">
           <span>Switch back to log in</span>
         </Link>
