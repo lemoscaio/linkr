@@ -15,6 +15,9 @@ export const theme = {
     buttonBackground: "#1877F2",
     likeButton: "#AC0000",
     placeholder: "#9F9F9F",
+    linkPreviewBorder: "#4D4D4D",
+    linkPreviewTitle: "#CECECE",
+    linkPreviewDescription: "#9B9595",
   },
   spacing: {
     maxBodyWidth: "940px",

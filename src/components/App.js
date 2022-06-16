@@ -8,7 +8,7 @@ import { MenuProvider } from "../contexts/MenuContext.js"
 
 import DefaultPage from "../layouts/DefaultPage.js"
 
-import FeedPage from "../pages/FeedPage.js"
+import TimelinePage from "../pages/TimelinePage.js"
 import SignUp from "../pages/SignUp.jsx"
 import SignIn from "../pages/SignIn.jsx"
 
@@ -20,8 +20,8 @@ export default function App() {
           <BrowserRouter>
             <GlobalStyle />
             <Routes>
-              <Route path="/timeline" element={<DefaultPage />}>
-                <Route path="/timeline" element={<FeedPage />} />
+              <Route path="/" element={<DefaultPage />}>
+                <Route path="/timeline" element={<TimelinePage />} />
               </Route>
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/" element={<SignIn />} />

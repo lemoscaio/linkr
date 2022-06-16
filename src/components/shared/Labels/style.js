@@ -7,4 +7,8 @@ export const PageLabel = styled.h1`
   font-weight: 700;
 
   padding: 30px;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    padding: 30px 0;
+  }
 `

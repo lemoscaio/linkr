@@ -22,7 +22,7 @@ export default function Header() {
 
   return (
     <S.Header>
-      <Link to="/feed">
+      <Link to="/timeline">
         <h1>linkr</h1>
       </Link>
       <Navbar>
