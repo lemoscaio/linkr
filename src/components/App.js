@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components"
 import GlobalStyle from "../styles/globalStyle.js"
 import { theme } from "../styles/theme.js"
 import { MenuProvider } from "../contexts/MenuContext.js"
+import { UserProvider } from "../contexts/UserContext.js"
 
 import DefaultPage from "../layouts/DefaultPage.js"
 
@@ -17,16 +18,18 @@ export default function App() {
     <>
       <ThemeProvider theme={theme}>
         <MenuProvider>
-          <BrowserRouter>
-            <GlobalStyle />
-            <Routes>
-              <Route path="/" element={<DefaultPage />}>
-                <Route path="/timeline" element={<TimelinePage />} />
-              </Route>
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/" element={<SignIn />} />
-            </Routes>
-          </BrowserRouter>
+          <UserProvider>
+            <BrowserRouter>
+              <GlobalStyle />
+              <Routes>
+                <Route path="/" element={<DefaultPage />}>
+                  <Route path="/timeline" element={<TimelinePage />} />
+                </Route>
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/" element={<SignIn />} />
+              </Routes>
+            </BrowserRouter>
+          </UserProvider>
         </MenuProvider>
       </ThemeProvider>
     </>

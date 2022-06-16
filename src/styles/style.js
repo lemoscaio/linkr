@@ -25,6 +25,10 @@ export const AuthContainer = styled.main`
   width: 100vw;
   height: 100vh;
   display: flex;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    flex-direction: column;
+  }
 `
 
 export const AuthLogo = styled.div`
@@ -49,10 +53,28 @@ export const AuthLogo = styled.div`
     font-size: 43px;
     line-height: 64px;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    width: 100vw;
+    height: 26.3vh;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    h1 {
+      font-size: 76px;
+    }
+    span {
+      font-size: 23px;
+      line-height: 34px;
+    }
+  }
 `
 
 export const BoxAuthLogo = styled.div`
   gap: 12px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    gap: 0;
+  }
 `
 
 export const AuthForm = styled.form`
@@ -68,6 +90,18 @@ export const AuthForm = styled.form`
     color: #ffffff;
     line-height: 24px;
     margin-top: 13px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    width: 100vw;
+    height: 100%;
+    justify-content: flex-start;
+    margin-top: 4.5vh;
+    a {
+      font-size: 17px;
+      line-height: 20px;
+      margin-top: 18px;
+    }
   }
 `
 
@@ -95,7 +129,7 @@ export const InputBox = styled.div`
     justify-content: center;
   }
   span {
-    color: red;
+    color: ${({ theme }) => theme.colors.error};
     font-weight: 400;
     font-size: 13px;
     padding: 5px;
@@ -103,10 +137,23 @@ export const InputBox = styled.div`
     display: none;
   }
   input:invalid[focused="true"] {
-    border: 1px solid red;
+    border: 1px solid ${({ theme }) => theme.colors.error};
   }
   input:invalid[focused="true"] ~ span {
     display: block;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    input {
+      max-width: 88vw;
+      height: 55px;
+      font-size: 22px;
+      margin-top: 12px;
+    }
+    span {
+      font-size: 11px;
+      width: 88vw;
+    }
   }
 `
 export const Button = styled.button`
@@ -125,4 +172,38 @@ export const Button = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    max-width: 88vw;
+    height: 55px;
+    font-size: 22px;
+    margin-top: 12px;
+  }
+`
+export const TrendingBox = styled.div`
+  color: ${({ theme }) => theme.colors.secondary};
+  background-color: #171717;
+  border-radius: 16px;
+  width: 301px;
+  height: auto;
+  font-weight: 700;
+`
+
+export const Loading = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    font-size: 30px;
+    color: ${({ theme }) => theme.colors.secondary};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    h1 {
+      font-size: 26px;
+    }
+  }
 `
