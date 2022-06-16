@@ -27,7 +27,7 @@ export default function Post(props) {
       </S.PostCardLeftColumn>
       <S.PostCardRightColumn>
         <h3>{username}</h3>
-        <h6>{message} #hashtag</h6>
+        <h6>{message}</h6>
         <S.LinkPreview>
           <a href={previewUrl} target="_blank" rel="noreferrer">
             <div>
