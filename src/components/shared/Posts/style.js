@@ -224,14 +224,12 @@ export const NoPostsContainer = styled.div`
 
 
 export const PublishBox = styled.div`
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width:375px;
   height:164px;
-  margin-top: 87px;
   background: ${({ theme }) => theme.colors.secondary};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
