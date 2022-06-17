@@ -10,6 +10,7 @@ import { UserProvider } from "../contexts/UserContext.js"
 import DefaultPage from "../layouts/DefaultPage.js"
 
 import TimelinePage from "../pages/TimelinePage.js"
+import UserPostsPage from "../pages/UserPostsPage.js"
 import SignUp from "../pages/SignUp.jsx"
 import SignIn from "../pages/SignIn.jsx"
 
@@ -24,6 +25,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<DefaultPage />}>
                   <Route path="/timeline" element={<TimelinePage />} />
+                  <Route path="/user/:userId" element={<UserPostsPage />} />
                 </Route>
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/" element={<SignIn />} />
