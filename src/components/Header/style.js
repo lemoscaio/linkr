@@ -71,6 +71,7 @@ export const Header = styled.header`
           height: 70%;
           margin: 0;
           border-radius: 50%;
+          cursor: pointer;
         }
       }
     }
