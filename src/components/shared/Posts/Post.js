@@ -39,15 +39,11 @@ export default function Post(props) {
 
   async function handleLike() {
     if (!likedByUser) {
-      //implement delete like function sends an axios as delete to the backend
-
       setlikedByUser(true)
-      const result = await api.post(`/likes`, { post_id: `${id}` });
-     
+      await api.post(`/likes`, { post_id: `${id}` });
 
+    } else {
 
-    } else { //If the user has already liked the post
-      //implement like function thats sends an axios as get to the backend
       setlikedByUser(false)
       const result = await api.delete(`/likes/${id}`);
       console.log(result.data.items);
