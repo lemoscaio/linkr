@@ -232,11 +232,13 @@ export const PublishBox = styled.div`
   height:164px;
   background: ${({ theme }) => theme.colors.secondary};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom:16px;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
     width: 611px;
     height: 209px;
     border-radius: ${({ theme }) => theme.borderRadius.post};
+    margin-bottom:29px;
   }
 
   img{
