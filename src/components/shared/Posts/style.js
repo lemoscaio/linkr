@@ -222,7 +222,6 @@ export const NoPostsContainer = styled.div`
 `
 //PUBLICATION
 
-
 export const PublishBox = styled.div`
   position: relative;
   display: flex;
@@ -346,6 +345,9 @@ export const PublishBox = styled.div`
       }
 
     .button-publish{
+        display:flex;
+        justify-content: center;
+        align-items: center;
         margin-top:6px;
         width:112px;
         height: 22px;

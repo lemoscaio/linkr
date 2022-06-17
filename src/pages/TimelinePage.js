@@ -16,21 +16,32 @@ export default function TimelinePage() {
   })
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
-  const [publication , setPublication] = useState({shared_url: "", message: ""})
+  const [publication , setPublication] = useState({shared_url: "", message: ""});
+  const [loadingPublish, setLoadingPublish] = useState("Publish");
+  const [activeButtonPublish, setActiveButtonPublish] = useState(false);
 
   const theme = useTheme()
 
   function publishUrl(e) {
     e.preventDefault()
 
+    setActiveButtonPublish(true)
+    setLoadingPublish("Publishing...")
+
     api.post("/publish", publication)
       .then(res => {
-        console.log("deu bom")
         console.log(res)
+        setActiveButtonPublish(false)
+        setLoadingPublish("Publish")
+        setPublication({shared_url: "", message: ""})
       })
       .catch(err => {
-        console.log("deu ruim")
         console.log(err)
+        setLoadingPublish("Publish")
+        alert("Houve um erro ao publicar seu link")
+        setActiveButtonPublish(false)
+        setPublication({shared_url: "", message: ""});
+
       })
   }
 
@@ -67,9 +78,20 @@ export default function TimelinePage() {
             <img alt="" src="" /> 
             <h2>What are you going to share today?</h2>
             <form className="input-box" onSubmit={publishUrl} >
-              <input className="input-url" type="text" placeholder="http://..." value={publication.shared_url} onChange={(e)=>setPublication({...publication, shared_url: e.target.value})}/>
-              <input className="input-message" type="text" placeholder="What's on your mind?" value={publication.message} onChange={(e)=>setPublication({...publication, message: e.target.value})}/>
-              <button className="button-publish" type="submit"> Publish </button>
+              <input className="input-url"
+                  type="text"
+                  disabled={activeButtonPublish}
+                  placeholder="http://..." 
+                  value={publication.shared_url} 
+                  onChange={(e)=>setPublication({...publication, shared_url: e.target.value})}/>
+
+              <input className="input-message" 
+                  type="text" 
+                  disabled={activeButtonPublish}
+                  placeholder="What's on your mind?" 
+                  value={publication.message} 
+                  onChange={(e)=>setPublication({...publication, message: e.target.value})}/>
+              <button className="button-publish" type="submit">{loadingPublish}</button>
             </form>
         </S.PublishBox>
       <Posts>
