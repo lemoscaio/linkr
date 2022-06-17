@@ -1,5 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import * as S from "../../../styles/style.js"
+import axios from "axios"
+import { UserContext } from "../../../contexts/UserContext.js"
+import { useContext } from "react"
 
 export default function Post(props) {
   const {
@@ -12,17 +15,50 @@ export default function Post(props) {
       previewTitle,
       previewDescription,
       previewUrl,
+      id
     },
   } = props
 
   // TODO Implement like function
-  const likedByUser = false
+
+  const [likedByUser, setlikedByUser] = useState(false) //State to change the like button color
+  const { user } = useContext(UserContext)
+
+  const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+  api.interceptors.request.use(
+    async (config) => {
+      const token = user.token
+      config.headers.Authorization = `Bearer ${token}`
+      return config
+    }
+
+  )
+
+
+  async function handleLike() {
+    if (!likedByUser) {
+      //implement delete like function sends an axios as delete to the backend
+
+      setlikedByUser(true)
+      const result = await api.post(`/likes`, { post_id: `${id}` });
+     
+
+
+    } else { //If the user has already liked the post
+      //implement like function thats sends an axios as get to the backend
+      setlikedByUser(false)
+      const result = await api.delete(`/likes/${id}`);
+      console.log(result.data.items);
+    }
+  }
 
   return (
     <S.PostCard>
       <S.PostCardLeftColumn>
         <S.CardProfileImage src={profileImage} alt={username} />
-        {likedByUser ? <S.LikeIconFilled /> : <S.LikeIcon />}
+        {likedByUser ? <S.LikeIconFilled onClick={handleLike} /> : <S.LikeIcon onClick={handleLike} />}
         <S.LikesContainer>{likesCount} likes</S.LikesContainer>
       </S.PostCardLeftColumn>
       <S.PostCardRightColumn>

@@ -22,11 +22,11 @@ export default function App() {
             <BrowserRouter>
               <GlobalStyle />
               <Routes>
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/" element={<SignIn />} />
                 <Route path="/" element={<DefaultPage />}>
                   <Route path="/timeline" element={<TimelinePage />} />
                 </Route>
-                <Route path="/sign-up" element={<SignUp />} />
-                <Route path="/" element={<SignIn />} />
               </Routes>
             </BrowserRouter>
           </UserProvider>
