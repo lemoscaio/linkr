@@ -224,14 +224,37 @@ export const NoPostsContainer = styled.div`
 
 
 export const PublishBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width:375px;
   height:164px;
   background: ${({ theme }) => theme.colors.secondary};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+    width: 611px;
+    height: 209px;
+    border-radius: ${({ theme }) => theme.borderRadius.post};
+  }
+
+  img{
+    position: relative;
+    display: none;
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+      display: block;
+      position: absolute;
+      top:16px;
+      left: 18px;
+      width: 50px;
+      height: 50px;
+      border-radius: 26.5px;
+      background: red;
+    
+  }
+  }
 
   h2{
     display: flex;
@@ -247,19 +270,39 @@ export const PublishBox = styled.div`
     line-height: 20px;
     text-align: center;
     color: ${({ theme }) => theme.colors.text1};
+
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+      width: 445px;
+      height: 40px;
+      font-size: 20px;
+      line-height: 24px;
+      justify-content: flex-start;
+      align-items: start;
+    }
   }
 
   .input-box{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+        padding-left: 60px;
+      }
+
 
     .input-url{
-        position: relative;
         width:345px;
         height:30px;
         border-radius: 5px;
         border: none;
         background: ${({ theme }) => theme.colors.inputBackground};
+        
+        @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+          width: 503px;
+          height: 30px;
+          border-radius: 5px;
+        }
         
         ::placeholder{
             font-family: ${({ theme }) => theme.fonts.mainFont};
@@ -269,17 +312,27 @@ export const PublishBox = styled.div`
             line-height: 16px;
             padding-left: 11px;
             color: ${({ theme }) => theme.colors.text2};
+
+            @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+              font-size: 15px;
+              line-height: 18px;
+            }
         }
       }
 
     .input-message{
-        position: relative;
         margin-top:5px;
         width:344px;
         height:47px;
         border-radius: 5px;
         border: none;
         background: ${({ theme }) => theme.colors.inputBackground};
+
+        @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+          width: 502px;
+          height: 66px;
+          border-radius: 5px;
+        }
 
         ::placeholder{
             font-family: ${({ theme }) => theme.fonts.mainFont};
@@ -293,7 +346,6 @@ export const PublishBox = styled.div`
       }
 
     .button-publish{
-        position: relative;
         margin-top:6px;
         width:112px;
         height: 22px;
@@ -308,5 +360,15 @@ export const PublishBox = styled.div`
         line-height: 16px;
         text-align: center;
         margin-left: 233px;
+        cursor: pointer;
+
+        @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
+          width: 112px;
+          height: 31px;
+          border-radius: 5px;
+          margin-left: 390px;
+        }
   }
+}
+
 `

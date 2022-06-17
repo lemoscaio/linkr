@@ -22,6 +22,7 @@ export default function TimelinePage() {
 
   function publishUrl(e) {
     e.preventDefault()
+
     api.post("/publish", publication)
       .then(res => {
         console.log("deu bom")
@@ -58,10 +59,12 @@ export default function TimelinePage() {
     getPosts()
   }
 
+  // TODO put image of user in publishBox
   return (
     <S.PageContainer>
       <PageLabel>timeline</PageLabel>
       <S.PublishBox>
+            <img alt="" src="" /> 
             <h2>What are you going to share today?</h2>
             <form className="input-box" onSubmit={publishUrl} >
               <input className="input-url" type="text" placeholder="http://..." value={publication.shared_url} onChange={(e)=>setPublication({...publication, shared_url: e.target.value})}/>
