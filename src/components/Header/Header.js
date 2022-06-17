@@ -35,7 +35,6 @@ export default function Header() {
     const confirmation = confirm("Really want to logout?")
     if (confirmation) {
       try {
-        console.log("logout")
         await axios.delete(URL, config)
         handleMenuClick()
         localStorage.removeItem("user")

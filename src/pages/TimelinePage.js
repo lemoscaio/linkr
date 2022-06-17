@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import axios from "axios"
 import { LineWave } from "react-loader-spinner"
 import { useTheme } from "styled-components"
+import { UserContext } from "../contexts/UserContext.js"
 
 import PageLabel from "../components/shared/Labels/PageLabel.js"
 import Posts from "../components/shared/Posts/Posts.js"
@@ -15,11 +16,21 @@ export default function TimelinePage() {
   })
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
-  const [publication , setPublication] = useState({shared_url: "", message: ""});
-  const [loadingPublish, setLoadingPublish] = useState("Publish");
-  const [activeButtonPublish, setActiveButtonPublish] = useState(false);
+  const [publication, setPublication] = useState({
+    shared_url: "",
+    message: "",
+  })
+  const [loadingPublish, setLoadingPublish] = useState("Publish")
+  const [activeButtonPublish, setActiveButtonPublish] = useState(false)
 
   const theme = useTheme()
+
+  const { user } = useContext(UserContext)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  }
 
   function publishUrl(e) {
     e.preventDefault()
@@ -28,19 +39,19 @@ export default function TimelinePage() {
     setLoadingPublish("Publishing...")
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/publish`, publication)
-        .then(res => {
-          console.log(res)
-          setActiveButtonPublish(false)
-          setLoadingPublish("Publish")
-          setPublication({shared_url: "", message: ""})
-        })
-        .catch(err => {
-          console.log(err)
-          setLoadingPublish("Publish")
-          alert("Houve um erro ao publicar seu link")
-          setActiveButtonPublish(false)
-        })
+      .post(`${process.env.REACT_APP_API_URL}/publish`, publication, config)
+      .then((res) => {
+        console.log(res)
+        setActiveButtonPublish(false)
+        setLoadingPublish("Publish")
+        setPublication({ shared_url: "", message: "" })
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoadingPublish("Publish")
+        alert("Houve um erro ao publicar seu link")
+        setActiveButtonPublish(false)
+      })
   }
 
   function getPosts() {
@@ -73,25 +84,35 @@ export default function TimelinePage() {
     <S.PageContainer>
       <PageLabel>timeline</PageLabel>
       <S.PublishBox>
-            <img alt="" src="" /> 
-            <h2>What are you going to share today?</h2>
-            <form className="input-box" onSubmit={publishUrl} >
-              <input className="input-url"
-                  type="text"
-                  disabled={activeButtonPublish}
-                  placeholder="http://..." 
-                  value={publication.shared_url} 
-                  onChange={(e)=>setPublication({...publication, shared_url: e.target.value})}/>
+        <img alt="" src="" />
+        <h2>What are you going to share today?</h2>
+        <form className="input-box" onSubmit={publishUrl}>
+          <input
+            className="input-url"
+            type="text"
+            disabled={activeButtonPublish}
+            placeholder="http://..."
+            value={publication.shared_url}
+            onChange={(e) =>
+              setPublication({ ...publication, shared_url: e.target.value })
+            }
+          />
 
-              <input className="input-message" 
-                  type="text" 
-                  disabled={activeButtonPublish}
-                  placeholder="What's on your mind?" 
-                  value={publication.message} 
-                  onChange={(e)=>setPublication({...publication, message: e.target.value})}/>
-              <button className="button-publish" type="submit">{loadingPublish}</button>
-            </form>
-        </S.PublishBox>
+          <input
+            className="input-message"
+            type="text"
+            disabled={activeButtonPublish}
+            placeholder="What's on your mind?"
+            value={publication.message}
+            onChange={(e) =>
+              setPublication({ ...publication, message: e.target.value })
+            }
+          />
+          <button className="button-publish" type="submit">
+            {loadingPublish}
+          </button>
+        </form>
+      </S.PublishBox>
       <Posts>
         {posts &&
           posts.map((post) => {
