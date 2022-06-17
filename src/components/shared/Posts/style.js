@@ -220,3 +220,95 @@ export const NoPostsContainer = styled.div`
     color: ${({ theme }) => theme.colors.secondary};
   }
 `
+//PUBLICATION
+
+
+export const PublishBox = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width:375px;
+  height:164px;
+  margin-top: 87px;
+  background: ${({ theme }) => theme.colors.secondary};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  h2{
+    display: flex;
+    justify-content: center;
+    align-items:start;
+    padding-top:10px;
+    width: 307px;
+    height: 40px;
+    font-family: ${({ theme }) => theme.fonts.mainFont};
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.text1};
+  }
+
+  .input-box{
+    display: flex;
+    flex-direction: column;
+
+    .input-url{
+        position: relative;
+        width:345px;
+        height:30px;
+        border-radius: 5px;
+        border: none;
+        background: ${({ theme }) => theme.colors.inputBackground};
+        
+        ::placeholder{
+            font-family: ${({ theme }) => theme.fonts.mainFont};
+            font-style:normal;
+            font-weight:300;
+            font-size: 13px;
+            line-height: 16px;
+            padding-left: 11px;
+            color: ${({ theme }) => theme.colors.text2};
+        }
+      }
+
+    .input-message{
+        position: relative;
+        margin-top:5px;
+        width:344px;
+        height:47px;
+        border-radius: 5px;
+        border: none;
+        background: ${({ theme }) => theme.colors.inputBackground};
+
+        ::placeholder{
+            font-family: ${({ theme }) => theme.fonts.mainFont};
+            font-style:normal;
+            font-weight:300;
+            font-size: 13px;
+            line-height: 16px;
+            padding-left: 11px; 
+            color: ${({ theme }) => theme.colors.text2}; 
+        }
+      }
+
+    .button-publish{
+        position: relative;
+        margin-top:6px;
+        width:112px;
+        height: 22px;
+        border-radius: 5px;
+        border: none;
+        background: ${({ theme }) => theme.colors.buttonBackground};
+        color: ${({ theme }) => theme.colors.secondary};
+        font-family: ${({ theme }) => theme.fonts.mainFont};
+        font-style:normal;
+        font-weight:700;
+        font-size: 13px;
+        line-height: 16px;
+        text-align: center;
+        margin-left: 233px;
+  }
+`
