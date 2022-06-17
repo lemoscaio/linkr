@@ -19,6 +19,7 @@ export default function TimelinePage() {
   const [loadingPublish, setLoadingPublish] = useState("Publish");
   const [activeButtonPublish, setActiveButtonPublish] = useState(false);
 
+
   const theme = useTheme()
 
   function publishUrl(e) {
@@ -72,7 +73,7 @@ export default function TimelinePage() {
   return (
     <S.PageContainer>
       <PageLabel>timeline</PageLabel>
-      <S.PublishBox>
+      <S.PublishCard>
             <img alt="" src="" /> 
             <h2>What are you going to share today?</h2>
             <form className="input-box" onSubmit={publishUrl} >
@@ -91,7 +92,7 @@ export default function TimelinePage() {
                   onChange={(e)=>setPublication({...publication, message: e.target.value})}/>
               <button className="button-publish" type="submit">{loadingPublish}</button>
             </form>
-        </S.PublishBox>
+        </S.PublishCard>
       <Posts>
         {posts &&
           posts.map((post) => {

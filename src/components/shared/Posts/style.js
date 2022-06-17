@@ -222,24 +222,15 @@ export const NoPostsContainer = styled.div`
 `
 //PUBLICATION
 
-export const PublishBox = styled.div`
+export const PublishCard = styled(PostCard)`
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width:375px;
-  height:164px;
   background: ${({ theme }) => theme.colors.secondary};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom:16px;
-
-  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}){
-    width: 611px;
-    height: 209px;
-    border-radius: ${({ theme }) => theme.borderRadius.post};
-    margin-bottom:29px;
-  }
 
   img{
     position: relative;
