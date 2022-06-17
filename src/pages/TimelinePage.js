@@ -5,7 +5,6 @@ import { useTheme } from "styled-components"
 
 import PageLabel from "../components/shared/Labels/PageLabel.js"
 import Posts from "../components/shared/Posts/Posts.js"
-import api from "../components/api/api.js"
 
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
@@ -28,21 +27,20 @@ export default function TimelinePage() {
     setActiveButtonPublish(true)
     setLoadingPublish("Publishing...")
 
-    api.post("/publish", publication)
-      .then(res => {
-        console.log(res)
-        setActiveButtonPublish(false)
-        setLoadingPublish("Publish")
-        setPublication({shared_url: "", message: ""})
-      })
-      .catch(err => {
-        console.log(err)
-        setLoadingPublish("Publish")
-        alert("Houve um erro ao publicar seu link")
-        setActiveButtonPublish(false)
-        setPublication({shared_url: "", message: ""});
-
-      })
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/publish`, publication)
+        .then(res => {
+          console.log(res)
+          setActiveButtonPublish(false)
+          setLoadingPublish("Publish")
+          setPublication({shared_url: "", message: ""})
+        })
+        .catch(err => {
+          console.log(err)
+          setLoadingPublish("Publish")
+          alert("Houve um erro ao publicar seu link")
+          setActiveButtonPublish(false)
+        })
   }
 
   function getPosts() {
