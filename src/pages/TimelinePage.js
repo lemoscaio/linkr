@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import axios from "axios"
-import { LineWave } from "react-loader-spinner"
+import { LineWave, ThreeDots } from "react-loader-spinner"
 import { useTheme } from "styled-components"
 import { UserContext } from "../contexts/UserContext.js"
 
@@ -79,6 +79,31 @@ export default function TimelinePage() {
     getPosts()
   }
 
+  async function callbackDelete(id) {
+    try {
+      // eslint-disable-next-line no-restricted-globals
+      const confirmation = confirm("Really want to delete this post?")
+      if (confirmation) {
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/posts/${id}`,
+          config,
+        )
+        handleTryLoadAgain()
+      }
+    } catch ({ response }) {
+      alert(response.data)
+    }
+  }
+
+  if (!loadedPosts) {
+    return (
+      <S.Loading>
+        <h1>Loading...</h1>
+        <ThreeDots color="#000000" height={80} width={80} />
+      </S.Loading>
+    )
+  }
+
   // TODO put image of user in publishBox
   return (
     <S.PageContainer>
@@ -116,7 +141,13 @@ export default function TimelinePage() {
       <Posts>
         {posts &&
           posts.map((post) => {
-            return <Post key={post.id} post={post} />
+            return (
+              <Post
+                key={post.id}
+                post={post}
+                callbackDelete={() => callbackDelete(post.id)}
+              />
+            )
           })}
         {!loadedPosts && (
           <S.LoadingPosts>
