@@ -81,6 +81,13 @@ export const PostCardRightColumn = styled.div`
 
   h6 {
     color: ${({ theme }) => theme.colors.postMessage};
+
+    & > span {
+      color: ${({ theme }) => theme.colors.secondary};
+      font-weight: 700;
+
+      cursor: pointer;
+    }
   }
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 90%;
