@@ -81,7 +81,6 @@ export default function ByHashtagPage() {
                 </Posts>
 
             </S.PageContainer>
-            <Trending />
         </>
     )
 }
