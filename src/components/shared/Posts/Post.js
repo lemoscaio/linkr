@@ -69,7 +69,9 @@ export default function Post(props) {
               </div>
               <p>{previewUrl}</p>
             </div>
-            <img src={previewImage} alt={previewTitle} />
+            <aside>
+              {previewImage && <img src={previewImage} alt={previewTitle} />}
+            </aside>
           </a>
         </S.LinkPreview>
       </S.PostCardRightColumn>
