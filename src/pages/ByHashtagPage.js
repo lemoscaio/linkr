@@ -43,42 +43,45 @@ export default function ByHashtagPage() {
     }
 
     return (
-        <S.PageContainer>
-            <PageLabel># {hashtag}</PageLabel>
-            <Posts>
-                {posts &&
-                    posts.map((post) => {
-                        return <Post key={post.id} post={post} />
-                    })}
-                {!loadedPosts && (
-                    <S.LoadingPosts>
-                        <LineWave
-                            color="red"
-                            firstLineColor={theme.colors.text1}
-                            middleLineColor={theme.colors.linkPreviewBorder}
-                            lastLineColor={theme.colors.secondary}
-                            height={200}
-                            width={200}
-                            ariaLabel="three-circles-rotating"
-                        />
-                    </S.LoadingPosts>
-                )}
-                {loadPostsFail && (
-                    <S.ErrorLoadMessage>
-                        <p>
-                            An error occured while trying to fetch the posts, please refresh
-                            the page or click <span onClick={handleTryLoadAgain}>here</span>{" "}
-                            to try again.
-                        </p>
-                    </S.ErrorLoadMessage>
-                )}
-                {posts && posts.length === 0 && (
-                    <S.NoPostsContainer>
-                        <p>There are no posts yet.</p>
-                    </S.NoPostsContainer>
-                )}
-            </Posts>
+        <>
+            <S.PageContainer>
+                <PageLabel># {hashtag}</PageLabel>
+                <Posts>
+                    {posts &&
+                        posts.map((post) => {
+                            return <Post key={post.id} post={post} />
+                        })}
+                    {!loadedPosts && (
+                        <S.LoadingPosts>
+                            <LineWave
+                                color="red"
+                                firstLineColor={theme.colors.text1}
+                                middleLineColor={theme.colors.linkPreviewBorder}
+                                lastLineColor={theme.colors.secondary}
+                                height={200}
+                                width={200}
+                                ariaLabel="three-circles-rotating"
+                            />
+                        </S.LoadingPosts>
+                    )}
+                    {loadPostsFail && (
+                        <S.ErrorLoadMessage>
+                            <p>
+                                An error occured while trying to fetch the posts, please refresh
+                                the page or click <span onClick={handleTryLoadAgain}>here</span>{" "}
+                                to try again.
+                            </p>
+                        </S.ErrorLoadMessage>
+                    )}
+                    {posts && posts.length === 0 && (
+                        <S.NoPostsContainer>
+                            <p>There are no posts yet.</p>
+                        </S.NoPostsContainer>
+                    )}
+                </Posts>
+
+            </S.PageContainer>
             <Trending />
-        </S.PageContainer>
+        </>
     )
 }
