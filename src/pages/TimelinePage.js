@@ -10,6 +10,9 @@ import Posts from "../components/shared/Posts/Posts.js"
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
 
+import profilePic from "../assets/profile-placeholder.jpg"
+
+
 export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
     getPosts()
@@ -78,14 +81,13 @@ export default function TimelinePage() {
     setLoadPostsFail(false)
     getPosts()
   }
-
-  // TODO put image of user in publishBox
+  
   return (
     <S.PageContainer>
       <PageLabel>timeline</PageLabel>
       <S.PublishCard>
         <S.PostCardLeftColumn>
-            <S.CardProfileImage src={user.profileImage} alt={user.username} />
+            <S.CardProfileImage src={user.profile_image.length>0 ? user.profile_image : profilePic } alt={user.username} />
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
             <h2>What are you going to share today?</h2>
