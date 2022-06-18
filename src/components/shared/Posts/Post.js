@@ -17,7 +17,8 @@ export default function Post(props) {
       previewUrl,
       id,
     },
-    callbackDelete,
+    setPostId,
+    openModal,
   } = props
 
   // TODO Implement like function
@@ -45,18 +46,6 @@ export default function Post(props) {
     }
   }
 
-  /*async function deletePost() {
-    try {
-      // eslint-disable-next-line no-restricted-globals
-      const confirmation = confirm("Really want to delete this post?")
-      if (confirmation) {
-        await api.delete(`/posts/${id}`)
-      }
-    } catch ({ response }) {
-      alert(response.data)
-    }
-  }*/
-
   return (
     <S.PostCard>
       <S.PostCardLeftColumn>
@@ -71,7 +60,12 @@ export default function Post(props) {
       <S.PostCardRightColumn>
         <h3>{username}</h3>
         <h6>{message}</h6>
-        <S.TrashIcon onClick={(id) => callbackDelete(id)} />
+        <S.TrashIcon
+          onClick={(id) => {
+            setPostId(id)
+            openModal()
+          }}
+        />
         <S.LinkPreview>
           <a href={previewUrl} target="_blank" rel="noreferrer">
             <div>

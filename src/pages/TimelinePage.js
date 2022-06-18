@@ -9,6 +9,7 @@ import Posts from "../components/shared/Posts/Posts.js"
 
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
+import Modal from "react-modal"
 
 export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
@@ -22,6 +23,8 @@ export default function TimelinePage() {
   })
   const [loadingPublish, setLoadingPublish] = useState("Publish")
   const [activeButtonPublish, setActiveButtonPublish] = useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [postId, setPostId] = useState("")
 
   const theme = useTheme()
 
@@ -31,6 +34,8 @@ export default function TimelinePage() {
       Authorization: `Bearer ${user.token}`,
     },
   }
+
+  Modal.setAppElement(document.querySelector(".root"))
 
   function publishUrl(e) {
     e.preventDefault()
@@ -79,19 +84,25 @@ export default function TimelinePage() {
     getPosts()
   }
 
-  async function callbackDelete(id) {
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  async function deletePost() {
     try {
-      // eslint-disable-next-line no-restricted-globals
-      const confirmation = confirm("Really want to delete this post?")
-      if (confirmation) {
-        await axios.delete(
-          `${process.env.REACT_APP_API_URL}/posts/${id}`,
-          config,
-        )
-        handleTryLoadAgain()
-      }
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/posts/${postId}`,
+        config,
+      )
+      closeModal()
+      handleTryLoadAgain()
     } catch ({ response }) {
-      alert(response.data)
+      closeModal()
+      alert(`Not able to delete the post! ${response.data}`)
     }
   }
 
@@ -107,6 +118,26 @@ export default function TimelinePage() {
   // TODO put image of user in publishBox
   return (
     <S.PageContainer>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        className="_"
+        overlayClassName="_"
+        contentElement={(props, children) => (
+          <S.ModalStyle {...props}>{children}</S.ModalStyle>
+        )}
+        overlayElement={(props, contentElement) => (
+          <S.OverlayStyle {...props}>{contentElement}</S.OverlayStyle>
+        )}
+      >
+        <span>
+          Are you sure you want <br /> to delete this post?
+        </span>
+        <div>
+          <button onClick={closeModal}>No, go back</button>
+          <button onClick={deletePost}>Yes, delete it</button>
+        </div>
+      </Modal>
       <PageLabel>timeline</PageLabel>
       <S.PublishBox>
         <img alt="" src="" />
@@ -145,7 +176,8 @@ export default function TimelinePage() {
               <Post
                 key={post.id}
                 post={post}
-                callbackDelete={() => callbackDelete(post.id)}
+                setPostId={() => setPostId(post.id)}
+                openModal={() => openModal()}
               />
             )
           })}
