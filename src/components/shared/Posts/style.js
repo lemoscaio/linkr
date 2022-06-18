@@ -72,6 +72,7 @@ export const PostCardRightColumn = styled.div`
   margin-left: 15px;
   padding-left: 0px;
   width: 85%;
+  height: 100%;
   flex-grow: 1;
 
   h3 {
@@ -117,6 +118,8 @@ export const LinkPreview = styled.article`
   a {
     display: flex;
 
+    height: 100%;
+
     border: 1px solid ${({ theme }) => theme.colors.linkPreviewBorder};
     border-radius: 15px;
 
@@ -135,9 +138,11 @@ export const LinkPreview = styled.article`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      width: 100%;
       flex-grow: 1;
       gap: 10px;
+
+      width: 100%;
+      height: 100%;
 
       color: ${({ theme }) => theme.colors.linkPreviewTitle};
 
@@ -148,6 +153,8 @@ export const LinkPreview = styled.article`
         flex-direction: column;
         justify-content: flex-start;
         gap: 10px;
+
+        height: 100%;
 
         h4 {
           font-size: 16px;
@@ -167,12 +174,13 @@ export const LinkPreview = styled.article`
       object-fit: cover;
 
       width: 95px;
+      height: 100%;
 
       border-left: 1px solid ${({ theme }) => theme.colors.linkPreviewBorder};
 
       @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
         width: 150px;
-        height: 155px;
+        height: 100%;
       }
 
       @media (max-width: ${({ theme }) => theme.breakPoints.mobile}) {
