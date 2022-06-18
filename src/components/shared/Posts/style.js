@@ -37,9 +37,10 @@ export const PostCardLeftColumn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-shrink: 0;
   gap: 10px;
 
-  max-width: 20%;
+  width: 15%;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 10%;
@@ -47,9 +48,9 @@ export const PostCardLeftColumn = styled.div`
   }
 `
 export const CardProfileImage = styled.img`
-  min-width: 50px;
-  max-height: 50px;
-  flex-grow: 1;
+  aspect-ratio: 1;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
 
   border-radius: 50%;
@@ -59,7 +60,8 @@ export const CardProfileImage = styled.img`
   transition: all 300ms ease;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    max-height: 80px;
+    width: 70px;
+    height: 70px;
     padding: 0;
   }
 `
@@ -69,6 +71,8 @@ export const PostCardRightColumn = styled.div`
   gap: 10px;
   margin-left: 15px;
   padding-left: 0px;
+  width: 85%;
+  height: 100%;
   flex-grow: 1;
 
   h3 {
@@ -77,6 +81,9 @@ export const PostCardRightColumn = styled.div`
 
   h6 {
     color: ${({ theme }) => theme.colors.postMessage};
+  }
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    width: 90%;
   }
 `
 export const LikesContainer = styled.p`
@@ -111,6 +118,8 @@ export const LinkPreview = styled.article`
   a {
     display: flex;
 
+    height: 100%;
+
     border: 1px solid ${({ theme }) => theme.colors.linkPreviewBorder};
     border-radius: 15px;
 
@@ -123,12 +132,17 @@ export const LinkPreview = styled.article`
 
     transition: all 300ms ease;
 
+    word-break: break-all;
+
     & > div {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       flex-grow: 1;
       gap: 10px;
+
+      width: 100%;
+      height: 100%;
 
       color: ${({ theme }) => theme.colors.linkPreviewTitle};
 
@@ -139,6 +153,8 @@ export const LinkPreview = styled.article`
         flex-direction: column;
         justify-content: flex-start;
         gap: 10px;
+
+        height: 100%;
 
         h4 {
           font-size: 16px;
@@ -158,10 +174,17 @@ export const LinkPreview = styled.article`
       object-fit: cover;
 
       width: 95px;
+      height: 100%;
+
+      border-left: 1px solid ${({ theme }) => theme.colors.linkPreviewBorder};
 
       @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
         width: 150px;
-        height: 155px;
+        height: 100%;
+      }
+
+      @media (max-width: ${({ theme }) => theme.breakPoints.mobile}) {
+        display: none;
       }
     }
   }
@@ -218,5 +241,158 @@ export const NoPostsContainer = styled.div`
 
   p {
     color: ${({ theme }) => theme.colors.secondary};
+  }
+`
+//PUBLICATION
+
+export const PublishBox = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 375px;
+  height: 164px;
+  background: ${({ theme }) => theme.colors.secondary};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 16px;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    width: 611px;
+    height: 209px;
+    border-radius: ${({ theme }) => theme.borderRadius.post};
+    margin-bottom: 29px;
+  }
+
+  img {
+    position: relative;
+    display: none;
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+      display: block;
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      width: 50px;
+      height: 50px;
+      border-radius: 26.5px;
+      background: red;
+    }
+  }
+
+  h2 {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 10px;
+    width: 307px;
+    height: 40px;
+    font-family: ${({ theme }) => theme.fonts.mainFont};
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.text1};
+
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+      width: 445px;
+      height: 40px;
+      font-size: 20px;
+      line-height: 24px;
+      justify-content: flex-start;
+      align-items: start;
+    }
+  }
+
+  .input-box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+      padding-left: 60px;
+    }
+
+    .input-url {
+      width: 345px;
+      height: 30px;
+      border-radius: 5px;
+      border: none;
+      background: ${({ theme }) => theme.colors.inputBackground};
+
+      @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+        width: 503px;
+        height: 30px;
+        border-radius: 5px;
+      }
+
+      ::placeholder {
+        font-family: ${({ theme }) => theme.fonts.mainFont};
+        font-style: normal;
+        font-weight: 300;
+        font-size: 13px;
+        line-height: 16px;
+        padding-left: 11px;
+        color: ${({ theme }) => theme.colors.text2};
+
+        @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+          font-size: 15px;
+          line-height: 18px;
+        }
+      }
+    }
+
+    .input-message {
+      margin-top: 5px;
+      width: 344px;
+      height: 47px;
+      border-radius: 5px;
+      border: none;
+      background: ${({ theme }) => theme.colors.inputBackground};
+
+      @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+        width: 502px;
+        height: 66px;
+        border-radius: 5px;
+      }
+
+      ::placeholder {
+        font-family: ${({ theme }) => theme.fonts.mainFont};
+        font-style: normal;
+        font-weight: 300;
+        font-size: 13px;
+        line-height: 16px;
+        padding-left: 11px;
+        color: ${({ theme }) => theme.colors.text2};
+      }
+    }
+
+    .button-publish {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 6px;
+      width: 112px;
+      height: 22px;
+      border-radius: 5px;
+      border: none;
+      background: ${({ theme }) => theme.colors.buttonBackground};
+      color: ${({ theme }) => theme.colors.secondary};
+      font-family: ${({ theme }) => theme.fonts.mainFont};
+      font-style: normal;
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 16px;
+      text-align: center;
+      margin-left: 233px;
+      cursor: pointer;
+
+      @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+        width: 112px;
+        height: 31px;
+        border-radius: 5px;
+        margin-left: 390px;
+      }
+    }
   }
 `

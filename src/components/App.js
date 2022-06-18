@@ -10,6 +10,7 @@ import { UserProvider } from "../contexts/UserContext.js"
 import DefaultPage from "../layouts/DefaultPage.js"
 
 import TimelinePage from "../pages/TimelinePage.js"
+import UserPostsPage from "../pages/UserPostsPage.js"
 import SignUp from "../pages/SignUp.jsx"
 import SignIn from "../pages/SignIn.jsx"
 import ByHashtagPage from "../pages/ByHashtagPage.js"
@@ -23,12 +24,13 @@ export default function App() {
             <BrowserRouter>
               <GlobalStyle />
               <Routes>
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/" element={<SignIn />} />
                 <Route path="/" element={<DefaultPage />}>
                   <Route path="/timeline" element={<TimelinePage />} />
                   <Route path="/hashtag/:hashtag" element={<ByHashtagPage />} />
+                  <Route path="/user/:userId" element={<UserPostsPage />} />
                 </Route>
-                <Route path="/sign-up" element={<SignUp />} />
-                <Route path="/" element={<SignIn />} />
               </Routes>
             </BrowserRouter>
           </UserProvider>
