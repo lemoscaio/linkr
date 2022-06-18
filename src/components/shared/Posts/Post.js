@@ -15,7 +15,7 @@ export default function Post(props) {
       previewTitle,
       previewDescription,
       previewUrl,
-      id
+      id,
     },
   } = props
 
@@ -27,26 +27,32 @@ export default function Post(props) {
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   })
-  api.interceptors.request.use(
-    async (config) => {
-      const token = user.token
-      config.headers.Authorization = `Bearer ${token}`
-      return config
-    }
-
-  )
-
+  api.interceptors.request.use(async (config) => {
+    const token = user.token
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  })
 
   async function handleLike() {
     if (!likedByUser) {
       setlikedByUser(true)
-      await api.post(`/likes`, { post_id: `${id}` });
-
+      await api.post(`/likes`, { post_id: `${id}` })
     } else {
-
       setlikedByUser(false)
-      const result = await api.delete(`/likes/${id}`);
-      console.log(result.data.items);
+      const result = await api.delete(`/likes/${id}`)
+      console.log(result.data.items)
+    }
+  }
+
+  async function deletePost() {
+    try {
+      // eslint-disable-next-line no-restricted-globals
+      const confirmation = confirm("Really want to delete this post?")
+      if (confirmation) {
+        await api.delete(`/posts/${id}`)
+      }
+    } catch ({ response }) {
+      alert(response.data)
     }
   }
 
@@ -54,12 +60,17 @@ export default function Post(props) {
     <S.PostCard>
       <S.PostCardLeftColumn>
         <S.CardProfileImage src={profileImage} alt={username} />
-        {likedByUser ? <S.LikeIconFilled onClick={handleLike} /> : <S.LikeIcon onClick={handleLike} />}
+        {likedByUser ? (
+          <S.LikeIconFilled onClick={handleLike} />
+        ) : (
+          <S.LikeIcon onClick={handleLike} />
+        )}
         <S.LikesContainer>{likesCount} likes</S.LikesContainer>
       </S.PostCardLeftColumn>
       <S.PostCardRightColumn>
         <h3>{username}</h3>
         <h6>{message}</h6>
+        <S.TrashIcon onClick={deletePost} />
         <S.LinkPreview>
           <a href={previewUrl} target="_blank" rel="noreferrer">
             <div>
