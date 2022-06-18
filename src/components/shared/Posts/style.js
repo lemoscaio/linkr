@@ -248,7 +248,10 @@ export const NoPostsContainer = styled.div`
 
 export const PublishCard = styled(PostCard)`
   background-color: ${({ theme }) => theme.colors.secondary};
-
+  margin-bottom:16px;
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+  margin-bottom: 29px;
+  }
   h2{
     display: flex;
     padding-top:10px;
