@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../contexts/UserContext.js"
-import { ThreeDots } from "react-loader-spinner"
 import Swal from "sweetalert2"
 
 export default function SignIn() {
@@ -67,7 +66,6 @@ export default function SignIn() {
     },
   }
   const autoLoginUrl = `${process.env.REACT_APP_API_URL}/auto-login`
-  const [tokenIsValid, setTokenIsValid] = useState(true)
   useEffect(() => {
     async function autoLogin() {
       if (user.token?.length) {
@@ -75,7 +73,6 @@ export default function SignIn() {
           await axios.post(autoLoginUrl, {}, config)
           navigate("/timeline")
         } catch ({ response }) {
-          setTokenIsValid(false)
           const { status } = response
           if (
             status === 400 ||
@@ -99,15 +96,6 @@ export default function SignIn() {
     }
     autoLogin()
   }, [])
-
-  if (user.token?.length && tokenIsValid) {
-    return (
-      <S.Loading>
-        <h1>Logando...</h1>
-        <ThreeDots color="#000000" height={80} width={80} />
-      </S.Loading>
-    )
-  }
 
   return (
     <S.AuthContainer>
