@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import axios from "axios"
-import { LineWave } from "react-loader-spinner"
+import { LineWave, ThreeDots } from "react-loader-spinner"
 import { useTheme } from "styled-components"
 import { UserContext } from "../contexts/UserContext.js"
 
@@ -10,6 +10,8 @@ import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
+import Modal from "react-modal"
+import Swal from "sweetalert2"
 
 import profilePic from "../assets/profile-placeholder.jpg"
 
@@ -25,6 +27,8 @@ export default function TimelinePage() {
   })
   const [loadingPublish, setLoadingPublish] = useState("Publish")
   const [activeButtonPublish, setActiveButtonPublish] = useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [postId, setPostId] = useState("")
 
   const theme = useTheme()
 
@@ -34,6 +38,8 @@ export default function TimelinePage() {
       Authorization: `Bearer ${user.token}`,
     },
   }
+
+  Modal.setAppElement(document.querySelector(".root"))
 
   function publishUrl(e) {
     e.preventDefault()
@@ -52,8 +58,25 @@ export default function TimelinePage() {
       .catch((err) => {
         console.log(err)
         setLoadingPublish("Publish")
-        alert("Houve um erro ao publicar seu link")
         setActiveButtonPublish(false)
+        const { status } = err.response
+        if (
+          status === 400 ||
+          status === 401 ||
+          status === 422 ||
+          status === 500
+        ) {
+          return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data,
+          })
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Publish error!",
+        })
       })
   }
 
@@ -82,8 +105,78 @@ export default function TimelinePage() {
     getPosts()
   }
 
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  async function deletePost() {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/posts/${postId}`,
+        config,
+      )
+      closeModal()
+      handleTryLoadAgain()
+    } catch ({ response }) {
+      closeModal()
+      const { status } = response
+      if (
+        status === 400 ||
+        status === 401 ||
+        status === 422 ||
+        status === 500
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.data,
+        })
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error to delete post!",
+      })
+    }
+  }
+
+  if (!loadedPosts) {
+    return (
+      <S.Loading>
+        <h1>Loading...</h1>
+        <ThreeDots color="#000000" height={80} width={80} />
+      </S.Loading>
+    )
+  }
+
+  // TODO put image of user in publishBox
+
   return (
     <S.PageContainer>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        className="_"
+        overlayClassName="_"
+        contentElement={(props, children) => (
+          <S.ModalStyle {...props}>{children}</S.ModalStyle>
+        )}
+        overlayElement={(props, contentElement) => (
+          <S.OverlayStyle {...props}>{contentElement}</S.OverlayStyle>
+        )}
+      >
+        <span>
+          Are you sure you want <br /> to delete this post?
+        </span>
+        <div>
+          <button onClick={closeModal}>No, go back</button>
+          <button onClick={deletePost}>Yes, delete it</button>
+        </div>
+      </Modal>
       <PageLabel>timeline</PageLabel>
       <S.ContentWrapper>
         <S.MainContentWrapper>
@@ -137,7 +230,14 @@ export default function TimelinePage() {
           <Posts>
             {posts &&
               posts.map((post) => {
-                return <Post key={post.id} post={post} />
+                return (
+                  <Post
+                    key={post.id}
+                    post={post}
+                    setPostId={() => setPostId(post.id)}
+                    openModal={() => openModal()}
+                  />
+                )
               })}
             {!loadedPosts && (
               <S.LoadingPosts>

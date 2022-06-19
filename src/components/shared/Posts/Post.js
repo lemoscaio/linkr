@@ -19,13 +19,21 @@ export default function Post(props) {
       previewDescription,
       previewUrl,
       id,
+      userId,
     },
+    setPostId,
+    openModal,
   } = props
   const navigate = useNavigate()
   const { user } = useContext(UserContext)
 
   const [likedBy, setLikedBy] = useState(() => {
     getLikedBy()
+  })
+  api.interceptors.request.use(async (config) => {
+    const token = user.token
+    config.headers.Authorization = `Bearer ${token}`
+    return config
   })
   const [likeTooltip, setLikeTooltip] = useState()
   const [likedByUser, setlikedByUser] = useState(false) //State to change the like button color
@@ -144,6 +152,14 @@ export default function Post(props) {
             {message}
           </ReactHashtag>
         </h6>
+        {user.id === userId && (
+          <S.TrashIcon
+            onClick={(id) => {
+              setPostId(id)
+              openModal()
+            }}
+          />
+        )}
         <S.LinkPreview>
           <a href={previewUrl} target="_blank" rel="noreferrer">
             <div>
