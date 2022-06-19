@@ -16,6 +16,7 @@ export default function Post(props) {
       previewDescription,
       previewUrl,
       id,
+      user_id,
     },
     setPostId,
     openModal,
@@ -60,12 +61,14 @@ export default function Post(props) {
       <S.PostCardRightColumn>
         <h3>{username}</h3>
         <h6>{message}</h6>
-        <S.TrashIcon
-          onClick={(id) => {
-            setPostId(id)
-            openModal()
-          }}
-        />
+        {user.id === user_id && (
+          <S.TrashIcon
+            onClick={(id) => {
+              setPostId(id)
+              openModal()
+            }}
+          />
+        )}
         <S.LinkPreview>
           <a href={previewUrl} target="_blank" rel="noreferrer">
             <div>

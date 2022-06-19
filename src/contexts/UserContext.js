@@ -7,6 +7,7 @@ export function UserProvider(props) {
   let email = ""
   let profile_image = ""
   let token = ""
+  let id = ""
 
   const userStringify = localStorage.getItem("user")
   if (userStringify) {
@@ -15,12 +16,14 @@ export function UserProvider(props) {
     email = userLocal.email
     profile_image = userLocal.profile_image
     token = userLocal.token
+    id = userLocal.id
   }
   const [user, setUser] = useState({
     username,
     email,
     profile_image,
     token,
+    id,
   })
   console.log(user)
 
