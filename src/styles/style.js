@@ -2,9 +2,12 @@ import styled from "styled-components"
 
 export * from "../components/Header/style.js"
 export * from "../components/shared/Posts/style.js"
+export * from "../components/shared/PublishBox/style.js"
 export * from "../components/shared/Labels/style.js"
 
 export const PageContainer = styled.main`
+  /* display: flex; */
+
   width: 100%;
   margin: 0 auto;
   min-height: calc(100vh - ${({ theme }) => theme.spacing.headerHeight});
@@ -13,9 +16,31 @@ export const PageContainer = styled.main`
   transition: all 300ms ease;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    max-width: ${({ theme }) => theme.spacing.maxBodyWidth};
     padding: 0 25px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.largeScreen}) {
+    max-width: ${({ theme }) => theme.spacing.maxBodyWidth};
     margin-top: ${({ theme }) => theme.spacing.headerHeight};
+  }
+`
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  gap: 25px;
+`
+
+export const MainContentWrapper = styled.div`
+  flex-grow: 1;
+  flex-shrink: 1;
+`
+export const SecondaryContentWrapper = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 301px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.largeScreen}) {
+    display: none;
   }
 `
 
@@ -184,7 +209,7 @@ export const TrendingBox = styled.div`
   color: ${({ theme }) => theme.colors.secondary};
   background-color: #171717;
   border-radius: 16px;
-  width: 301px;
+  width: 100%;
   height: auto;
   font-weight: 700;
 `
