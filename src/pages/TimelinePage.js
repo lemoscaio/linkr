@@ -6,10 +6,10 @@ import { useTheme } from "styled-components"
 import PageLabel from "../components/shared/Labels/PageLabel.js"
 import PublishBox from "../components/shared/PublishBox/PublishBox.js"
 import Posts from "../components/shared/Posts/Posts.js"
+import Post from "../components/shared/Posts/Post"
 import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
-import Post from "../components/shared/Posts/Post"
 
 export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
