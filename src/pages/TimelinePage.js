@@ -55,7 +55,7 @@ export default function TimelinePage() {
   }
 
   function getPosts() {
-    const LIMIT = 3
+    const LIMIT = 20
     const ORDERBY = "created_at"
     const ORDER_DIR = "desc"
 

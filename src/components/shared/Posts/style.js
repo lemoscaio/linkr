@@ -101,13 +101,17 @@ export const LikesContainer = styled.p`
   user-select: none;
 
   div {
-    font-size: 16px;
+    font-size: 12px;
     color: ${({ theme }) => theme.colors.tooltipText};
     font-weight: 700;
   }
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     font-size: 14px;
+
+    div {
+      font-size: 16px;
+    }
   }
 `
 export const LikeIcon = styled(FiHeart)`

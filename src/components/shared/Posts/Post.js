@@ -22,15 +22,56 @@ export default function Post(props) {
     },
   } = props
   const navigate = useNavigate()
-
-  // TODO get from API
-  const [likedBy, setLikedBy] = useState([])
-
-  const [likeTooltip, setLikeTooltip] = useState()
-
-  const [likedByUser, setlikedByUser] = useState(false) //State to change the like button color
   const { user } = useContext(UserContext)
 
+  const [likedBy, setLikedBy] = useState(() => {
+    getLikedBy()
+  })
+  const [likeTooltip, setLikeTooltip] = useState()
+  const [likedByUser, setlikedByUser] = useState(false) //State to change the like button color
+
+  useEffect(() => {
+    ReactTooltip.rebuild()
+
+    let usersPart = likedBy && likedBy.join(", ")
+    let numberPart = likedBy && likesCount - likedBy.length
+
+    let tooltipNewText
+
+    if (likedBy) {
+      switch (likesCount) {
+        case 0:
+          tooltipNewText = "No one has liked it yet"
+          break
+        case 1:
+          tooltipNewText = `Liked by ${likedBy[0]}`
+          break
+        case 2:
+          tooltipNewText = `Liked by ${likedBy[0]} and ${likedBy[1]}`
+          break
+        case 3:
+          if (likedByUser)
+            tooltipNewText = `Liked by ${likedBy[0]}, ${likedBy[1]} and ${likedBy[2]}`
+          if (!likedByUser)
+            tooltipNewText = `Liked by ${usersPart} and ${numberPart} other`
+          break
+        case 4:
+          if (likedByUser)
+            tooltipNewText = `Liked by ${usersPart} and ${numberPart} other`
+          if (!likedByUser)
+            tooltipNewText = `Liked by ${usersPart} and ${numberPart} others`
+          break
+        default:
+          tooltipNewText = `Liked by ${usersPart} and ${numberPart} others`
+          break
+      }
+    }
+
+    setLikeTooltip(tooltipNewText)
+  }, [likedBy, likesCount, likedByUser])
+
+  // TODO Implement like function
+  // TODO correct function
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   })
@@ -39,68 +80,37 @@ export default function Post(props) {
     config.headers.Authorization = `Bearer ${token}`
     return config
   })
-
-  // TODO Implement like function
-  // TODO correct function
   async function handleLike() {
     if (!likedByUser) {
       setlikedByUser(true)
-      setLikedBy(["you", ...likedBy])
+      likedBy && setLikedBy(["you", ...likedBy])
       props.post.likesCount += 1
       await api.post(`/likes`, { post_id: `${id}` })
     } else {
       setlikedByUser(false)
-      likedBy.shift()
-      setLikedBy([...likedBy])
+      if (likedBy) {
+        likedBy.shift()
+        setLikedBy([...likedBy])
+      }
       props.post.likesCount -= 1
       const result = await api.delete(`/likes/${id}`)
-      console.log(result.data.items)
     }
+  }
+
+  function getLikedBy() {
+    const LIMIT = 2
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/likes?postId=${id}&limit=${LIMIT}`)
+      .then((response) => {
+        setLikedBy(response.data.likedBy)
+      })
   }
 
   function handleHashtagClick(hashtag) {
     const hashtagWithoutTag = hashtag.split("#")[1]
     navigate(`/hashtag/${hashtagWithoutTag}`)
   }
-
-  // TODO return only 2 people on array of likedBy
-  useEffect(() => {
-    ReactTooltip.rebuild()
-
-    let usersPart = likedBy.join(", ")
-    let numberPart = likesCount - likedBy.length
-
-    let tooltipNewText
-
-    switch (likesCount) {
-      case 0:
-        tooltipNewText = "No one has liked it yet"
-        break
-      case 1:
-        tooltipNewText = `Liked by ${likedBy[0]}`
-        break
-      case 2:
-        tooltipNewText = `Liked by ${likedBy[0]} and ${likedBy[1]}`
-        break
-      case 3:
-        if (likedByUser)
-          tooltipNewText = `Liked by ${likedBy[0]}, ${likedBy[1]} and ${likedBy[2]}`
-        if (!likedByUser)
-          tooltipNewText = `Liked by ${usersPart} and ${numberPart} other`
-        break
-      case 4:
-        if (likedByUser)
-          tooltipNewText = `Liked by ${usersPart} and ${numberPart} other`
-        if (!likedByUser)
-          tooltipNewText = `Liked by ${usersPart} and ${numberPart} others`
-        break
-      default:
-        tooltipNewText = `Liked by ${usersPart} and ${numberPart} others`
-        break
-    }
-
-    setLikeTooltip(tooltipNewText)
-  }, [likedBy, likesCount, likedByUser])
 
   return (
     <S.PostCard>
@@ -113,8 +123,15 @@ export default function Post(props) {
         )}
         <S.LikesContainer data-tip="" data-for={String(props.post.id)}>
           {likesCount === 1 ? <>{likesCount} like</> : <>{likesCount} likes</>}
-          <ReactTooltip id={String(props.post.id)} type="light" place="bottom">
-            <span>{likeTooltip}</span>
+          <ReactTooltip
+            id={String(props.post.id)}
+            type="light"
+            place="bottom"
+            getContent={() => {
+              return null
+            }}
+          >
+            {likedBy && <span>{likeTooltip}</span>}
           </ReactTooltip>
         </S.LikesContainer>
       </S.PostCardLeftColumn>
