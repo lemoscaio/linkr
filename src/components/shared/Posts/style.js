@@ -96,10 +96,22 @@ export const PostCardRightColumn = styled.div`
 export const LikesContainer = styled.p`
   text-align: center;
   font-size: 12px;
-  flex-grow: 1;
+
+  cursor: default;
+  user-select: none;
+
+  div {
+    font-size: 12px;
+    color: ${({ theme }) => theme.colors.tooltipText};
+    font-weight: 700;
+  }
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     font-size: 14px;
+
+    div {
+      font-size: 16px;
+    }
   }
 `
 export const LikeIcon = styled(FiHeart)`
