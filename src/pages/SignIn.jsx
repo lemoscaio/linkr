@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as S from "../styles/style.js"
 import Input from "../components/Input.jsx"
-import Button from "../components/shared/Buttons/Button.jsx"
+import Button from "../components/shared/Buttons/Button.js"
 import { Link, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
