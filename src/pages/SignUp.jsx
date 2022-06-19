@@ -13,7 +13,7 @@ export default function SignUp() {
     email: "",
     password: "",
     username: "",
-    profile_image: "",
+    profileImage: "",
   })
   const [disabled, setDisabled] = useState(false)
 
@@ -105,9 +105,9 @@ export default function SignUp() {
           required
           placeholder="picture url"
           onChange={(e) =>
-            setUserSignup({ ...userSignup, profile_image: e.target.value })
+            setUserSignup({ ...userSignup, profileImage: e.target.value })
           }
-          value={userSignup.profile_image}
+          value={userSignup.profileImage}
           disabled={disabled}
           message="Url inválida"
         />

@@ -16,7 +16,7 @@ export default function Post(props) {
       previewDescription,
       previewUrl,
       id,
-      user_id,
+      userId,
     },
     setPostId,
     openModal,
@@ -61,7 +61,7 @@ export default function Post(props) {
       <S.PostCardRightColumn>
         <h3>{username}</h3>
         <h6>{message}</h6>
-        {user.id === user_id && (
+        {user.id === userId && (
           <S.TrashIcon
             onClick={(id) => {
               setPostId(id)

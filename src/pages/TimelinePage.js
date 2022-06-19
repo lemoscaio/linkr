@@ -14,7 +14,6 @@ import Swal from "sweetalert2"
 
 import profilePic from "../assets/profile-placeholder.jpg"
 
-
 export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
     getPosts()
@@ -180,28 +179,42 @@ export default function TimelinePage() {
       <PageLabel>timeline</PageLabel>
       <S.PublishCard>
         <S.PostCardLeftColumn>
-            <S.CardProfileImage src={user.profile_image.length>0 ? user.profile_image : profilePic } alt={user.username} />
+          <S.CardProfileImage
+            src={user.profileImage?.length > 0 ? user.profileImage : profilePic}
+            alt={user.username}
+          />
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
-            <h2>What are you going to share today?</h2>
-            <form className="input-box" onSubmit={publishUrl} >
-              <input className="input-url"
-                  type="text"
-                  disabled={activeButtonPublish}
-                  placeholder="http://..." 
-                  value={publication.shared_url} 
-                  onChange={(e)=>setPublication({...publication, shared_url: e.target.value})}/>
+          <h2>What are you going to share today?</h2>
+          <form className="input-box" onSubmit={publishUrl}>
+            <input
+              className="input-url"
+              type="text"
+              disabled={activeButtonPublish}
+              placeholder="http://..."
+              value={publication.shared_url}
+              onChange={(e) =>
+                setPublication({ ...publication, shared_url: e.target.value })
+              }
+            />
 
-              <input className="input-message" 
-                  type="text" 
-                  disabled={activeButtonPublish}
-                  placeholder="What's on your mind?" 
-                  value={publication.message} 
-                  onChange={(e)=>setPublication({...publication, message: e.target.value})}/>
-              <div className="containerButton">{/* TODO ARRUMAR GAMBIARRA PARA BOTÃO */}
-                <S.Button className="button-publish" type="submit">{loadingPublish}</S.Button>
-              </div>
-            </form>
+            <input
+              className="input-message"
+              type="text"
+              disabled={activeButtonPublish}
+              placeholder="What's on your mind?"
+              value={publication.message}
+              onChange={(e) =>
+                setPublication({ ...publication, message: e.target.value })
+              }
+            />
+            <div className="containerButton">
+              {/* TODO ARRUMAR GAMBIARRA PARA BOTÃO */}
+              <S.Button className="button-publish" type="submit">
+                {loadingPublish}
+              </S.Button>
+            </div>
+          </form>
         </S.PostCardRightColumn>
       </S.PublishCard>
       <Posts>

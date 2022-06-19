@@ -25,13 +25,13 @@ export default function SignIn() {
     try {
       const res = await axios.post(URL, userSignin)
       const { data } = res
-      const { username, email, profile_image, token, id } = data
+      const { username, email, profileImage, token, id } = data
       console.log(data)
-      setUser({ ...user, username, email, profile_image, token, id })
+      setUser({ ...user, username, email, profileImage, token, id })
       const userSerialized = JSON.stringify({
         username,
         email,
-        profile_image,
+        profileImage,
         token,
         id,
       })

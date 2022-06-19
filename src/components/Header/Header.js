@@ -51,7 +51,7 @@ export default function Header() {
         ...user,
         username: "",
         email: "",
-        profile_image: "",
+        profileImage: "",
         token: "",
         id: "",
       })
@@ -115,7 +115,11 @@ export default function Header() {
           </NavItemHidden>
         </NavItem>
         <NavItem>
-          <img onClick={handleMenuClick} src={profilePic} alt="" />
+          <S.CardProfileImage
+            onClick={handleMenuClick}
+            src={user.profileImage?.length > 0 ? user.profileImage : profilePic}
+            alt=""
+          />
         </NavItem>
       </Navbar>
     </S.Header>

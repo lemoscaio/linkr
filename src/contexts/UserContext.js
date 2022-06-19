@@ -5,7 +5,7 @@ export const UserContext = createContext()
 export function UserProvider(props) {
   let username = ""
   let email = ""
-  let profile_image = ""
+  let profileImage = ""
   let token = ""
   let id = ""
 
@@ -14,14 +14,14 @@ export function UserProvider(props) {
     const userLocal = JSON.parse(userStringify)
     username = userLocal.username
     email = userLocal.email
-    profile_image = userLocal.profile_image
+    profileImage = userLocal.profileImage
     token = userLocal.token
     id = userLocal.id
   }
   const [user, setUser] = useState({
     username,
     email,
-    profile_image,
+    profileImage,
     token,
     id,
   })
