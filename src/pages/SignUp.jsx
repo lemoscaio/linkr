@@ -4,6 +4,7 @@ import Button from "../components/Button.jsx"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
+import Swal from "sweetalert2"
 
 export default function SignUp() {
   const navigate = useNavigate()
@@ -23,8 +24,25 @@ export default function SignUp() {
       await axios.post(URL, userSignup)
       navigate("/")
     } catch ({ response }) {
-      alert(response.data)
       setDisabled(false)
+      const { status } = response
+      if (
+        status === 400 ||
+        status === 401 ||
+        status === 422 ||
+        status === 500
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.data,
+        })
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Sign up error!",
+      })
     }
   }
 

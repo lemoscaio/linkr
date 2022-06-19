@@ -10,6 +10,7 @@ import Posts from "../components/shared/Posts/Posts.js"
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
 import Modal from "react-modal"
+import Swal from "sweetalert2"
 
 export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
@@ -54,8 +55,25 @@ export default function TimelinePage() {
       .catch((err) => {
         console.log(err)
         setLoadingPublish("Publish")
-        alert("Houve um erro ao publicar seu link")
         setActiveButtonPublish(false)
+        const { status } = err.response
+        if (
+          status === 400 ||
+          status === 401 ||
+          status === 422 ||
+          status === 500
+        ) {
+          return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data,
+          })
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Publish error!",
+        })
       })
   }
 
@@ -102,7 +120,24 @@ export default function TimelinePage() {
       handleTryLoadAgain()
     } catch ({ response }) {
       closeModal()
-      alert(`Not able to delete the post! ${response.data}`)
+      const { status } = response
+      if (
+        status === 400 ||
+        status === 401 ||
+        status === 422 ||
+        status === 500
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.data,
+        })
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error to delete post!",
+      })
     }
   }
 

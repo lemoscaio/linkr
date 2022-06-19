@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../contexts/UserContext.js"
 import { ThreeDots } from "react-loader-spinner"
+import Swal from "sweetalert2"
 
 export default function SignIn() {
   const navigate = useNavigate()
@@ -33,13 +34,30 @@ export default function SignIn() {
         email,
         profile_image,
         token,
-        id
+        id,
       })
       localStorage.setItem("user", userSerialized)
       navigate("/timeline")
     } catch ({ response }) {
-      alert(response.data)
       setDisabled(false)
+      const { status } = response
+      if (
+        status === 400 ||
+        status === 401 ||
+        status === 422 ||
+        status === 500
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.data,
+        })
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Sign in error!",
+      })
     }
   }
 
@@ -58,7 +76,24 @@ export default function SignIn() {
           navigate("/timeline")
         } catch ({ response }) {
           setTokenIsValid(false)
-          alert(response.data)
+          const { status } = response
+          if (
+            status === 400 ||
+            status === 401 ||
+            status === 422 ||
+            status === 500
+          ) {
+            return Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: response.data,
+            })
+          }
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Auto login error!",
+          })
         }
       }
     }
