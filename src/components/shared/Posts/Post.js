@@ -24,6 +24,7 @@ export default function Post(props) {
       id,
       userId,
     },
+    handleTryLoadAgain,
   } = props
   const navigate = useNavigate()
   const { user } = useContext(UserContext)
@@ -36,7 +37,6 @@ export default function Post(props) {
   const [likedByUser, setlikedByUser] = useState(false)
 
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [postId, setPostId] = useState("")
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -97,6 +97,7 @@ export default function Post(props) {
 
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${id}`, config)
+      handleTryLoadAgain()
       closeModal()
     } catch ({ response }) {
       closeModal()
@@ -222,8 +223,7 @@ export default function Post(props) {
           </h6>
           {user.id === userId && (
             <S.TrashIcon
-              onClick={(id) => {
-                setPostId(id)
+              onClick={() => {
                 openModal()
               }}
             />

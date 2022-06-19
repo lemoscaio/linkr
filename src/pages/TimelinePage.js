@@ -31,7 +31,7 @@ export default function TimelinePage() {
         `${process.env.REACT_APP_API_URL}/posts?limit=${LIMIT}&order=${ORDERBY}&direction=${ORDER_DIR}`,
       )
       .then((response) => {
-        setPosts(response.data)
+        setPosts([...response.data])
         setLoadedPosts(true)
       })
       .catch((error) => {
@@ -41,6 +41,8 @@ export default function TimelinePage() {
   }
 
   function handleTryLoadAgain() {
+    console.log("rodei")
+
     setLoadedPosts(false)
     setLoadPostsFail(false)
     getPosts()
@@ -53,9 +55,16 @@ export default function TimelinePage() {
         <S.MainContentWrapper>
           <PublishBox posts={posts} setPosts={setPosts} />
           <Posts>
-            {posts &&
+            {loadedPosts &&
+              posts &&
               posts.map((post) => {
-                return <Post key={post.id} post={post} />
+                return (
+                  <Post
+                    key={post.id}
+                    post={post}
+                    handleTryLoadAgain={() => handleTryLoadAgain()}
+                  />
+                )
               })}
             {!loadedPosts && (
               <S.LoadingPosts>
