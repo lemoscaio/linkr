@@ -232,3 +232,63 @@ export const Loading = styled.div`
     }
   }
 `
+
+// SEARCH BAR IN MOBILE
+export const SearchBarContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 93%;
+    height: 45px;
+    background-color: #fff;
+    margin-top: 82px;
+    margin-left:10px;
+    background: ${({ theme }) => theme.colors.secondary};
+    border-radius: 8px;
+    padding-left:16px;
+    padding-right:17px;
+    
+
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+      display: none;
+    }
+`
+export const SearchBarInput = styled.input`
+    width: 219px;
+    height: 20px;
+    background: ${({ theme }) => theme.colors.secondary};
+    border: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+
+    ::placeholder {
+        color: ${({ theme }) => theme.colors.search};
+        font-family: ${({ theme }) => theme.fonts.mainFont};~
+        font-style: normal;
+        font-weight:400;
+        font-size: 17px;
+        line-height: 20px;
+    }
+`
+
+// SEARCH BAR IN DESKTOP
+export const SearchBarContainerDesktop = styled.div`
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+    height: 45px;
+    background-color: #fff;
+    background: ${({ theme }) => theme.colors.secondary};
+    border-radius: 8px;
+    padding-left:14px;
+    padding-right:17px;
+
+
+
+    @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+      display: flex;
+    }
+`

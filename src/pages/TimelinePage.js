@@ -10,6 +10,7 @@ import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
+import SearchBarMobile from "../components/SearchBar/SearchBarMobile.js"
 
 import profilePic from "../assets/profile-placeholder.jpg"
 
@@ -84,6 +85,7 @@ export default function TimelinePage() {
 
   return (
     <S.PageContainer>
+      <SearchBarMobile/>
       <PageLabel>timeline</PageLabel>
       <S.ContentWrapper>
         <S.MainContentWrapper>

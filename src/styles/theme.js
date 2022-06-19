@@ -20,6 +20,7 @@ export const theme = {
     linkPreviewDescription: "#9B9595",
     error: "#ff3b1f",
     tooltipText: "#505050",
+    search: "#C6C6C6",
   },
   spacing: {
     maxBodyWidth: "1024px",

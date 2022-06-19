@@ -16,6 +16,8 @@ import { DropdownMenu } from "./DropdownMenu"
 import { UserContext } from "../../contexts/UserContext"
 import axios from "axios"
 
+import SearchBarDesktop from "../SearchBar/SearchBarDesktop.js"
+
 export default function Header() {
   const navigate = useNavigate()
   const { menuIsOpen, setMenuIsOpen } = useContext(MenuContext)
@@ -57,6 +59,7 @@ export default function Header() {
       <Link to="/timeline">
         <h1>linkr</h1>
       </Link>
+      <SearchBarDesktop/>
       <Navbar>
         <NavItem>
           {menuIsOpen ? (
