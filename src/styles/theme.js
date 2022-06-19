@@ -19,6 +19,7 @@ export const theme = {
     linkPreviewTitle: "#CECECE",
     linkPreviewDescription: "#9B9595",
     error: "#ff3b1f",
+    tooltipText: "#505050",
   },
   spacing: {
     maxBodyWidth: "940px",
