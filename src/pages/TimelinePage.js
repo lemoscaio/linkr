@@ -6,6 +6,7 @@ import { UserContext } from "../contexts/UserContext.js"
 
 import PageLabel from "../components/shared/Labels/PageLabel.js"
 import Posts from "../components/shared/Posts/Posts.js"
+import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
@@ -177,86 +178,100 @@ export default function TimelinePage() {
         </div>
       </Modal>
       <PageLabel>timeline</PageLabel>
-      <S.PublishCard>
-        <S.PostCardLeftColumn>
-          <S.CardProfileImage
-            src={user.profileImage?.length > 0 ? user.profileImage : profilePic}
-            alt={user.username}
-          />
-        </S.PostCardLeftColumn>
-        <S.PostCardRightColumn>
-          <h2>What are you going to share today?</h2>
-          <form className="input-box" onSubmit={publishUrl}>
-            <input
-              className="input-url"
-              type="text"
-              disabled={activeButtonPublish}
-              placeholder="http://..."
-              value={publication.shared_url}
-              onChange={(e) =>
-                setPublication({ ...publication, shared_url: e.target.value })
-              }
-            />
-
-            <input
-              className="input-message"
-              type="text"
-              disabled={activeButtonPublish}
-              placeholder="What's on your mind?"
-              value={publication.message}
-              onChange={(e) =>
-                setPublication({ ...publication, message: e.target.value })
-              }
-            />
-            <div className="containerButton">
-              {/* TODO ARRUMAR GAMBIARRA PARA BOTÃO */}
-              <S.Button className="button-publish" type="submit">
-                {loadingPublish}
-              </S.Button>
-            </div>
-          </form>
-        </S.PostCardRightColumn>
-      </S.PublishCard>
-      <Posts>
-        {posts &&
-          posts.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                post={post}
-                setPostId={() => setPostId(post.id)}
-                openModal={() => openModal()}
+      <S.ContentWrapper>
+        <S.MainContentWrapper>
+          <S.PublishCard>
+            <S.PostCardLeftColumn>
+              <S.CardProfileImage
+                src={
+                  user.profile_image.length > 0
+                    ? user.profile_image
+                    : profilePic
+                }
+                alt={user.username}
               />
-            )
-          })}
-        {!loadedPosts && (
-          <S.LoadingPosts>
-            <LineWave
-              color="red"
-              firstLineColor={theme.colors.text1}
-              middleLineColor={theme.colors.linkPreviewBorder}
-              lastLineColor={theme.colors.secondary}
-              height={200}
-              width={200}
-              ariaLabel="three-circles-rotating"
-            />
-          </S.LoadingPosts>
-        )}
-        {loadPostsFail && (
-          <S.ErrorLoadMessage>
-            <p>
-              An error occured while trying to fetch the posts, please refresh
-              the page or click <span onClick={handleTryLoadAgain}>here</span>{" "}
-              to try again.
-            </p>
-          </S.ErrorLoadMessage>
-        )}
-        {posts && posts.length === 0 && (
-          <S.NoPostsContainer>
-            <p>There are no posts yet.</p>
-          </S.NoPostsContainer>
-        )}
-      </Posts>
+            </S.PostCardLeftColumn>
+            <S.PostCardRightColumn>
+              <h2>What are you going to share today?</h2>
+              <form className="input-box" onSubmit={publishUrl}>
+                <input
+                  className="input-url"
+                  type="text"
+                  disabled={activeButtonPublish}
+                  placeholder="http://..."
+                  value={publication.shared_url}
+                  onChange={(e) =>
+                    setPublication({
+                      ...publication,
+                      shared_url: e.target.value,
+                    })
+                  }
+                />
+
+                <input
+                  className="input-message"
+                  type="text"
+                  disabled={activeButtonPublish}
+                  placeholder="What's on your mind?"
+                  value={publication.message}
+                  onChange={(e) =>
+                    setPublication({ ...publication, message: e.target.value })
+                  }
+                />
+                <div className="containerButton">
+                  {/* TODO ARRUMAR GAMBIARRA PARA BOTÃO */}
+                  <S.Button className="button-publish" type="submit">
+                    {loadingPublish}
+                  </S.Button>
+                </div>
+              </form>
+            </S.PostCardRightColumn>
+          </S.PublishCard>
+          <Posts>
+            {posts &&
+              posts.map((post) => {
+                return (
+                  <Post
+                    key={post.id}
+                    post={post}
+                    setPostId={() => setPostId(post.id)}
+                    openModal={() => openModal()}
+                  />
+                )
+              })}
+            {!loadedPosts && (
+              <S.LoadingPosts>
+                <LineWave
+                  color="red"
+                  firstLineColor={theme.colors.text1}
+                  middleLineColor={theme.colors.linkPreviewBorder}
+                  lastLineColor={theme.colors.secondary}
+                  height={200}
+                  width={200}
+                  ariaLabel="three-circles-rotating"
+                />
+              </S.LoadingPosts>
+            )}
+            {loadPostsFail && (
+              <S.ErrorLoadMessage>
+                <p>
+                  An error occured while trying to fetch the posts, please
+                  refresh the page or click{" "}
+                  <span onClick={handleTryLoadAgain}>here</span> to try again.
+                </p>
+              </S.ErrorLoadMessage>
+            )}
+            {posts && posts.length === 0 && (
+              <S.NoPostsContainer>
+                <p>There are no posts yet.</p>
+              </S.NoPostsContainer>
+            )}
+          </Posts>
+        </S.MainContentWrapper>
+        <S.SecondaryContentWrapper>
+          <Trending></Trending>
+        </S.SecondaryContentWrapper>
+      </S.ContentWrapper>
     </S.PageContainer>
   )
 }

@@ -19,15 +19,17 @@ export const theme = {
     linkPreviewTitle: "#CECECE",
     linkPreviewDescription: "#9B9595",
     error: "#ff3b1f",
+    tooltipText: "#505050",
   },
   spacing: {
-    maxBodyWidth: "940px",
+    maxBodyWidth: "1024px",
     headerHeight: "72px",
   },
   breakPoints: {
     mobile: "320px",
     tablet: "481px",
     laptop: "769px",
+    largeScreen: "1024px",
     desktop: "1279px",
   },
   borderRadius: {
