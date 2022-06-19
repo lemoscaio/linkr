@@ -18,6 +18,7 @@ export default function Post(props) {
       previewTitle,
       previewDescription,
       previewUrl,
+      sharedUrl,
       id,
     },
   } = props
@@ -28,7 +29,7 @@ export default function Post(props) {
     getLikedBy()
   })
   const [likeTooltip, setLikeTooltip] = useState()
-  const [likedByUser, setlikedByUser] = useState(false) //State to change the like button color
+  const [likedByUser, setlikedByUser] = useState(false)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -144,20 +145,30 @@ export default function Post(props) {
             {message}
           </ReactHashtag>
         </h6>
-        <S.LinkPreview>
-          <a href={previewUrl} target="_blank" rel="noreferrer">
-            <div>
+        {previewTitle ? (
+          <S.LinkPreview>
+            <a href={previewUrl} target="_blank" rel="noreferrer">
               <div>
-                <h4>{previewTitle}</h4>
-                <h6>{previewDescription}</h6>
+                <div>
+                  <h4>{previewTitle}</h4>
+                  <h6>{previewDescription}</h6>
+                </div>
+                <p>{previewUrl}</p>
               </div>
-              <p>{previewUrl}</p>
-            </div>
-            <aside>
-              {previewImage && <img src={previewImage} alt={previewTitle} />}
-            </aside>
-          </a>
-        </S.LinkPreview>
+              <aside>
+                {previewImage && <img src={previewImage} alt={previewTitle} />}
+              </aside>
+            </a>
+          </S.LinkPreview>
+        ) : (
+          <S.LinkPreview>
+            <a href={previewUrl} target="_blank" rel="noreferrer">
+              <div>
+                <p>{sharedUrl}</p>
+              </div>
+            </a>
+          </S.LinkPreview>
+        )}
       </S.PostCardRightColumn>
     </S.PostCard>
   )

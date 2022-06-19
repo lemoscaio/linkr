@@ -95,7 +95,7 @@ export const PostCardRightColumn = styled.div`
     width: 90%;
   }
 `
-export const LikesContainer = styled.p`
+export const LikesContainer = styled.div`
   text-align: center;
   font-size: 12px;
 

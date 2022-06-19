@@ -1,61 +1,25 @@
-import React, { useState, useContext } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import { LineWave } from "react-loader-spinner"
 import { useTheme } from "styled-components"
-import { UserContext } from "../contexts/UserContext.js"
 
 import PageLabel from "../components/shared/Labels/PageLabel.js"
+import PublishBox from "../components/shared/PublishBox/PublishBox.js"
 import Posts from "../components/shared/Posts/Posts.js"
 import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
 import Post from "../components/shared/Posts/Post"
 
-import profilePic from "../assets/profile-placeholder.jpg"
-
 export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
     getPosts()
   })
+  console.log("🚀 ~ posts", posts)
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
-  const [publication, setPublication] = useState({
-    shared_url: "",
-    message: "",
-  })
-  const [loadingPublish, setLoadingPublish] = useState("Publish")
-  const [activeButtonPublish, setActiveButtonPublish] = useState(false)
 
   const theme = useTheme()
-
-  const { user } = useContext(UserContext)
-  const config = {
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-    },
-  }
-
-  function publishUrl(e) {
-    e.preventDefault()
-
-    setActiveButtonPublish(true)
-    setLoadingPublish("Publishing...")
-
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/publish`, publication, config)
-      .then((res) => {
-        console.log(res)
-        setActiveButtonPublish(false)
-        setLoadingPublish("Publish")
-        setPublication({ shared_url: "", message: "" })
-      })
-      .catch((err) => {
-        console.log(err)
-        setLoadingPublish("Publish")
-        alert("Houve um erro ao publicar seu link")
-        setActiveButtonPublish(false)
-      })
-  }
 
   function getPosts() {
     const LIMIT = 20
@@ -87,53 +51,7 @@ export default function TimelinePage() {
       <PageLabel>timeline</PageLabel>
       <S.ContentWrapper>
         <S.MainContentWrapper>
-          <S.PublishCard>
-            <S.PostCardLeftColumn>
-              <S.CardProfileImage
-                src={
-                  user.profile_image.length > 0
-                    ? user.profile_image
-                    : profilePic
-                }
-                alt={user.username}
-              />
-            </S.PostCardLeftColumn>
-            <S.PostCardRightColumn>
-              <h2>What are you going to share today?</h2>
-              <form className="input-box" onSubmit={publishUrl}>
-                <input
-                  className="input-url"
-                  type="text"
-                  disabled={activeButtonPublish}
-                  placeholder="http://..."
-                  value={publication.shared_url}
-                  onChange={(e) =>
-                    setPublication({
-                      ...publication,
-                      shared_url: e.target.value,
-                    })
-                  }
-                />
-
-                <input
-                  className="input-message"
-                  type="text"
-                  disabled={activeButtonPublish}
-                  placeholder="What's on your mind?"
-                  value={publication.message}
-                  onChange={(e) =>
-                    setPublication({ ...publication, message: e.target.value })
-                  }
-                />
-                <div className="containerButton">
-                  {/* TODO ARRUMAR GAMBIARRA PARA BOTÃO */}
-                  <S.Button className="button-publish" type="submit">
-                    {loadingPublish}
-                  </S.Button>
-                </div>
-              </form>
-            </S.PostCardRightColumn>
-          </S.PublishCard>
+          <PublishBox posts={posts} setPosts={setPosts} />
           <Posts>
             {posts &&
               posts.map((post) => {
