@@ -3,8 +3,10 @@ import * as S from "../../../styles/style.js"
 import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext.js"
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom";
 
 export default function Post(props) {
+  console.log(props)
   const {
     post: {
       username,
@@ -15,7 +17,8 @@ export default function Post(props) {
       previewTitle,
       previewDescription,
       previewUrl,
-      id
+      id,
+      postUserId
     },
   } = props
 
@@ -23,6 +26,7 @@ export default function Post(props) {
 
   const [likedByUser, setlikedByUser] = useState(false) //State to change the like button color
   const { user } = useContext(UserContext)
+  const navigate = useNavigate();
 
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -53,11 +57,11 @@ export default function Post(props) {
   return (
     <S.PostCard>
       <S.PostCardLeftColumn>
-        <S.CardProfileImage src={profileImage} alt={username} />
+        <S.CardProfileImage src={profileImage} alt={username} onClick={() => navigate(`/user/${postUserId}`)}/>
         {likedByUser ? <S.LikeIconFilled onClick={handleLike} /> : <S.LikeIcon onClick={handleLike} />}
         <S.LikesContainer>{likesCount} likes</S.LikesContainer>
       </S.PostCardLeftColumn>
-      <S.PostCardRightColumn>
+      <S.PostCardRightColumn onClick={() => navigate(`/user/${postUserId}`)}>
         <h3>{username}</h3>
         <h6>{message}</h6>
         <S.LinkPreview>
