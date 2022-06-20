@@ -300,6 +300,7 @@ export const SearchBarContainerDesktop = styled.div`
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      outline:none;
   
   
       ::placeholder {
