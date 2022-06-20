@@ -25,7 +25,6 @@ export function UserProvider(props) {
     token,
     id,
   })
-  console.log(user)
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

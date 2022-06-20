@@ -69,6 +69,8 @@ export const Header = styled.header`
 
         img {
           height: 70%;
+          aspect-ratio: 1 / 1;
+          object-fit: cover;
           margin: 0;
           border-radius: 50%;
           cursor: pointer;

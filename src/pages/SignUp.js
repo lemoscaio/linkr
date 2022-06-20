@@ -1,5 +1,5 @@
 import * as S from "../styles/style.js"
-import Input from "../components/Input.jsx"
+import Input from "../components/shared/Inputs/Input.js"
 import Button from "../components/shared/Buttons/Button.js"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
