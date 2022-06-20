@@ -33,6 +33,7 @@ export default function Post(props) {
     const [likedByUser, setlikedByUser] = useState(false) //State to change the like button color
     const { user } = useContext(UserContext)
     const onUserId = user.id
+    console.log(onUserId)
 
     const api = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
@@ -104,7 +105,7 @@ export default function Post(props) {
 
     return (
 
-        <S.PostCard>
+        <S.PostCard onClick={() => console.log("🚀 ~ response", userId, onUserId)}>
             <S.PostCardLeftColumn>
                 <S.CardProfileImage src={profileImage} alt={username} />
                 {likedByUser ? <S.LikeIconFilled onClick={handleLike} /> : <S.LikeIcon onClick={handleLike} />}
@@ -125,8 +126,9 @@ export default function Post(props) {
                         ref={inputRef}
                         onKeyDown={(e) => { handleKey(e) }}
                         disabled={activeButton}
-                        value={message}
-                        onChange={(e) => { setEditPostMessage({ message: e.target.value }) }}
+                        
+                        onChange={(e) =>  setEditPostMessage({...editPostMessage, message: e.target.value}) }
+                        value={editPostMessage.message}
                     />
                     :
                     <h6>{message}</h6>}

@@ -27,6 +27,7 @@ export default function SignIn() {
       const { data } = res
       const { username, email, profileImage, token, id } = data
       setUser({ ...user, username, email, profileImage, token, id })
+      console.log("Teste de id", id)
       const userSerialized = JSON.stringify({
         username,
         email,

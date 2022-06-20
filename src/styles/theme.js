@@ -20,6 +20,9 @@ export const theme = {
     linkPreviewDescription: "#9B9595",
     error: "#ff3b1f",
     tooltipText: "#505050",
+    search: "#C6C6C6",
+    searchResults: "#E7E7E7",
+    searchResultName: "#515151",
     disabledButton: "#9B9595",
   },
   spacing: {

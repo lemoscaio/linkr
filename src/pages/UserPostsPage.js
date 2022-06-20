@@ -76,7 +76,7 @@ export default function UserPostsPage() {
           <Posts>
             {posts &&
               posts.map((post) => {
-                return <UpdatePost key={post.id} post={post} userIdparams={userId} />
+                return <UpdatePost key={post.id} post={post}  />
               })}
             {!loadedPosts && (
               <S.LoadingPosts>
