@@ -79,6 +79,10 @@ export default function SignIn() {
     autoLogin()
   }, [])
 
+  if (user.token?.length) {
+    return <S.AuthContainer></S.AuthContainer>
+  }
+
   return (
     <S.AuthContainer>
       <S.AuthLogo>
