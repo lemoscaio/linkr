@@ -9,7 +9,7 @@ export default function Trending() {
   const [hashtags, setHashtags] = useState(() => {
     getHashtags()
   })
-  const [loadPostsFail, setLoadPostsFail] = useState(false)
+  const [loadTrendingsFail, setLoadTrendingsFail] = useState(false)
 
   const navigate = useNavigate()
 
@@ -17,24 +17,18 @@ export default function Trending() {
     axios
       .get(URL)
       .then((response) => {
-        setHashtags(response.data)
+        console.log("🚀 ~ response", response)
+        setHashtags([...response.data])
       })
       .catch((error) => {
-        setLoadPostsFail(true)
+        console.log("🚀 ~ error", error)
+        setLoadTrendingsFail(true)
       })
   }
 
   return (
     <S.TrendingBox>
       <S.Title>trending</S.Title>
-      {loadPostsFail && (
-        <S.ErrorLoadTrendsMessage>
-          <p>
-            An error occured while trying to fetch trendings, please refresh the
-            page.
-          </p>
-        </S.ErrorLoadTrendsMessage>
-      )}
       {hashtags &&
         hashtags.map((hashtag, i) => (
           <S.Trends
@@ -44,6 +38,19 @@ export default function Trending() {
             # {hashtag.name}
           </S.Trends>
         ))}
+      {loadTrendingsFail && (
+        <S.ErrorLoadTrendsMessage>
+          <p>
+            An error occured while trying to fetch trendings, please refresh the
+            page.
+          </p>
+        </S.ErrorLoadTrendsMessage>
+      )}
+      {hashtags && hashtags.length === 0 && (
+        <S.ErrorLoadTrendsMessage>
+          <p>There are no hashtags yet.</p>
+        </S.ErrorLoadTrendsMessage>
+      )}
     </S.TrendingBox>
   )
 }
