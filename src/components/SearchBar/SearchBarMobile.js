@@ -8,54 +8,43 @@ import { AiOutlineSearch } from "react-icons/ai"
 import * as S from "../../styles/style.js"
 
 export default function SearchBar() {
-  const [username, setUsername] = React.useState("")
   const [data, setData] = React.useState([])
 
   const navigate = useNavigate()
 
-  async function sendSearchUsername(e) {
-    e.preventDefault()
+  async function sendSearchUsername(username) {
     const URL = `${process.env.REACT_APP_API_URL}/user?username=${username}`
-    console.log(username.length)
-    axios
-      .get(URL, username)
-      .then((res) => {
-        console.log(res.data)
-        setData(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (username.length > 2) {
+      axios
+        .get(URL)
+        .then((res) => {
+          setData(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      setData([])
+    }
   }
-  console.log(data)
 
   return (
     <S.Container>
       <S.SearchBarContainer>
         <DebounceInput
-          minLength={2}
+          minLength={3}
           debounceTimeout={300}
           placeholder="Search for people and friends"
           className="search-bar-input"
-          value={username}
           onChange={(e) => {
-            setUsername(e.target.value)
-            if (username.length === 3) {
-              sendSearchUsername(e)
-            }
+            sendSearchUsername(e.target.value)
           }}
         />
         <IconContext.Provider value={{ color: "#C6C6C6", size: "1.3rem" }}>
           <AiOutlineSearch onClick={sendSearchUsername} />
         </IconContext.Provider>
       </S.SearchBarContainer>
-      <S.SearchBarResults
-      /*  className={
-          username.length >= 3
-            ? "search-bar-results-active"
-            : "search-bar-results-hidden"
-        } */
-      >
+      <S.SearchBarResults>
         {data.map((user) => (
           <S.SearchBarResultUser
             key={user.userId}
