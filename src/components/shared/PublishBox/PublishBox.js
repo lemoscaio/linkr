@@ -46,7 +46,7 @@ export default function PublishBox(props) {
           {
             ...response.data,
             username: user.username,
-            profileImage: user.profile_image,
+            profileImage: user.profileImage,
             likesCount: 0,
           },
           ...posts,
@@ -66,7 +66,7 @@ export default function PublishBox(props) {
       <S.PublishCard>
         <S.PublishCardLeftColumn>
           <S.PublishCardProfileImage
-            src={user.profile_image ? user.profile_image : profilePic}
+            src={user.profileImage ? user.profileImage : profilePic}
             alt={user.username}
           />
         </S.PublishCardLeftColumn>
