@@ -1,52 +1,56 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 import * as S from "../../../styles/style.js"
-import { Title, Trends } from "./style.js"
 
 export default function Trending() {
   const URL = `${process.env.REACT_APP_API_URL}/trending`
-  const [hashtags, setHashtags] = useState([])
-  const [loadPostsFail, setLoadPostsFail] = useState(false)
+  const [hashtags, setHashtags] = useState(() => {
+    getHashtags()
+  })
+  const [loadTrendingsFail, setLoadTrendingsFail] = useState(false)
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    getHashtags()
-  }, [])
-
-  async function getHashtags() {
-    try {
-      const result = await axios.get(URL)
-      setHashtags(result.data)
-    } catch {
-      setLoadPostsFail(true)
-    }
-  }
-
-  function handleTryLoadAgain() {
-    setLoadPostsFail(false)
-    getHashtags()
+  function getHashtags() {
+    axios
+      .get(URL)
+      .then((response) => {
+        console.log("🚀 ~ response", response)
+        setHashtags([...response.data])
+      })
+      .catch((error) => {
+        console.log("🚀 ~ error", error)
+        setLoadTrendingsFail(true)
+      })
   }
 
   return (
     <S.TrendingBox>
-      <Title>trending</Title>
-      {loadPostsFail && (
-        <S.ErrorLoadMessage>
+      <S.Title>trending</S.Title>
+      {hashtags &&
+        hashtags.map((hashtag, i) => (
+          <S.Trends
+            key={i}
+            onClick={() => navigate(`/hashtag/${hashtag.name}`)}
+          >
+            # {hashtag.name}
+          </S.Trends>
+        ))}
+      {loadTrendingsFail && (
+        <S.ErrorLoadTrendsMessage>
           <p>
             An error occured while trying to fetch trendings, please refresh the
-            page or click <span onClick={handleTryLoadAgain}>here</span> to try
-            again.
+            page.
           </p>
-        </S.ErrorLoadMessage>
+        </S.ErrorLoadTrendsMessage>
       )}
-      {hashtags.map((hashtag, i) => (
-        <Trends key={i} onClick={() => navigate(`/hashtag/${hashtag.name}`)}>
-          # {hashtag.name}
-        </Trends>
-      ))}
+      {hashtags && hashtags.length === 0 && (
+        <S.ErrorLoadTrendsMessage>
+          <p>There are no hashtags yet.</p>
+        </S.ErrorLoadTrendsMessage>
+      )}
     </S.TrendingBox>
   )
 }

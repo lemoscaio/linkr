@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 import { FiHeart } from "react-icons/fi"
 import { FaHeart } from "react-icons/fa"
+import { FaRegTrashAlt } from "react-icons/fa"
 
 export const PostsContainer = styled.section`
   display: flex;
@@ -14,6 +15,8 @@ export const PostsContainer = styled.section`
 `
 export const PostCard = styled.article`
   display: flex;
+
+  position: relative;
 
   width: 100%;
 
@@ -61,6 +64,8 @@ export const CardProfileImage = styled.img`
 
   transition: all 300ms ease;
 
+  cursor: pointer;
+
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 70px;
     height: 70px;
@@ -79,6 +84,10 @@ export const PostCardRightColumn = styled.div`
 
   h3 {
     font-size: 17px;
+
+    align-self: flex-start;
+
+    cursor: pointer;
   }
 
   h6 {
@@ -95,7 +104,7 @@ export const PostCardRightColumn = styled.div`
     width: 90%;
   }
 `
-export const LikesContainer = styled.p`
+export const LikesContainer = styled.div`
   text-align: center;
   font-size: 12px;
 
@@ -135,6 +144,16 @@ export const LikeIconFilled = styled(FaHeart)`
     font-size: 32px;
   }
 `
+export const TrashIcon = styled(FaRegTrashAlt)`
+  font-size: 12px;
+  position: absolute;
+  right: 22px;
+  cursor: pointer;
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 14px;
+  }
+`
+
 export const LinkPreview = styled.article`
   a {
     display: flex;

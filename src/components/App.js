@@ -11,8 +11,8 @@ import DefaultPage from "../layouts/DefaultPage.js"
 
 import TimelinePage from "../pages/TimelinePage.js"
 import UserPostsPage from "../pages/UserPostsPage.js"
-import SignUp from "../pages/SignUp.jsx"
-import SignIn from "../pages/SignIn.jsx"
+import SignUp from "../pages/SignUp.js"
+import SignIn from "../pages/SignIn.js"
 import ByHashtagPage from "../pages/ByHashtagPage.js"
 
 export default function App() {

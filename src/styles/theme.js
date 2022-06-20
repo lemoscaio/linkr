@@ -6,7 +6,7 @@ export const theme = {
   },
   colors: {
     mainBackground: "#333333",
-    main: "#151515",
+    main: "#171717",
     secondary: "#FFFFFF",
     text1: "#707070",
     text2: "#949494",
@@ -23,6 +23,7 @@ export const theme = {
     search: "#C6C6C6",
     searchResults: "#E7E7E7",
     searchResultName: "#515151",
+    disabledButton: "#9B9595",
   },
   spacing: {
     maxBodyWidth: "1024px",

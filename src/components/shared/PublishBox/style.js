@@ -1,6 +1,13 @@
 import styled from "styled-components"
 
-import { PostCard } from "../Posts/style.js"
+import {
+  PostCard,
+  PostCardLeftColumn,
+  CardProfileImage,
+  PostCardRightColumn,
+} from "../Posts/style.js"
+
+import { Button } from "../../../styles/style.js"
 
 export const PublishCard = styled(PostCard)`
   background-color: ${({ theme }) => theme.colors.secondary};
@@ -9,79 +16,120 @@ export const PublishCard = styled(PostCard)`
     margin-bottom: 29px;
   }
   h2 {
-    display: flex;
-    padding-top: 10px;
-    height: 40px;
     font-family: ${({ theme }) => theme.fonts.mainFont};
-    font-size: 17px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 300;
-    line-height: 20px;
-    text-align: center;
     color: ${({ theme }) => theme.colors.text1};
+
+    margin: 10px 0;
+
+    @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+      font-size: 18px;
+    }
   }
-  .input-box {
-    display: flex;
-    flex-direction: column;
+`
 
-    .input-url {
-      height: 30px;
-      border-radius: 5px;
-      border: none;
-      background: ${({ theme }) => theme.colors.inputBackground};
+export const PublishCardLeftColumn = styled(PostCardLeftColumn)`
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    display: none;
+  }
+`
 
-      ::placeholder {
-        font-family: ${({ theme }) => theme.fonts.mainFont};
-        font-style: normal;
-        font-weight: 300;
-        font-size: 13px;
-        line-height: 16px;
-        padding-left: 11px;
-        color: ${({ theme }) => theme.colors.text2};
+export const PublishCardProfileImage = styled(CardProfileImage)``
 
-        @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-          font-size: 15px;
-          line-height: 18px;
-        }
-      }
+export const PublishCardRightColumn = styled(PostCardRightColumn)`
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    margin-left: 0;
+  }
+`
+
+export const PublishForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  input,
+  textarea {
+    background-color: ${({ theme }) => theme.colors.inputBackground};
+
+    font-size: 16px;
+    font-family: ${({ theme }) => theme.fonts.mainFont};
+    font-style: normal;
+    color: ${({ theme }) => theme.colors.text1};
+
+    padding: 7px 13px;
+
+    border: none;
+    border-radius: 5px;
+
+    @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+      font-size: 14px;
     }
 
-    .input-message {
-      margin-top: 5px;
-      height: 47px;
-      border-radius: 5px;
-      border: none;
-      background: ${({ theme }) => theme.colors.inputBackground};
-
-      ::placeholder {
-        font-family: ${({ theme }) => theme.fonts.mainFont};
-        font-style: normal;
-        font-weight: 300;
-        font-size: 13px;
-        line-height: 16px;
-        padding-left: 11px;
-        color: ${({ theme }) => theme.colors.text2};
-      }
-    }
-    .containerButton {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
+    :focus {
+      outline: none;
     }
 
-    .button-publish {
-      margin-top: 6px;
-      width: 112px;
-      height: 22px;
-      border: none;
+    ::placeholder {
+      font-size: 16px;
       font-family: ${({ theme }) => theme.fonts.mainFont};
-      font-size: 13px;
-      line-height: 16px;
-      text-align: center;
 
-      @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-        height: 31px;
+      color: ${({ theme }) => theme.colors.text2};
+
+      @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+        font-size: 14px;
       }
     }
+  }
+`
+export const Input = styled.input`
+  height: 30px;
+`
+export const TextArea = styled.textarea`
+  resize: vertical;
+  height: 66px;
+`
+export const PublishButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`
+export const PublishButton = styled(Button)`
+  margin-top: 6px;
+  width: 112px;
+  height: 22px;
+  border: none;
+  font-family: ${({ theme }) => theme.fonts.mainFont};
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+
+  &:disabled,
+  &[disabled] {
+    background-color: ${({ theme }) => theme.colors.disabledButton};
+    cursor: default;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    height: 31px;
+  }
+`
+export const PublishError = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: ${({ theme }) => theme.colors.likeButton};
+
+  color: ${({ theme }) => theme.colors.secondary};
+
+  padding: 10px;
+  margin-bottom: 10px;
+
+  border-radius: 5px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    border-radius: 0;
   }
 `

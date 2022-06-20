@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as S from "../styles/style.js"
-import Input from "../components/Input.jsx"
-import Button from "../components/Button.jsx"
+import Input from "../components/shared/Inputs/Input.js"
+import Button from "../components/shared/Buttons/Button.js"
 import { Link, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { UserContext } from "../contexts/UserContext.js"
-import { ThreeDots } from "react-loader-spinner"
+import Swal from "sweetalert2"
 
 export default function SignIn() {
   const navigate = useNavigate()
@@ -25,21 +25,37 @@ export default function SignIn() {
     try {
       const res = await axios.post(URL, userSignin)
       const { data } = res
-      const { username, email, profile_image, token, id } = data
-      console.log(data)
-      setUser({ ...user, username, email, profile_image, token, id })
+      const { username, email, profileImage, token, id } = data
+      setUser({ ...user, username, email, profileImage, token, id })
       const userSerialized = JSON.stringify({
         username,
         email,
-        profile_image,
+        profileImage,
         token,
-        id
+        id,
       })
       localStorage.setItem("user", userSerialized)
       navigate("/timeline")
     } catch ({ response }) {
-      alert(response.data)
       setDisabled(false)
+      const { status } = response
+      if (
+        status === 400 ||
+        status === 401 ||
+        status === 422 ||
+        status === 500
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.data,
+        })
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Sign in error!",
+      })
     }
   }
 
@@ -49,7 +65,6 @@ export default function SignIn() {
     },
   }
   const autoLoginUrl = `${process.env.REACT_APP_API_URL}/auto-login`
-  const [tokenIsValid, setTokenIsValid] = useState(true)
   useEffect(() => {
     async function autoLogin() {
       if (user.token?.length) {
@@ -57,22 +72,12 @@ export default function SignIn() {
           await axios.post(autoLoginUrl, {}, config)
           navigate("/timeline")
         } catch ({ response }) {
-          setTokenIsValid(false)
-          alert(response.data)
+          console.log("Auto login error!", response)
         }
       }
     }
     autoLogin()
   }, [])
-
-  if (user.token?.length && tokenIsValid) {
-    return (
-      <S.Loading>
-        <h1>Logando...</h1>
-        <ThreeDots color="#000000" height={80} width={80} />
-      </S.Loading>
-    )
-  }
 
   return (
     <S.AuthContainer>

@@ -1,5 +1,4 @@
-/* eslint-disable no-restricted-globals */
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 
 import { Link, useNavigate } from "react-router-dom"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
@@ -15,12 +14,14 @@ import { NavItemHidden } from "./NavItemHidden"
 import { DropdownMenu } from "./DropdownMenu"
 import { UserContext } from "../../contexts/UserContext"
 import axios from "axios"
+import Modal from "react-modal"
 
 import SearchBarDesktop from "../SearchBar/SearchBarDesktop.js"
 
 export default function Header() {
   const navigate = useNavigate()
   const { menuIsOpen, setMenuIsOpen } = useContext(MenuContext)
+  const [modalIsOpen, setIsOpen] = useState(false)
   const { user, setUser } = useContext(UserContext)
   const URL = `${process.env.REACT_APP_API_URL}/session`
   const config = {
@@ -29,33 +30,59 @@ export default function Header() {
     },
   }
 
+  Modal.setAppElement(document.querySelector(".root"))
+  function openModal() {
+    setIsOpen(true)
+  }
+  function closeModal() {
+    setIsOpen(false)
+    handleMenuClick()
+  }
+
   function handleMenuClick() {
     setMenuIsOpen(!menuIsOpen)
   }
 
   async function logOut() {
-    const confirmation = confirm("Really want to logout?")
-    if (confirmation) {
-      try {
-        await axios.delete(URL, config)
-        handleMenuClick()
-        localStorage.removeItem("user")
-        setUser({
-          ...user,
-          username: "",
-          email: "",
-          profile_image: "",
-          token: "",
-        })
-        navigate("/")
-      } catch ({ response }) {
-        alert(response.data)
-      }
+    try {
+      await axios.delete(URL, config)
+    } catch ({ response }) {
+      console.log("Delete session error!", response)
+    } finally {
+      handleMenuClick()
+      localStorage.removeItem("user")
+      setUser({
+        ...user,
+        username: "",
+        email: "",
+        profileImage: "",
+        token: "",
+        id: "",
+      })
+      navigate("/")
     }
   }
 
   return (
     <S.Header>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        className="_"
+        overlayClassName="_"
+        contentElement={(props, children) => (
+          <S.ModalStyle {...props}>{children}</S.ModalStyle>
+        )}
+        overlayElement={(props, contentElement) => (
+          <S.OverlayStyle {...props}>{contentElement}</S.OverlayStyle>
+        )}
+      >
+        <span>Are you sure you want to logout?</span>
+        <div>
+          <button onClick={closeModal}>No, go back</button>
+          <button onClick={logOut}>Yes</button>
+        </div>
+      </Modal>
       <Link to="/timeline">
         <h1>linkr</h1>
       </Link>
@@ -69,12 +96,16 @@ export default function Header() {
           )}
           <NavItemHidden>
             <DropdownMenu>
-              <span onClick={logOut}>Logout</span>
+              <span onClick={openModal}>Logout</span>
             </DropdownMenu>
           </NavItemHidden>
         </NavItem>
         <NavItem>
-          <img onClick={handleMenuClick} src={profilePic} alt="" />
+          <img
+            onClick={handleMenuClick}
+            src={user.profileImage?.length > 0 ? user.profileImage : profilePic}
+            alt=""
+          />
         </NavItem>
       </Navbar>
     </S.Header>

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import * as S from "../styles/style.js"
+import * as S from "../../../styles/style.js"
 
 export default function Input({
   type,

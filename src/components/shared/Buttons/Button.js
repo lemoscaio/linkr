@@ -1,4 +1,4 @@
-import * as S from "../styles/style.js"
+import * as S from "../../../styles/style.js"
 import { ThreeDots } from "react-loader-spinner"
 
 export default function Button({ type, disabled, text }) {

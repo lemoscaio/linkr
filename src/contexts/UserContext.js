@@ -5,24 +5,26 @@ export const UserContext = createContext()
 export function UserProvider(props) {
   let username = ""
   let email = ""
-  let profile_image = ""
+  let profileImage = ""
   let token = ""
+  let id = ""
 
   const userStringify = localStorage.getItem("user")
   if (userStringify) {
     const userLocal = JSON.parse(userStringify)
     username = userLocal.username
     email = userLocal.email
-    profile_image = userLocal.profile_image
+    profileImage = userLocal.profileImage
     token = userLocal.token
+    id = userLocal.id
   }
   const [user, setUser] = useState({
     username,
     email,
-    profile_image,
+    profileImage,
     token,
+    id,
   })
-  console.log(user)
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
