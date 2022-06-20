@@ -195,6 +195,10 @@ export default function Post(props) {
     navigate(`/hashtag/${hashtagWithoutTag}`)
   }
 
+  function handleClickOnUsername() {
+    navigate(`/user/${userId}`)
+  }
+
   return (
     <>
       <Modal
@@ -219,7 +223,11 @@ export default function Post(props) {
       </Modal>
       <S.PostCard>
         <S.PostCardLeftColumn>
-          <S.CardProfileImage src={profileImage} alt={username} />
+          <S.CardProfileImage
+            src={profileImage}
+            alt={username}
+            onClick={handleClickOnUsername}
+          />
           {likedByUser ? (
             <S.LikeIconFilled onClick={handleLike} />
           ) : (
@@ -244,7 +252,7 @@ export default function Post(props) {
           </S.LikesContainer>
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
-          <h3>{username}</h3>
+          <h3 onClick={handleClickOnUsername}>{username}</h3>
           <h6>
             <ReactHashtag
               onHashtagClick={(hashtag) => handleHashtagClick(hashtag)}
