@@ -8,6 +8,8 @@ import PublishBox from "../components/shared/PublishBox/PublishBox.js"
 import Posts from "../components/shared/Posts/Posts.js"
 import Post from "../components/shared/Posts/Post"
 import Trending from "../components/shared/Trending/Trending.js"
+import SearchBarMobile from "../components/SearchBar/SearchBarMobile.js"
+import profilePic from "../assets/profile-placeholder.jpg"
 
 import * as S from "../styles/style.js"
 
@@ -15,6 +17,7 @@ export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
     getPosts()
   })
+  console.log("🚀 ~ posts", posts)
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
 
@@ -40,6 +43,8 @@ export default function TimelinePage() {
   }
 
   function handleTryLoadAgain() {
+    console.log("rodei")
+
     setLoadedPosts(false)
     setLoadPostsFail(false)
     getPosts()
@@ -47,6 +52,7 @@ export default function TimelinePage() {
 
   return (
     <S.PageContainer>
+      <SearchBarMobile/>
       <PageLabel>timeline</PageLabel>
       <S.ContentWrapper>
         <S.MainContentWrapper>
