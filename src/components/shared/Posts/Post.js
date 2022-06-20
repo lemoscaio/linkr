@@ -34,7 +34,9 @@ export default function Post(props) {
   })
 
   const [likeTooltip, setLikeTooltip] = useState()
-  const [likedByUser, setlikedByUser] = useState(false)
+  const [likedByUser, setlikedByUser] = useState(() => {
+    getLikedByUser()
+  })
 
   const [modalIsOpen, setIsOpen] = useState(false)
 
@@ -122,6 +124,62 @@ export default function Post(props) {
     }
   }
 
+  function getLikedByUser() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/likes/${id}`, config)
+      .then((response) => {
+        setlikedByUser(response.data)
+      })
+  }
+
+  function handleLike() {
+    const API_URL = process.env.REACT_APP_API_URL
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+
+    if (!likedByUser) {
+      props.post.likesCount += 1
+      setlikedByUser(true)
+      likedBy && setLikedBy(["you", ...likedBy])
+
+      axios
+        .post(`${API_URL}/likes/${id}`, null, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount -= 1
+          setlikedByUser(false)
+          if (likedBy) {
+            likedBy.shift()
+            setLikedBy([...likedBy])
+          }
+        })
+    } else {
+      props.post.likesCount -= 1
+      setlikedByUser(false)
+      if (likedBy) {
+        likedBy.shift()
+        setLikedBy([...likedBy])
+      }
+
+      axios
+        .delete(`${API_URL}/likes/${id}`, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount += 1
+          setlikedByUser(true)
+          likedBy && setLikedBy(["you", ...likedBy])
+        })
+    }
+  }
+
   function getLikedBy() {
     const LIMIT = 2
 
@@ -136,33 +194,6 @@ export default function Post(props) {
     const hashtagWithoutTag = hashtag.split("#")[1]
     navigate(`/hashtag/${hashtagWithoutTag}`)
   }
-
-  // TODO Correct like function
-  const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  })
-  api.interceptors.request.use(async (config) => {
-    const token = user.token
-    config.headers.Authorization = `Bearer ${token}`
-    return config
-  })
-  async function handleLike() {
-    if (!likedByUser) {
-      setlikedByUser(true)
-      likedBy && setLikedBy(["you", ...likedBy])
-      props.post.likesCount += 1
-      await api.post(`/likes`, { post_id: `${id}` })
-    } else {
-      setlikedByUser(false)
-      if (likedBy) {
-        likedBy.shift()
-        setLikedBy([...likedBy])
-      }
-      props.post.likesCount -= 1
-      const result = await api.delete(`/likes/${id}`)
-    }
-  }
-  // TODO End of like function
 
   return (
     <>
