@@ -15,6 +15,7 @@ export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
     getPosts()
   })
+  console.log("🚀 ~ posts", posts)
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
 
@@ -40,6 +41,8 @@ export default function TimelinePage() {
   }
 
   function handleTryLoadAgain() {
+    console.log("rodei")
+
     setLoadedPosts(false)
     setLoadPostsFail(false)
     getPosts()

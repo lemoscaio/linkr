@@ -6,7 +6,7 @@ import { useTheme } from "styled-components"
 
 import PageLabel from "../components/shared/Labels/PageLabel.js"
 import Posts from "../components/shared/Posts/Posts.js"
-import Post from "../components/shared/Posts/Post"
+import UpdatePost from "../components/shared/Posts/updatePost.js"
 import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
@@ -76,7 +76,7 @@ export default function UserPostsPage() {
           <Posts>
             {posts &&
               posts.map((post) => {
-                return <Post key={post.id} post={post} />
+                return <UpdatePost key={post.id} post={post} userIdparams={userId} />
               })}
             {!loadedPosts && (
               <S.LoadingPosts>

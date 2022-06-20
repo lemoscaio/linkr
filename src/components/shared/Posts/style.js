@@ -283,3 +283,22 @@ export const NoPostsContainer = styled.div`
     color: ${({ theme }) => theme.colors.secondary};
   }
 `
+
+export const ContainerEditPost = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+`
+export const ContainerHeaderPost = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+export const InputEdit = styled.input`
+position: relative;
+background: ${({ theme }) => theme.colors.secondary};
+border-radius: 7px;
+height: 44px;
+border: none;
+`
