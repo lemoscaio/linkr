@@ -64,6 +64,8 @@ export const CardProfileImage = styled.img`
 
   transition: all 300ms ease;
 
+  cursor: pointer;
+
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 70px;
     height: 70px;
@@ -82,6 +84,10 @@ export const PostCardRightColumn = styled.div`
 
   h3 {
     font-size: 17px;
+
+    align-self: flex-start;
+
+    cursor: pointer;
   }
 
   h6 {
