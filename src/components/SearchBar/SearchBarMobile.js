@@ -49,6 +49,7 @@ export default function SearchBar() {
           <S.SearchBarResultUser
             key={user.userId}
             onClick={(e) => {
+              setData([])
               navigate(`/user/${user.userId}`)
             }}
           >

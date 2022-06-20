@@ -272,14 +272,13 @@ export const SearchBarContainer = styled.div`
       }
     }
 `
-export const SearchBarInput = styled.input``
 
 // SEARCH BAR IN DESKTOP
 export const SearchBarContainerDesktop = styled.div`
     display: none;
     justify-content: space-between;
     align-items: center;
-    width: 40%;
+    width: 100%;
     height: 45px;
     background-color: #fff;
     background: ${({ theme }) => theme.colors.secondary};
@@ -325,14 +324,26 @@ export const SearchBarResults = styled.div`
   border-radius: 8px;
   padding-left: 16px;
   padding-right: 17px;
-
-  /*   .search-bar-results-hidden {
-    display: none;
-  }
-  .search-bar-results-active {
-    display: flex;
-  } */
 `
+export const ContainerDesktop = styled.div`
+  display: flex
+  flex-direction: column;
+  width: 40%;
+`
+
+export const SearchBarResultsDesktop = styled.div`
+  position: absolute;
+  width: 40%;
+  height: auto;
+  background-color: #fff;
+  background: ${({ theme }) => theme.colors.searchResults};
+  border-radius: 8px;
+  padding-left: 16px;
+  padding-right: 17px;
+  cursor: pointer;
+`
+
+// SEARCH BAR IN MOBILE
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
