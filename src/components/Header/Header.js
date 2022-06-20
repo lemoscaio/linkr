@@ -14,7 +14,6 @@ import { NavItemHidden } from "./NavItemHidden"
 import { DropdownMenu } from "./DropdownMenu"
 import { UserContext } from "../../contexts/UserContext"
 import axios from "axios"
-import Swal from "sweetalert2"
 import Modal from "react-modal"
 
 export default function Header() {
@@ -45,6 +44,9 @@ export default function Header() {
   async function logOut() {
     try {
       await axios.delete(URL, config)
+    } catch ({ response }) {
+      console.log("Delete session error!", response)
+    } finally {
       handleMenuClick()
       localStorage.removeItem("user")
       setUser({
@@ -56,25 +58,6 @@ export default function Header() {
         id: "",
       })
       navigate("/")
-    } catch ({ response }) {
-      const { status } = response
-      if (
-        status === 400 ||
-        status === 401 ||
-        status === 422 ||
-        status === 500
-      ) {
-        return Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: response.data,
-        })
-      }
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Logout error!",
-      })
     }
   }
 
