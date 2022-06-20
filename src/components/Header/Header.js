@@ -115,7 +115,7 @@ export default function Header() {
           </NavItemHidden>
         </NavItem>
         <NavItem>
-          <S.CardProfileImage
+          <img
             onClick={handleMenuClick}
             src={user.profileImage?.length > 0 ? user.profileImage : profilePic}
             alt=""

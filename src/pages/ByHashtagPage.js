@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { LineWave } from "react-loader-spinner"
 import { useTheme } from "styled-components"
@@ -19,6 +19,10 @@ export default function ByHashtagPage() {
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
   const theme = useTheme()
+
+  useEffect(() => {
+    setPosts(getPosts())
+  }, [hashtag])
 
   function getPosts() {
     axios

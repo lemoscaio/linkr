@@ -5,6 +5,7 @@ export * from "../components/Header/style.js"
 export * from "../components/shared/Posts/style.js"
 export * from "../components/shared/PublishBox/style.js"
 export * from "../components/shared/Labels/style.js"
+export * from "../components/shared/Trending/style.js"
 
 export const PageContainer = styled.main`
   /* display: flex; */
@@ -52,7 +53,7 @@ export const AuthContainer = styled.main`
   height: 100vh;
   display: flex;
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     flex-direction: column;
   }
 `
@@ -80,7 +81,7 @@ export const AuthLogo = styled.div`
     line-height: 64px;
   }
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 100vw;
     height: 26.3vh;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -98,7 +99,7 @@ export const AuthLogo = styled.div`
 export const BoxAuthLogo = styled.div`
   gap: 12px;
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     gap: 0;
   }
 `
@@ -118,7 +119,7 @@ export const AuthForm = styled.form`
     margin-top: 13px;
   }
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 100vw;
     height: 100%;
     justify-content: flex-start;
@@ -169,7 +170,7 @@ export const InputBox = styled.div`
     display: block;
   }
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     input {
       max-width: 88vw;
       height: 55px;
@@ -181,15 +182,6 @@ export const InputBox = styled.div`
       width: 88vw;
     }
   }
-`
-
-export const TrendingBox = styled.div`
-  color: ${({ theme }) => theme.colors.secondary};
-  background-color: #171717;
-  border-radius: 16px;
-  width: 100%;
-  height: auto;
-  font-weight: 700;
 `
 
 export const Loading = styled.div`
@@ -204,7 +196,7 @@ export const Loading = styled.div`
     color: ${({ theme }) => theme.colors.secondary};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     h1 {
       font-size: 26px;
     }

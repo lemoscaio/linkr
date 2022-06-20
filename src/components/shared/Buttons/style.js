@@ -17,7 +17,7 @@ export const Button = styled.button`
   align-items: center;
   cursor: pointer;
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     max-width: 88vw;
     height: 55px;
     font-size: 22px;

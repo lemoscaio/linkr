@@ -40,14 +40,13 @@ export default function PublishBox(props) {
     axios
       .post(`${process.env.REACT_APP_API_URL}/posts`, newPost, config)
       .then((response) => {
-        console.log(response)
         setActivePublishButton(true)
         setLoadingPublish("Publish")
         setPosts([
           {
             ...response.data,
             username: user.username,
-            profileImage: user.profile_image,
+            profileImage: user.profileImage,
             likesCount: 0,
           },
           ...posts,
@@ -55,7 +54,6 @@ export default function PublishBox(props) {
         setNewPost({ sharedUrl: "", message: "" })
       })
       .catch((error) => {
-        console.log(error)
         setLoadingPublish("Publish")
         setErrorContainer("Something went wrong. Please, try again.")
         setActivePublishButton(true)
@@ -68,7 +66,7 @@ export default function PublishBox(props) {
       <S.PublishCard>
         <S.PublishCardLeftColumn>
           <S.PublishCardProfileImage
-            src={user.profile_image ? user.profile_image : profilePic}
+            src={user.profileImage ? user.profileImage : profilePic}
             alt={user.username}
           />
         </S.PublishCardLeftColumn>

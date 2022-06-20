@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as S from "../styles/style.js"
-import Input from "../components/Input.jsx"
+import Input from "../components/shared/Inputs/Input.js"
 import Button from "../components/shared/Buttons/Button.js"
 import { Link, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
@@ -26,7 +26,6 @@ export default function SignIn() {
       const res = await axios.post(URL, userSignin)
       const { data } = res
       const { username, email, profileImage, token, id } = data
-      console.log(data)
       setUser({ ...user, username, email, profileImage, token, id })
       const userSerialized = JSON.stringify({
         username,
