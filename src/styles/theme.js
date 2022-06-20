@@ -21,6 +21,8 @@ export const theme = {
     error: "#ff3b1f",
     tooltipText: "#505050",
     search: "#C6C6C6",
+    searchResults: "#E7E7E7",
+    searchResultName: "#515151",
   },
   spacing: {
     maxBodyWidth: "1024px",
