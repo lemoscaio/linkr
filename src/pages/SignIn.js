@@ -60,6 +60,7 @@ export default function SignIn() {
     }
   }
 
+  const [validToken, setValidToken] = useState(true)
   const config = {
     headers: {
       Authorization: `Bearer ${user.token}`,
@@ -73,6 +74,7 @@ export default function SignIn() {
           await axios.post(autoLoginUrl, {}, config)
           navigate("/timeline")
         } catch ({ response }) {
+          setValidToken(false)
           console.log("Auto login error!", response)
         }
       }
@@ -80,7 +82,7 @@ export default function SignIn() {
     autoLogin()
   }, [])
 
-  if (user.token?.length) {
+  if (user.token?.length && validToken) {
     return <S.AuthContainer></S.AuthContainer>
   }
 
