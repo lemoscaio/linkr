@@ -298,13 +298,14 @@ export const SearchBarContainer = styled.div`
     display: none;
   }
   .search-bar-input {
-    width: 219px;
-    height: 20px;
+    width: 90%;
+    height: 40px;
     background: ${({ theme }) => theme.colors.secondary};
     border: none;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    outline: none;
 
     ::placeholder {
       color: ${({ theme }) => theme.colors.search};
@@ -333,8 +334,8 @@ export const SearchBarContainerDesktop = styled.div`
     display: flex;
   }
   .search-bar-input {
-    width: 219px;
-    height: 20px;
+    width: 90%;
+    height: 40px;
     background: ${({ theme }) => theme.colors.secondary};
     border: none;
     display: flex;
