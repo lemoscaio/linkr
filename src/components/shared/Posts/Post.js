@@ -38,6 +38,7 @@ export default function Post(props) {
   })
 
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [repostModal, setRepostModal] = useState(false)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -198,6 +199,43 @@ export default function Post(props) {
     navigate(`/user/${userId}`)
   }
 
+  async function handleRepost() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/share/${id}`,
+        {},
+        config,
+      )
+      handleTryLoadAgain()
+      setRepostModal(false)
+    } catch ({ response }) {
+      setRepostModal(false)
+      const { status } = response
+      if (
+        status === 400 ||
+        status === 401 ||
+        status === 422 ||
+        status === 500
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.data,
+        })
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error to repost!",
+      })
+    }
+  }
+
   return (
     <>
       <Modal
@@ -218,6 +256,26 @@ export default function Post(props) {
         <div>
           <button onClick={closeModal}>No, go back</button>
           <button onClick={deletePost}>Yes, delete it</button>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={repostModal}
+        onRequestClose={() => setRepostModal(false)}
+        className="_"
+        overlayClassName="_"
+        contentElement={(props, children) => (
+          <S.ModalStyle {...props}>{children}</S.ModalStyle>
+        )}
+        overlayElement={(props, contentElement) => (
+          <S.OverlayStyle {...props}>{contentElement}</S.OverlayStyle>
+        )}
+      >
+        <span>
+          Do you want to re-post <br /> this link?
+        </span>
+        <div>
+          <button onClick={() => setRepostModal(false)}>No, cancel</button>
+          <button onClick={handleRepost}>Yes, share!</button>
         </div>
       </Modal>
       <S.PostCard>
@@ -249,6 +307,10 @@ export default function Post(props) {
               {likedBy && <span>{likeTooltip}</span>}
             </ReactTooltip>
           </S.LikesContainer>
+          <S.RepostContainer>
+            <S.RepostIcon onClick={() => setRepostModal(true)}></S.RepostIcon>
+            <span>0 re-posts</span>
+          </S.RepostContainer>
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
           <h3 onClick={handleClickOnUsername}>{username}</h3>
