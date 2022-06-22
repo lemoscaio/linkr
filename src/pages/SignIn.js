@@ -73,29 +73,16 @@ export default function SignIn() {
           await axios.post(autoLoginUrl, {}, config)
           navigate("/timeline")
         } catch ({ response }) {
-          const { status } = response
-          if (
-            status === 400 ||
-            status === 401 ||
-            status === 422 ||
-            status === 500
-          ) {
-            return Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: response.data,
-            })
-          }
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Auto login error!",
-          })
+          console.log("Auto login error!", response)
         }
       }
     }
     autoLogin()
   }, [])
+
+  if (user.token?.length) {
+    return <S.AuthContainer></S.AuthContainer>
+  }
 
   return (
     <S.AuthContainer>
