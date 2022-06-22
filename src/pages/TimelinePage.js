@@ -9,7 +9,7 @@ import Posts from "../components/shared/Posts/Posts.js"
 import Post from "../components/shared/Posts/Post"
 import Trending from "../components/shared/Trending/Trending.js"
 import SearchBarMobile from "../components/SearchBar/SearchBarMobile.js"
-import profilePic from "../assets/profile-placeholder.jpg"
+//import profilePic from "../assets/profile-placeholder.jpg"
 
 import * as S from "../styles/style.js"
 
@@ -59,10 +59,10 @@ export default function TimelinePage() {
           <Posts>
             {loadedPosts &&
               posts &&
-              posts.map((post) => {
+              posts.map((post, i) => {
                 return (
                   <Post
-                    key={post.id}
+                    key={i}
                     post={post}
                     handleTryLoadAgain={() => handleTryLoadAgain()}
                   />
