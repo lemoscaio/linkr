@@ -22,6 +22,8 @@ export default function Post(props) {
       sharedUrl,
       id,
       userId,
+      repostUserId,
+      repostsCount,
     },
     handleTryLoadAgain,
   } = props
@@ -90,6 +92,16 @@ export default function Post(props) {
     setIsOpen(false)
   }
 
+  function openRepostModal() {
+    if (!repostUserId) {
+      setRepostModal(true)
+    }
+  }
+
+  function closeRepostModal() {
+    setRepostModal(false)
+  }
+
   async function deletePost() {
     const config = {
       headers: {
@@ -138,45 +150,47 @@ export default function Post(props) {
   }
 
   function handleLike() {
-    const API_URL = process.env.REACT_APP_API_URL
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    }
-
-    if (!likedByUser) {
-      props.post.likesCount += 1
-      setlikedByUser(true)
-      likedBy && setLikedBy(["you", ...likedBy])
-
-      axios
-        .post(`${API_URL}/likes/${id}`, null, config)
-        .then((response) => {})
-        .catch((error) => {
-          props.post.likesCount -= 1
-          setlikedByUser(false)
-          if (likedBy) {
-            likedBy.shift()
-            setLikedBy([...likedBy])
-          }
-        })
-    } else {
-      props.post.likesCount -= 1
-      setlikedByUser(false)
-      if (likedBy) {
-        likedBy.shift()
-        setLikedBy([...likedBy])
+    if (!repostUserId) {
+      const API_URL = process.env.REACT_APP_API_URL
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       }
 
-      axios
-        .delete(`${API_URL}/likes/${id}`, config)
-        .then((response) => {})
-        .catch((error) => {
-          props.post.likesCount += 1
-          setlikedByUser(true)
-          likedBy && setLikedBy(["you", ...likedBy])
-        })
+      if (!likedByUser) {
+        props.post.likesCount += 1
+        setlikedByUser(true)
+        likedBy && setLikedBy(["you", ...likedBy])
+
+        axios
+          .post(`${API_URL}/likes/${id}`, null, config)
+          .then((response) => {})
+          .catch((error) => {
+            props.post.likesCount -= 1
+            setlikedByUser(false)
+            if (likedBy) {
+              likedBy.shift()
+              setLikedBy([...likedBy])
+            }
+          })
+      } else {
+        props.post.likesCount -= 1
+        setlikedByUser(false)
+        if (likedBy) {
+          likedBy.shift()
+          setLikedBy([...likedBy])
+        }
+
+        axios
+          .delete(`${API_URL}/likes/${id}`, config)
+          .then((response) => {})
+          .catch((error) => {
+            props.post.likesCount += 1
+            setlikedByUser(true)
+            likedBy && setLikedBy(["you", ...likedBy])
+          })
+      }
     }
   }
 
@@ -212,9 +226,9 @@ export default function Post(props) {
         config,
       )
       handleTryLoadAgain()
-      setRepostModal(false)
+      closeRepostModal()
     } catch ({ response }) {
-      setRepostModal(false)
+      closeRepostModal()
       const { status } = response
       if (
         status === 400 ||
@@ -260,7 +274,7 @@ export default function Post(props) {
       </Modal>
       <Modal
         isOpen={repostModal}
-        onRequestClose={() => setRepostModal(false)}
+        onRequestClose={closeRepostModal}
         className="_"
         overlayClassName="_"
         contentElement={(props, children) => (
@@ -274,7 +288,7 @@ export default function Post(props) {
           Do you want to re-post <br /> this link?
         </span>
         <div>
-          <button onClick={() => setRepostModal(false)}>No, cancel</button>
+          <button onClick={closeRepostModal}>No, cancel</button>
           <button onClick={handleRepost}>Yes, share!</button>
         </div>
       </Modal>
@@ -308,8 +322,12 @@ export default function Post(props) {
             </ReactTooltip>
           </S.LikesContainer>
           <S.RepostContainer>
-            <S.RepostIcon onClick={() => setRepostModal(true)}></S.RepostIcon>
-            <span>0 re-posts</span>
+            <S.RepostIcon onClick={openRepostModal}></S.RepostIcon>
+            {repostsCount === 1 ? (
+              <span>{repostsCount} repost</span>
+            ) : (
+              <span>{repostsCount} reposts</span>
+            )}
           </S.RepostContainer>
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
@@ -321,13 +339,21 @@ export default function Post(props) {
               {message}
             </ReactHashtag>
           </h6>
-          {user.id === userId && (
-            <S.TrashIcon
-              onClick={() => {
-                openModal()
-              }}
-            />
-          )}
+          {!repostUserId
+            ? user?.id === userId && (
+                <S.TrashIcon
+                  onClick={() => {
+                    openModal()
+                  }}
+                />
+              )
+            : user?.id === repostUserId && (
+                <S.TrashIcon
+                  onClick={() => {
+                    openModal()
+                  }}
+                />
+              )}
           {previewTitle ? (
             <S.LinkPreview>
               <a href={previewUrl} target="_blank" rel="noreferrer">
