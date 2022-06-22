@@ -40,6 +40,8 @@ export default function Post(props) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
 
+  const [commentsCount, setCommentsCount] = useState([]);
+
   useEffect(() => {
     ReactTooltip.rebuild()
 
@@ -78,6 +80,7 @@ export default function Post(props) {
     }
 
     setLikeTooltip(tooltipNewText)
+    getCommentsCount()
   }, [likedBy, likesCount, likedByUser])
 
   Modal.setAppElement(document.querySelector(".root"))
@@ -152,7 +155,7 @@ export default function Post(props) {
 
       axios
         .post(`${API_URL}/likes/${id}`, null, config)
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           props.post.likesCount -= 1
           setlikedByUser(false)
@@ -171,7 +174,7 @@ export default function Post(props) {
 
       axios
         .delete(`${API_URL}/likes/${id}`, config)
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           props.post.likesCount += 1
           setlikedByUser(true)
@@ -187,6 +190,17 @@ export default function Post(props) {
       .get(`${process.env.REACT_APP_API_URL}/likes?postId=${id}&limit=${LIMIT}`)
       .then((response) => {
         setLikedBy(response.data.likedBy)
+      })
+  }
+
+  function getCommentsCount() {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/comments/counter/${id}`)
+      .then((response) => {
+        setCommentsCount([response.data.commentsCount])
+      })
+      .catch((error) => {
+        console.log("🚀 ~ error", error)
       })
   }
 
@@ -250,6 +264,10 @@ export default function Post(props) {
               {likedBy && <span>{likeTooltip}</span>}
             </ReactTooltip>
           </S.LikesContainer>
+          <S.CommentIcon />
+          <S.CommentsContainer>
+          {commentsCount} comments
+          </S.CommentsContainer>
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
           <h3 onClick={handleClickOnUsername}>{username}</h3>
