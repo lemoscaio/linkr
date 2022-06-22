@@ -1,8 +1,7 @@
 import styled from "styled-components"
 
-import { FiHeart } from "react-icons/fi"
-import { FaHeart } from "react-icons/fa"
-import { FaRegTrashAlt } from "react-icons/fa"
+import { FiHeart, FiRepeat } from "react-icons/fi"
+import { FaHeart, FaRegTrashAlt } from "react-icons/fa"
 
 export const PostsContainer = styled.section`
   display: flex;
@@ -154,6 +153,35 @@ export const TrashIcon = styled(FaRegTrashAlt)`
   }
 `
 
+export const RepostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  span {
+    cursor: default;
+    font-size: 10px;
+    color: ${({ theme }) => theme.colors.secondary};
+    font-weight: 400;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    span {
+      font-size: 11px;
+    }
+  }
+`
+
+export const RepostIcon = styled(FiRepeat)`
+  font-size: 16px;
+  cursor: pointer;
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 20px;
+  }
+`
+
 export const LinkPreview = styled.article`
   a {
     display: flex;
@@ -296,9 +324,9 @@ export const ContainerHeaderPost = styled.div`
   justify-content: space-between;
 `
 export const InputEdit = styled.input`
-position: relative;
-background: ${({ theme }) => theme.colors.secondary};
-border-radius: 7px;
-height: 44px;
-border: none;
+  position: relative;
+  background: ${({ theme }) => theme.colors.secondary};
+  border-radius: 7px;
+  height: 44px;
+  border: none;
 `
