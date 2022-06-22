@@ -17,7 +17,6 @@ export default function TimelinePage() {
   const [posts, setPosts] = useState(() => {
     getPosts()
   })
-  console.log("🚀 ~ posts", posts)
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
 
@@ -52,7 +51,7 @@ export default function TimelinePage() {
 
   return (
     <S.PageContainer>
-      <SearchBarMobile/>
+      <SearchBarMobile />
       <PageLabel>timeline</PageLabel>
       <S.ContentWrapper>
         <S.MainContentWrapper>

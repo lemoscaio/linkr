@@ -1,38 +1,33 @@
 import React, { useContext, useState } from "react"
-
 import { Link, useNavigate } from "react-router-dom"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
+import axios from "axios"
+import Modal from "react-modal"
 
 import profilePic from "../../assets/profile-placeholder.jpg"
 
 import * as S from "../../styles/style.js"
 
 import { MenuContext } from "../../contexts/MenuContext.js"
+
 import { Navbar } from "./Navbar"
 import { NavItem } from "./NavItem"
 import { NavItemHidden } from "./NavItemHidden"
 import { DropdownMenu } from "./DropdownMenu"
-import { UserContext } from "../../contexts/UserContext"
-import axios from "axios"
-import Modal from "react-modal"
 import SearchBarDesktop from "../SearchBar/SearchBarDesktop.js"
+import { useAuth } from "../../hooks/useAuth.js"
 
 export default function Header() {
   const navigate = useNavigate()
   const { menuIsOpen, setMenuIsOpen } = useContext(MenuContext)
   const [modalIsOpen, setIsOpen] = useState(false)
-  const { user, setUser } = useContext(UserContext)
-  const URL = `${process.env.REACT_APP_API_URL}/session`
-  const config = {
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-    },
-  }
+  const { user, logout } = useAuth()
 
   Modal.setAppElement(document.querySelector(".root"))
   function openModal() {
     setIsOpen(true)
   }
+
   function closeModal() {
     setIsOpen(false)
     handleMenuClick()
@@ -42,23 +37,21 @@ export default function Header() {
     setMenuIsOpen(!menuIsOpen)
   }
 
-  async function logOut() {
+  async function handleLogoutClick() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+
+    const URL = `${process.env.REACT_APP_API_URL}/session`
     try {
       await axios.delete(URL, config)
     } catch ({ response }) {
       console.log("Delete session error!", response)
     } finally {
       handleMenuClick()
-      localStorage.removeItem("user")
-      setUser({
-        ...user,
-        username: "",
-        email: "",
-        profileImage: "",
-        token: "",
-        id: "",
-      })
-      navigate("/")
+      logout()
     }
   }
 
@@ -79,13 +72,13 @@ export default function Header() {
         <span>Are you sure you want to logout?</span>
         <div>
           <button onClick={closeModal}>No, go back</button>
-          <button onClick={logOut}>Yes</button>
+          <button onClick={handleLogoutClick}>Yes</button>
         </div>
       </Modal>
       <Link to="/timeline">
         <h1>linkr</h1>
       </Link>
-      <SearchBarDesktop/>
+      <SearchBarDesktop />
       <Navbar>
         <NavItem>
           {menuIsOpen ? (
@@ -102,7 +95,9 @@ export default function Header() {
         <NavItem>
           <img
             onClick={handleMenuClick}
-            src={user.profileImage?.length > 0 ? user.profileImage : profilePic}
+            src={
+              user?.profileImage?.length > 0 ? user.profileImage : profilePic
+            }
             alt=""
           />
         </NavItem>
