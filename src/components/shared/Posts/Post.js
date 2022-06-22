@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react"
 import * as S from "../../../styles/style.js"
 import axios from "axios"
-import { UserContext } from "../../../contexts/UserContext.js"
-import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import ReactHashtag from "react-hashtag"
 import ReactTooltip from "react-tooltip"
 import Modal from "react-modal"
 import Swal from "sweetalert2"
+import { useAuth } from "../../../hooks/useAuth.js"
 
 export default function Post(props) {
   const {
@@ -27,7 +26,7 @@ export default function Post(props) {
     handleTryLoadAgain,
   } = props
   const navigate = useNavigate()
-  const { user } = useContext(UserContext)
+  const { user } = useAuth()
 
   const [likedBy, setLikedBy] = useState(() => {
     getLikedBy()

@@ -1,10 +1,12 @@
-import * as S from "../styles/style.js"
-import Input from "../components/shared/Inputs/Input.js"
-import Button from "../components/shared/Buttons/Button.js"
-import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import Swal from "sweetalert2"
+
+import * as S from "../styles/style.js"
+
+import Input from "../components/shared/Inputs/Input.js"
+import Button from "../components/shared/Buttons/Button.js"
 
 export default function SignUp() {
   const navigate = useNavigate()
@@ -68,7 +70,6 @@ export default function SignUp() {
           }
           value={userSignup.email}
           disabled={disabled}
-          message="Email inválido"
         />
         <Input
           type="password"
@@ -83,7 +84,7 @@ export default function SignUp() {
           disabled={disabled}
           minLength="3"
           pattern="^[a-zA-Z0-9]{3,}$"
-          message="Apenas letras e números. Tamanho mínimo de 3 caracteres."
+          message="Just letters and numbers. At least 3 characters."
         />
         <Input
           type="text"
@@ -96,7 +97,6 @@ export default function SignUp() {
           }
           value={userSignup.username}
           disabled={disabled}
-          message="Nome inválido"
         />
         <Input
           type="url"
@@ -109,7 +109,6 @@ export default function SignUp() {
           }
           value={userSignup.profileImage}
           disabled={disabled}
-          message="Url inválida"
         />
         <Button type="submit" disabled={disabled} text="Sign Up" />
         <Link to="/">

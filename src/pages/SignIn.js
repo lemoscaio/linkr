@@ -3,13 +3,15 @@ import * as S from "../styles/style.js"
 import Input from "../components/shared/Inputs/Input.js"
 import Button from "../components/shared/Buttons/Button.js"
 import { Link, useNavigate } from "react-router-dom"
-import { useContext, useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios"
-import { UserContext } from "../contexts/UserContext.js"
 import Swal from "sweetalert2"
+import { useAuth } from "../hooks/useAuth.js"
 
 export default function SignIn() {
   const navigate = useNavigate()
+  const { login } = useAuth()
+
   const URL = `${process.env.REACT_APP_API_URL}/signin`
   const [userSignin, setUserSignin] = useState({
     email: "",
@@ -17,71 +19,43 @@ export default function SignIn() {
   })
   const [disabled, setDisabled] = useState(false)
 
-  const { user, setUser } = useContext(UserContext)
-
-  async function Login(event) {
+  function handleLogin(event) {
     event.preventDefault()
     setDisabled(true)
-    try {
-      const res = await axios.post(URL, userSignin)
-      const { data } = res
-      const { username, email, profileImage, token, id } = data
-      setUser({ ...user, username, email, profileImage, token, id })
-      console.log("Teste de id", id)
-      const userSerialized = JSON.stringify({
-        username,
-        email,
-        profileImage,
-        token,
-        id,
+
+    axios
+      .post(URL, userSignin)
+      .then(async (response) => {
+        const { data } = response
+        try {
+          await login(data)
+          navigate("/timeline", { replace: true })
+        } catch (error) {
+          console.log("🚀 ~ error", error)
+        }
       })
-      localStorage.setItem("user", userSerialized)
-      navigate("/timeline")
-    } catch ({ response }) {
-      setDisabled(false)
-      const { status } = response
-      if (
-        status === 400 ||
-        status === 401 ||
-        status === 422 ||
-        status === 500
-      ) {
-        return Swal.fire({
+      .catch((error) => {
+        console.log("🚀 ~ error", error)
+        setDisabled(false)
+        const { status } = error
+        if (
+          status === 400 ||
+          status === 401 ||
+          status === 422 ||
+          status === 500
+        ) {
+          return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.data,
+          })
+        }
+        Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: response.data,
+          text: "Sign in error!",
         })
-      }
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Sign in error!",
       })
-    }
-  }
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-    },
-  }
-  const autoLoginUrl = `${process.env.REACT_APP_API_URL}/auto-login`
-  useEffect(() => {
-    async function autoLogin() {
-      if (user.token?.length) {
-        try {
-          await axios.post(autoLoginUrl, {}, config)
-          navigate("/timeline")
-        } catch ({ response }) {
-          console.log("Auto login error!", response)
-        }
-      }
-    }
-    autoLogin()
-  }, [])
-
-  if (user.token?.length) {
-    return <S.AuthContainer></S.AuthContainer>
   }
 
   return (
@@ -94,7 +68,7 @@ export default function SignIn() {
           </span>
         </S.BoxAuthLogo>
       </S.AuthLogo>
-      <S.AuthForm onSubmit={Login}>
+      <S.AuthForm onSubmit={handleLogin}>
         <Input
           type="email"
           name="email"
