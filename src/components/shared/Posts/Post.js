@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import * as S from "../../../styles/style.js"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
@@ -6,6 +6,7 @@ import ReactHashtag from "react-hashtag"
 import ReactTooltip from "react-tooltip"
 import Modal from "react-modal"
 import Swal from "sweetalert2"
+import { FaPencilAlt, FaTrash } from "react-icons/fa"
 import { useAuth } from "../../../hooks/useAuth.js"
 
 export default function Post(props) {
@@ -29,6 +30,7 @@ export default function Post(props) {
     handleTryLoadAgain,
   } = props
   const navigate = useNavigate()
+  const inputRef = useRef()
   const { user } = useAuth()
 
   const [likedBy, setLikedBy] = useState(() => {
@@ -39,9 +41,21 @@ export default function Post(props) {
   const [likedByUser, setlikedByUser] = useState(() => {
     getLikedByUser()
   })
+  const [editPostActive, setEditPostActive] = useState(false)
+  const [activeButton, setActiveButton] = useState(false)
+  const [editPostMessage, setEditPostMessage] = useState({ message: "" })
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [repostModal, setRepostModal] = useState(false)
+
+  const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+  api.interceptors.request.use(async (config) => {
+    const token = user.token
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  })
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -261,6 +275,37 @@ export default function Post(props) {
     }
   }
 
+  async function sendUptadePost() {
+    setActiveButton(true)
+    api
+      .put(`/posts/${id}`, { message: editPostMessage.message })
+      .then((res) => {
+        console.log(res)
+        window.location.reload()
+      })
+      .catch((err) => {
+        console.log(err)
+        setActiveButton(false)
+      })
+  }
+
+  function handleKey(e) {
+    if (e.key === "Escape") {
+      setEditPostActive(!editPostActive)
+      return
+    }
+    if (e.key === "Enter") {
+      setEditPostMessage({ message: e.target.value })
+      sendUptadePost()
+      console.log("cheguei")
+      return
+    }
+  }
+
+  async function handleEdit(e) {
+    setEditPostActive(!editPostActive)
+  }
+
   return (
     <>
       <Modal
@@ -355,29 +400,46 @@ export default function Post(props) {
           </S.RepostContainer>
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
-          <h3 onClick={handleClickOnUsername}>{username}</h3>
-          <h6>
-            <ReactHashtag
-              onHashtagClick={(hashtag) => handleHashtagClick(hashtag)}
-            >
-              {message}
-            </ReactHashtag>
-          </h6>
-          {!repostUserId
-            ? user?.id === userId && (
-                <S.TrashIcon
-                  onClick={() => {
-                    openModal()
-                  }}
-                />
-              )
-            : user?.id === repostUserId && (
-                <S.TrashIcon
-                  onClick={() => {
-                    openModal()
-                  }}
-                />
-              )}
+          <S.ContainerHeaderPost>
+            <h3 onClick={handleClickOnUsername}>{username}</h3>
+            {!repostUserId
+              ? user?.id === userId && (
+                  <S.ContainerEditPost>
+                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )
+              : user?.id === repostUserId && (
+                  <S.ContainerEditPost>
+                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )}
+          </S.ContainerHeaderPost>
+          {editPostActive ? (
+            <S.InputEdit
+              ref={inputRef}
+              onKeyDown={(e) => {
+                handleKey(e)
+              }}
+              disabled={activeButton}
+              onChange={(e) =>
+                setEditPostMessage({
+                  ...editPostMessage,
+                  message: e.target.value,
+                })
+              }
+              value={editPostMessage.message}
+            />
+          ) : (
+            <h6>
+              <ReactHashtag
+                onHashtagClick={(hashtag) => handleHashtagClick(hashtag)}
+              >
+                {message}
+              </ReactHashtag>
+            </h6>
+          )}
           {previewTitle ? (
             <S.LinkPreview>
               <a href={previewUrl} target="_blank" rel="noreferrer">
