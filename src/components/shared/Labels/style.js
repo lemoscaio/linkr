@@ -6,6 +6,7 @@ export const LabelContainer = styled.div`
 
 export const PageLabel = styled.h1`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   color: ${({ theme }) => theme.colors.secondary};

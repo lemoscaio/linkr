@@ -8,11 +8,13 @@ import PageLabel from "../components/shared/Labels/PageLabel.js"
 import Posts from "../components/shared/Posts/Posts.js"
 import UpdatePost from "../components/shared/Posts/updatePost.js"
 import Trending from "../components/shared/Trending/Trending.js"
+import { useAuth } from "../hooks/useAuth.js"
 
 import * as S from "../styles/style.js"
 
 export default function UserPostsPage() {
   const { userId } = useParams()
+  const { user } = useAuth()
 
   const [userInfo, setUserInfo] = useState(() => {
     getUserInfo()
@@ -24,6 +26,7 @@ export default function UserPostsPage() {
   })
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
+  const [buttonFollow, setButtonFollow] = useState(false)
 
   const theme = useTheme()
 
@@ -59,15 +62,47 @@ export default function UserPostsPage() {
     getUserPosts()
   }
 
+  function sendFollow() {
+    setButtonFollow(true)
+  }
+
+  function sendUnfollow() {
+    setButtonFollow(false)
+  }
+
+  function verifyPageUser() {
+    if (user.id === parseInt(userId)) {
+      return null
+    } else {
+      return showFollowButton()
+    }
+  }
+
+  function showFollowButton() {
+    return buttonFollow === true ? (
+      <S.unFollowButton onClick={sendUnfollow}>
+        {" "}
+        <p>Unfollow</p>{" "}
+      </S.unFollowButton>
+    ) : (
+      <S.FollowButton onClick={sendFollow}>
+        {" "}
+        <p>Follow</p>{" "}
+      </S.FollowButton>
+    )
+  }
   return (
     <S.PageContainer>
       {userInfo && (
         <PageLabel>
-          <S.LabelProfileImage
-            src={userInfo.profileImage}
-            alt={userInfo.username}
-          />{" "}
-          {userInfo.username}'s posts
+          <div>
+            <S.LabelProfileImage
+              src={userInfo.profileImage}
+              alt={userInfo.username}
+            />{" "}
+            {userInfo.username}'s posts
+          </div>
+          {verifyPageUser()}
         </PageLabel>
       )}
       {loadUserInfoFail && <PageLabel>Oops...</PageLabel>}
@@ -76,7 +111,7 @@ export default function UserPostsPage() {
           <Posts>
             {posts &&
               posts.map((post) => {
-                return <UpdatePost key={post.id} post={post}  />
+                return <UpdatePost key={post.id} post={post} />
               })}
             {!loadedPosts && (
               <S.LoadingPosts>
