@@ -297,8 +297,15 @@ export const ContainerHeaderPost = styled.div`
 `
 export const InputEdit = styled.input`
 position: relative;
-background: ${({ theme }) => theme.colors.secondary};
+background-color: #3333;
 border-radius: 7px;
 height: 44px;
 border: none;
+padding: 0 15px;
+color: ${({ theme }) => theme.colors.text1};
+width: 100%;
+font-size: 16px;
+outline: none;
+transition: all 0.2s;
+
 `

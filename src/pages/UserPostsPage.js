@@ -11,8 +11,10 @@ import Trending from "../components/shared/Trending/Trending.js"
 import { useAuth } from "../hooks/useAuth.js"
 
 import * as S from "../styles/style.js"
+import { useAuth } from "../hooks/useAuth.js"
 
 export default function UserPostsPage() {
+  const { user } = useAuth()
   const { userId } = useParams()
   const { user } = useAuth()
 
@@ -42,8 +44,14 @@ export default function UserPostsPage() {
   }
 
   function getUserPosts() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/posts/${userId}`)
+      .get(`${process.env.REACT_APP_API_URL}/posts/${userId}`, config)
       .then((response) => {
         setPosts(response.data)
         setLoadedPosts(true)
