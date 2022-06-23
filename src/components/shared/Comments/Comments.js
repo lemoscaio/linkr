@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 
-export default function Comments() {
+import * as S from "../../../styles/style.js"
+
+export default function Comments({ postId, showComment }) {
     const URL = `${process.env.REACT_APP_API_URL}`
 
     const [comments, setComments] = useState([]);
 
     function getComments() {
         axios
-            .get(`${process.env.REACT_APP_API_URL}/comments/3`)
+            .get(`${process.env.REACT_APP_API_URL}/comments/${postId}`)
             .then((response) => {
                 console.log("🚀 ~ response", response)
                 setComments([...response.data])
@@ -25,12 +27,18 @@ export default function Comments() {
     console.log(comments)
 
     return (
-        <>
+        <S.CommentsBox showComment={showComment}>
             {
                 comments.map((comment) => (
-                    <p>{comment.message}</p>
+                    <S.Comment>
+                        <img src={comment.userImage} alt={comment.username} />
+                        <div>
+                            <h1>{comment.username}</h1>
+                            <p>{comment.message}</p>
+                        </div>
+                    </S.Comment>
                 ))}
-            
-        </>
+
+        </S.CommentsBox>
     )
 }

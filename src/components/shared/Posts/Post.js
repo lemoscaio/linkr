@@ -9,6 +9,8 @@ import ReactTooltip from "react-tooltip"
 import Modal from "react-modal"
 import Swal from "sweetalert2"
 
+import Comments from "../Comments/Comments.js"
+
 export default function Post(props) {
   const {
     post: {
@@ -41,6 +43,7 @@ export default function Post(props) {
   const [modalIsOpen, setIsOpen] = useState(false)
 
   const [commentsCount, setCommentsCount] = useState([]);
+  const [showComment, setShowComment] = useState(false);
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -204,6 +207,15 @@ export default function Post(props) {
       })
   }
 
+  function toggleComments() {
+    if (showComment) {
+      setShowComment(!showComment)
+    }
+    else {
+      setShowComment(!showComment)
+    }
+  }
+
   function handleHashtagClick(hashtag) {
     const hashtagWithoutTag = hashtag.split("#")[1]
     navigate(`/hashtag/${hashtagWithoutTag}`)
@@ -212,7 +224,7 @@ export default function Post(props) {
   function handleClickOnUsername() {
     navigate(`/user/${userId}`)
   }
-console.log(commentsCount)
+
   return (
     <>
       <Modal
@@ -264,7 +276,7 @@ console.log(commentsCount)
               {likedBy && <span>{likeTooltip}</span>}
             </ReactTooltip>
           </S.LikesContainer>
-          <S.CommentIcon />
+          <S.CommentIcon onClick={(() => toggleComments())} />
           <S.CommentsContainer>
             {parseInt(commentsCount) === 1 ? (
               <>{commentsCount} comment</>
@@ -317,6 +329,9 @@ console.log(commentsCount)
           )}
         </S.PostCardRightColumn>
       </S.PostCard>
+      {showComment &&
+        <Comments postId={id} />
+      }
     </>
   )
 }

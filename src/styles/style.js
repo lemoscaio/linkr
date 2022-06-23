@@ -6,6 +6,7 @@ export * from "../components/shared/Posts/style.js"
 export * from "../components/shared/PublishBox/style.js"
 export * from "../components/shared/Labels/style.js"
 export * from "../components/shared/Trending/style.js"
+export * from "../components/shared/Comments/style.js"
 
 export const PageContainer = styled.main`
   /* display: flex; */
