@@ -27,11 +27,14 @@ export const PostCard = styled.article`
 
   transition: all 300ms;
 
+  margin-top: ${(props) => (props.repostUserId ? "33px" : "0")};
+
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 100%;
 
     padding: 20px 25px;
     margin: 0 auto;
+    margin-top: ${(props) => (props.repostUserId ? "33px" : "0")};
 
     box-shadow: 8px 12px 17px 2px rgba(21, 21, 21, 0.47);
     border-radius: ${({ theme }) => theme.borderRadius.post};
@@ -179,6 +182,44 @@ export const RepostIcon = styled(FiRepeat)`
   cursor: pointer;
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     font-size: 20px;
+  }
+`
+
+export const RepostCard = styled.div`
+  position: absolute;
+  z-index: -1;
+  height: 200px;
+  top: -33px;
+  left: 0;
+  display: flex;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.repostBackground};
+  color: ${({ theme }) => theme.colors.secondary};
+  transition: all 300ms;
+  span {
+    font-size: 11px;
+  }
+  div {
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-left: 20px;
+  }
+  strong {
+    font-weight: 700;
+  }
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    width: 100%;
+    margin: 0 auto;
+    border-radius: ${({ theme }) => theme.borderRadius.post};
+    span {
+      font-size: 12px;
+    }
+    div {
+      margin-left: 17px;
+    }
   }
 `
 

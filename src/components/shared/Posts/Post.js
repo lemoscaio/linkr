@@ -24,6 +24,7 @@ export default function Post(props) {
       userId,
       repostUserId,
       repostsCount,
+      repostUsername,
     },
     handleTryLoadAgain,
   } = props
@@ -292,7 +293,20 @@ export default function Post(props) {
           <button onClick={handleRepost}>Yes, share!</button>
         </div>
       </Modal>
-      <S.PostCard>
+      <S.PostCard repostUserId={repostUserId}>
+        {repostUserId && (
+          <S.RepostCard>
+            <div>
+              <S.RepostIcon></S.RepostIcon>
+              <span>
+                Re-posted by
+                <strong>
+                  {repostUserId === user?.id ? " you" : ` ${repostUsername}`}
+                </strong>
+              </span>
+            </div>
+          </S.RepostCard>
+        )}
         <S.PostCardLeftColumn>
           <S.CardProfileImage
             src={profileImage}
@@ -339,21 +353,23 @@ export default function Post(props) {
               {message}
             </ReactHashtag>
           </h6>
-          {!repostUserId
-            ? user?.id === userId && (
+          {!repostUserId ? (
+            user?.id === userId && (
+              <S.TrashIcon
+                onClick={() => {
+                  openModal()
+                }}
+              />
+            )
+          ) : (
+            /*user?.id === repostUserId && (
                 <S.TrashIcon
                   onClick={() => {
                     openModal()
                   }}
                 />
-              )
-            : user?.id === repostUserId && (
-                <S.TrashIcon
-                  onClick={() => {
-                    openModal()
-                  }}
-                />
-              )}
+              )*/ <></>
+          )}
           {previewTitle ? (
             <S.LinkPreview>
               <a href={previewUrl} target="_blank" rel="noreferrer">
