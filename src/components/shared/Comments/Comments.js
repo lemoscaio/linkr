@@ -3,10 +3,11 @@ import axios from "axios"
 
 import * as S from "../../../styles/style.js"
 
-export default function Comments({ postId, showComment }) {
+export default function Comments({ postId, showComment, commentPoster }) {
     const URL = `${process.env.REACT_APP_API_URL}`
 
     const [comments, setComments] = useState([]);
+    const [follows, setFollows] = useState([]);
 
     function getComments() {
         axios
@@ -20,11 +21,25 @@ export default function Comments({ postId, showComment }) {
             })
     }
 
+    function getFollows() {
+        axios
+        .get(`${process.env.REACT_APP_API_URL}/comments/follows/${commentPoster}`)
+        .then((response) => {
+            setFollows([...response.data])
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
     useEffect(() => {
         getComments()
+        getFollows()
     }, [])
 
     console.log(comments)
+    console.log(commentPoster)
+    console.log('os follows ai', follows)
 
     return (
         <S.CommentsBox showComment={showComment}>
@@ -34,6 +49,8 @@ export default function Comments({ postId, showComment }) {
                         <img src={comment.userImage} alt={comment.username} />
                         <div>
                             <h1>{comment.username}</h1>
+                            <h2>{commentPoster === comment.userId ? `• post's author` : '' }</h2>
+                            <h2>{follows.includes(comment.userId) ? `• following` : '' }</h2>
                             <p>{comment.message}</p>
                         </div>
                     </S.Comment>

@@ -42,4 +42,12 @@ div {
   padding-left: 0px;
 }
 
+h2 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #565656;
+
+}
+
 `

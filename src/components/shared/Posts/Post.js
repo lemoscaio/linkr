@@ -208,12 +208,7 @@ export default function Post(props) {
   }
 
   function toggleComments() {
-    if (showComment) {
       setShowComment(!showComment)
-    }
-    else {
-      setShowComment(!showComment)
-    }
   }
 
   function handleHashtagClick(hashtag) {
@@ -330,7 +325,7 @@ export default function Post(props) {
         </S.PostCardRightColumn>
       </S.PostCard>
       {showComment &&
-        <Comments postId={id} />
+        <Comments postId={id} commentPoster={userId}/>
       }
     </>
   )
