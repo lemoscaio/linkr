@@ -197,10 +197,10 @@ export default function Post(props) {
     axios
       .get(`${process.env.REACT_APP_API_URL}/comments/counter/${id}`)
       .then((response) => {
-        setCommentsCount([response.data.commentsCount])
+        setCommentsCount([response.data])
       })
       .catch((error) => {
-        console.log("🚀 ~ error", error)
+        console.log(error)
       })
   }
 
@@ -212,7 +212,7 @@ export default function Post(props) {
   function handleClickOnUsername() {
     navigate(`/user/${userId}`)
   }
-
+console.log(commentsCount)
   return (
     <>
       <Modal
@@ -266,7 +266,11 @@ export default function Post(props) {
           </S.LikesContainer>
           <S.CommentIcon />
           <S.CommentsContainer>
-          {commentsCount} comments
+            {parseInt(commentsCount) === 1 ? (
+              <>{commentsCount} comment</>
+            ) : (
+              <>{commentsCount} comments</>
+            )}
           </S.CommentsContainer>
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
