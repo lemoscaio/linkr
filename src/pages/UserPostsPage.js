@@ -35,6 +35,7 @@ export default function UserPostsPage() {
       })
       .catch((error) => {
         setLoadUserInfoFail(true)
+        console.log(1)
       })
   }
 
@@ -48,6 +49,7 @@ export default function UserPostsPage() {
       .catch((error) => {
         setLoadedPosts(true)
         setLoadPostsFail(true)
+        console.log(2)
       })
   }
 
@@ -75,8 +77,8 @@ export default function UserPostsPage() {
         <S.MainContentWrapper>
           <Posts>
             {posts &&
-              posts.map((post) => {
-                return <UpdatePost key={post.id} post={post}  />
+              posts.map((post, i) => {
+                return <UpdatePost key={i} post={post} />
               })}
             {!loadedPosts && (
               <S.LoadingPosts>

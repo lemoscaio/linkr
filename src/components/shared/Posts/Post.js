@@ -111,7 +111,17 @@ export default function Post(props) {
     }
 
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${id}`, config)
+      if (!repostUserId) {
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/posts/${id}`,
+          config,
+        )
+      } else {
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/share/${id}`,
+          config,
+        )
+      }
       handleTryLoadAgain()
       closeModal()
     } catch ({ response }) {
@@ -353,23 +363,21 @@ export default function Post(props) {
               {message}
             </ReactHashtag>
           </h6>
-          {!repostUserId ? (
-            user?.id === userId && (
-              <S.TrashIcon
-                onClick={() => {
-                  openModal()
-                }}
-              />
-            )
-          ) : (
-            /*user?.id === repostUserId && (
+          {!repostUserId
+            ? user?.id === userId && (
                 <S.TrashIcon
                   onClick={() => {
                     openModal()
                   }}
                 />
-              )*/ <></>
-          )}
+              )
+            : user?.id === repostUserId && (
+                <S.TrashIcon
+                  onClick={() => {
+                    openModal()
+                  }}
+                />
+              )}
           {previewTitle ? (
             <S.LinkPreview>
               <a href={previewUrl} target="_blank" rel="noreferrer">
