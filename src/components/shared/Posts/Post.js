@@ -92,7 +92,7 @@ export default function Post(props) {
   async function deletePost() {
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     }
 
@@ -126,7 +126,7 @@ export default function Post(props) {
   function getLikedByUser() {
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     }
     axios
@@ -140,7 +140,7 @@ export default function Post(props) {
     const API_URL = process.env.REACT_APP_API_URL
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     }
 
@@ -259,7 +259,7 @@ export default function Post(props) {
               {message}
             </ReactHashtag>
           </h6>
-          {user.id === userId && (
+          {user?.id === userId && (
             <S.TrashIcon
               onClick={() => {
                 openModal()
