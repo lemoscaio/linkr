@@ -60,9 +60,6 @@ export default function TimelinePage() {
         config,
       )
       .then((response) => {
-        if (response.status === 204) {
-          setFollowCount(0)
-        }
         setPosts([...response.data])
         setLoadedPosts(true)
       })
