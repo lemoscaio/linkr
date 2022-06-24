@@ -29,7 +29,7 @@ export const PageLabel = styled.h1`
 
 export const LabelProfileImage = styled.img`
   position: relative;
-  transform: translateY(25%);
+  transform: translateY(0%);
 
   width: 50px;
   height: 50px;
@@ -40,6 +40,6 @@ export const LabelProfileImage = styled.img`
   margin-right: 15px;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    transform: translateY(10%);
+    transform: translateY(0%);
   }
 `

@@ -483,4 +483,10 @@ export const SearchBarResultFollow = styled.div`
     color: ${({ theme }) => theme.colors.followingText};
   }
 `
-export const ContainerNameImage = styled.div``
+export const ContainerNameImage = styled.div`
+  display: flex;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    align-items: center;
+  }
+`
