@@ -55,6 +55,10 @@ export default function Header() {
     }
   }
 
+  function handleClickOnImage() {
+    navigate(`/user/${user.id}`)
+  }
+
   return (
     <S.Header>
       <Modal
@@ -94,7 +98,7 @@ export default function Header() {
         </NavItem>
         <NavItem>
           <img
-            onClick={handleMenuClick}
+            onClick={handleClickOnImage}
             src={
               user?.profileImage?.length > 0 ? user.profileImage : profilePic
             }
