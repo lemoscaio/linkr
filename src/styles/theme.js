@@ -39,6 +39,6 @@ export const theme = {
     desktop: "1279px",
   },
   borderRadius: {
-    post: "16px",
+    post: "16px 16px 0 0",
   },
 }
