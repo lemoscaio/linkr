@@ -1,5 +1,6 @@
 import styled from "styled-components"
 
+import { AiOutlineComment } from "react-icons/ai"
 import { FiHeart, FiRepeat } from "react-icons/fi"
 import { FaHeart, FaRegTrashAlt } from "react-icons/fa"
 
@@ -295,6 +296,32 @@ export const LinkPreview = styled.article`
       @media (max-width: ${({ theme }) => theme.breakPoints.mobile}) {
         display: none;
       }
+    }
+  }
+`
+
+export const CommentIcon = styled(AiOutlineComment)`
+  font-size: 25px;
+
+  cursor: pointer;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 32px;
+  }
+`
+export const CommentsContainer = styled.div`
+  text-align: center;
+  font-size: 12px;
+
+  cursor: default;
+  user-select: none;
+
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 14px;
+
+    div {
+      font-size: 16px;
     }
   }
 `

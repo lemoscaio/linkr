@@ -9,6 +9,8 @@ import Swal from "sweetalert2"
 import { FaPencilAlt, FaTrash } from "react-icons/fa"
 import { useAuth } from "../../../hooks/useAuth.js"
 
+import Comments from "../Comments/Comments.js"
+
 export default function Post(props) {
   const {
     post: {
@@ -57,6 +59,9 @@ export default function Post(props) {
     return config
   })
 
+  const [commentsCount, setCommentsCount] = useState([]);
+  const [showComment, setShowComment] = useState(false);
+
   useEffect(() => {
     ReactTooltip.rebuild()
 
@@ -95,6 +100,7 @@ export default function Post(props) {
     }
 
     setLikeTooltip(tooltipNewText)
+    getCommentsCount()
   }, [likedBy, likesCount, likedByUser])
 
   Modal.setAppElement(document.querySelector(".root"))
@@ -190,7 +196,7 @@ export default function Post(props) {
 
         axios
           .post(`${API_URL}/likes/${id}`, null, config)
-          .then((response) => {})
+          .then((response) => { })
           .catch((error) => {
             props.post.likesCount -= 1
             setlikedByUser(false)
@@ -209,7 +215,7 @@ export default function Post(props) {
 
         axios
           .delete(`${API_URL}/likes/${id}`, config)
-          .then((response) => {})
+          .then((response) => { })
           .catch((error) => {
             props.post.likesCount += 1
             setlikedByUser(true)
@@ -219,6 +225,7 @@ export default function Post(props) {
     }
   }
 
+
   function getLikedBy() {
     const LIMIT = 2
 
@@ -227,6 +234,21 @@ export default function Post(props) {
       .then((response) => {
         setLikedBy(response.data.likedBy)
       })
+  }
+
+  function getCommentsCount() {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/comments/counter/${id}`)
+      .then((response) => {
+        setCommentsCount([response.data])
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  function toggleComments() {
+    setShowComment(!showComment)
   }
 
   function handleHashtagClick(hashtag) {
@@ -390,6 +412,14 @@ export default function Post(props) {
               {likedBy && <span>{likeTooltip}</span>}
             </ReactTooltip>
           </S.LikesContainer>
+          <S.CommentIcon onClick={(() => toggleComments())} />
+          <S.CommentsContainer>
+            {parseInt(commentsCount) === 1 ? (
+              <>{commentsCount} comment</>
+            ) : (
+              <>{commentsCount} comments</>
+            )}
+          </S.CommentsContainer>
           <S.RepostContainer>
             <S.RepostIcon onClick={openRepostModal}></S.RepostIcon>
             {repostsCount === 1 ? (
@@ -404,17 +434,17 @@ export default function Post(props) {
             <h3 onClick={handleClickOnUsername}>{username}</h3>
             {!repostUserId
               ? user?.id === userId && (
-                  <S.ContainerEditPost>
-                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                    <FaTrash onClick={openModal} cursor="pointer" />
-                  </S.ContainerEditPost>
-                )
+                <S.ContainerEditPost>
+                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                  <FaTrash onClick={openModal} cursor="pointer" />
+                </S.ContainerEditPost>
+              )
               : user?.id === repostUserId && (
-                  <S.ContainerEditPost>
-                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                    <FaTrash onClick={openModal} cursor="pointer" />
-                  </S.ContainerEditPost>
-                )}
+                <S.ContainerEditPost>
+                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                  <FaTrash onClick={openModal} cursor="pointer" />
+                </S.ContainerEditPost>
+              )}
           </S.ContainerHeaderPost>
           {editPostActive ? (
             <S.InputEdit
@@ -468,6 +498,9 @@ export default function Post(props) {
           )}
         </S.PostCardRightColumn>
       </S.PostCard>
+      {showComment &&
+        <Comments postId={id} commentPoster={userId} />
+      }
     </>
   )
 }
