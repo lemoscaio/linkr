@@ -1,8 +1,7 @@
 import styled from "styled-components"
 
-import { FiHeart } from "react-icons/fi"
-import { FaHeart } from "react-icons/fa"
-import { FaRegTrashAlt } from "react-icons/fa"
+import { FiHeart, FiRepeat } from "react-icons/fi"
+import { FaHeart, FaRegTrashAlt } from "react-icons/fa"
 
 export const PostsContainer = styled.section`
   display: flex;
@@ -28,11 +27,14 @@ export const PostCard = styled.article`
 
   transition: all 300ms;
 
+  margin-top: ${(props) => (props.repostUserId ? "33px" : "0")};
+
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 100%;
 
     padding: 20px 25px;
     margin: 0 auto;
+    margin-top: ${(props) => (props.repostUserId ? "33px" : "0")};
 
     box-shadow: 8px 12px 17px 2px rgba(21, 21, 21, 0.47);
     border-radius: ${({ theme }) => theme.borderRadius.post};
@@ -151,6 +153,73 @@ export const TrashIcon = styled(FaRegTrashAlt)`
   cursor: pointer;
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     font-size: 14px;
+  }
+`
+
+export const RepostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  span {
+    cursor: default;
+    font-size: 10px;
+    color: ${({ theme }) => theme.colors.secondary};
+    font-weight: 400;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    span {
+      font-size: 11px;
+    }
+  }
+`
+
+export const RepostIcon = styled(FiRepeat)`
+  font-size: 16px;
+  cursor: pointer;
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 20px;
+  }
+`
+
+export const RepostCard = styled.div`
+  position: absolute;
+  z-index: -1;
+  height: 200px;
+  top: -33px;
+  left: 0;
+  display: flex;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.repostBackground};
+  color: ${({ theme }) => theme.colors.secondary};
+  transition: all 300ms;
+  span {
+    font-size: 11px;
+  }
+  div {
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-left: 20px;
+  }
+  strong {
+    font-weight: 700;
+  }
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    width: 100%;
+    margin: 0 auto;
+    border-radius: ${({ theme }) => theme.borderRadius.post};
+    span {
+      font-size: 12px;
+    }
+    div {
+      margin-left: 17px;
+    }
   }
 `
 
@@ -296,16 +365,15 @@ export const ContainerHeaderPost = styled.div`
   justify-content: space-between;
 `
 export const InputEdit = styled.input`
-position: relative;
-background-color: #3333;
-border-radius: 7px;
-height: 44px;
-border: none;
-padding: 0 15px;
-color: ${({ theme }) => theme.colors.text1};
-width: 100%;
-font-size: 16px;
-outline: none;
-transition: all 0.2s;
-
+  position: relative;
+  background: ${({ theme }) => theme.colors.mainBackground};
+  border-radius: 7px;
+  height: 44px;
+  border: none;
+  padding: 0 15px;
+  color: ${({ theme }) => theme.colors.text1};
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s;
 `

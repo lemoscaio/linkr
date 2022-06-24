@@ -24,6 +24,7 @@ export const theme = {
     searchResults: "#E7E7E7",
     searchResultName: "#515151",
     disabledButton: "#9B9595",
+    repostBackground: "#1E1E1E",
   },
   spacing: {
     maxBodyWidth: "1024px",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import * as S from "../../../styles/style.js"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
@@ -6,6 +6,7 @@ import ReactHashtag from "react-hashtag"
 import ReactTooltip from "react-tooltip"
 import Modal from "react-modal"
 import Swal from "sweetalert2"
+import { FaPencilAlt, FaTrash } from "react-icons/fa"
 import { useAuth } from "../../../hooks/useAuth.js"
 
 export default function Post(props) {
@@ -22,10 +23,14 @@ export default function Post(props) {
       sharedUrl,
       id,
       userId,
+      repostUserId,
+      repostsCount,
+      repostUsername,
     },
     handleTryLoadAgain,
   } = props
   const navigate = useNavigate()
+  const inputRef = useRef()
   const { user } = useAuth()
 
   const [likedBy, setLikedBy] = useState(() => {
@@ -36,8 +41,21 @@ export default function Post(props) {
   const [likedByUser, setlikedByUser] = useState(() => {
     getLikedByUser()
   })
+  const [editPostActive, setEditPostActive] = useState(false)
+  const [activeButton, setActiveButton] = useState(false)
+  const [editPostMessage, setEditPostMessage] = useState({ message: "" })
 
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [repostModal, setRepostModal] = useState(false)
+
+  const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+  api.interceptors.request.use(async (config) => {
+    const token = user.token
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  })
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -89,6 +107,16 @@ export default function Post(props) {
     setIsOpen(false)
   }
 
+  function openRepostModal() {
+    if (!repostUserId) {
+      setRepostModal(true)
+    }
+  }
+
+  function closeRepostModal() {
+    setRepostModal(false)
+  }
+
   async function deletePost() {
     const config = {
       headers: {
@@ -97,7 +125,17 @@ export default function Post(props) {
     }
 
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${id}`, config)
+      if (!repostUserId) {
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/posts/${id}`,
+          config,
+        )
+      } else {
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/share/${id}`,
+          config,
+        )
+      }
       handleTryLoadAgain()
       closeModal()
     } catch ({ response }) {
@@ -137,45 +175,47 @@ export default function Post(props) {
   }
 
   function handleLike() {
-    const API_URL = process.env.REACT_APP_API_URL
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user?.token}`,
-      },
-    }
-
-    if (!likedByUser) {
-      props.post.likesCount += 1
-      setlikedByUser(true)
-      likedBy && setLikedBy(["you", ...likedBy])
-
-      axios
-        .post(`${API_URL}/likes/${id}`, null, config)
-        .then((response) => {})
-        .catch((error) => {
-          props.post.likesCount -= 1
-          setlikedByUser(false)
-          if (likedBy) {
-            likedBy.shift()
-            setLikedBy([...likedBy])
-          }
-        })
-    } else {
-      props.post.likesCount -= 1
-      setlikedByUser(false)
-      if (likedBy) {
-        likedBy.shift()
-        setLikedBy([...likedBy])
+    if (!repostUserId) {
+      const API_URL = process.env.REACT_APP_API_URL
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       }
 
-      axios
-        .delete(`${API_URL}/likes/${id}`, config)
-        .then((response) => {})
-        .catch((error) => {
-          props.post.likesCount += 1
-          setlikedByUser(true)
-          likedBy && setLikedBy(["you", ...likedBy])
-        })
+      if (!likedByUser) {
+        props.post.likesCount += 1
+        setlikedByUser(true)
+        likedBy && setLikedBy(["you", ...likedBy])
+
+        axios
+          .post(`${API_URL}/likes/${id}`, null, config)
+          .then((response) => {})
+          .catch((error) => {
+            props.post.likesCount -= 1
+            setlikedByUser(false)
+            if (likedBy) {
+              likedBy.shift()
+              setLikedBy([...likedBy])
+            }
+          })
+      } else {
+        props.post.likesCount -= 1
+        setlikedByUser(false)
+        if (likedBy) {
+          likedBy.shift()
+          setLikedBy([...likedBy])
+        }
+
+        axios
+          .delete(`${API_URL}/likes/${id}`, config)
+          .then((response) => {})
+          .catch((error) => {
+            props.post.likesCount += 1
+            setlikedByUser(true)
+            likedBy && setLikedBy(["you", ...likedBy])
+          })
+      }
     }
   }
 
@@ -196,6 +236,74 @@ export default function Post(props) {
 
   function handleClickOnUsername() {
     navigate(`/user/${userId}`)
+  }
+
+  async function handleRepost() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/share/${id}`,
+        {},
+        config,
+      )
+      handleTryLoadAgain()
+      closeRepostModal()
+    } catch ({ response }) {
+      closeRepostModal()
+      const { status } = response
+      if (
+        status === 400 ||
+        status === 401 ||
+        status === 422 ||
+        status === 500
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.data,
+        })
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error to repost!",
+      })
+    }
+  }
+
+  async function sendUptadePost() {
+    setActiveButton(true)
+    api
+      .put(`/posts/${id}`, { message: editPostMessage.message })
+      .then((res) => {
+        console.log(res)
+        window.location.reload()
+      })
+      .catch((err) => {
+        console.log(err)
+        setActiveButton(false)
+      })
+  }
+
+  function handleKey(e) {
+    if (e.key === "Escape") {
+      setEditPostActive(!editPostActive)
+      return
+    }
+    if (e.key === "Enter") {
+      setEditPostMessage({ message: e.target.value })
+      sendUptadePost()
+      console.log("cheguei")
+      return
+    }
+  }
+
+  async function handleEdit(e) {
+    setEditPostActive(!editPostActive)
   }
 
   return (
@@ -220,7 +328,40 @@ export default function Post(props) {
           <button onClick={deletePost}>Yes, delete it</button>
         </div>
       </Modal>
-      <S.PostCard>
+      <Modal
+        isOpen={repostModal}
+        onRequestClose={closeRepostModal}
+        className="_"
+        overlayClassName="_"
+        contentElement={(props, children) => (
+          <S.ModalStyle {...props}>{children}</S.ModalStyle>
+        )}
+        overlayElement={(props, contentElement) => (
+          <S.OverlayStyle {...props}>{contentElement}</S.OverlayStyle>
+        )}
+      >
+        <span>
+          Do you want to re-post <br /> this link?
+        </span>
+        <div>
+          <button onClick={closeRepostModal}>No, cancel</button>
+          <button onClick={handleRepost}>Yes, share!</button>
+        </div>
+      </Modal>
+      <S.PostCard repostUserId={repostUserId}>
+        {repostUserId && (
+          <S.RepostCard>
+            <div>
+              <S.RepostIcon></S.RepostIcon>
+              <span>
+                Re-posted by
+                <strong>
+                  {repostUserId === user?.id ? " you" : ` ${repostUsername}`}
+                </strong>
+              </span>
+            </div>
+          </S.RepostCard>
+        )}
         <S.PostCardLeftColumn>
           <S.CardProfileImage
             src={profileImage}
@@ -249,22 +390,55 @@ export default function Post(props) {
               {likedBy && <span>{likeTooltip}</span>}
             </ReactTooltip>
           </S.LikesContainer>
+          <S.RepostContainer>
+            <S.RepostIcon onClick={openRepostModal}></S.RepostIcon>
+            {repostsCount === 1 ? (
+              <span>{repostsCount} repost</span>
+            ) : (
+              <span>{repostsCount} reposts</span>
+            )}
+          </S.RepostContainer>
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
-          <h3 onClick={handleClickOnUsername}>{username}</h3>
-          <h6>
-            <ReactHashtag
-              onHashtagClick={(hashtag) => handleHashtagClick(hashtag)}
-            >
-              {message}
-            </ReactHashtag>
-          </h6>
-          {user?.id === userId && (
-            <S.TrashIcon
-              onClick={() => {
-                openModal()
+          <S.ContainerHeaderPost>
+            <h3 onClick={handleClickOnUsername}>{username}</h3>
+            {!repostUserId
+              ? user?.id === userId && (
+                  <S.ContainerEditPost>
+                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )
+              : user?.id === repostUserId && (
+                  <S.ContainerEditPost>
+                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )}
+          </S.ContainerHeaderPost>
+          {editPostActive ? (
+            <S.InputEdit
+              ref={inputRef}
+              onKeyDown={(e) => {
+                handleKey(e)
               }}
+              disabled={activeButton}
+              onChange={(e) =>
+                setEditPostMessage({
+                  ...editPostMessage,
+                  message: e.target.value,
+                })
+              }
+              value={editPostMessage.message}
             />
+          ) : (
+            <h6>
+              <ReactHashtag
+                onHashtagClick={(hashtag) => handleHashtagClick(hashtag)}
+              >
+                {message}
+              </ReactHashtag>
+            </h6>
           )}
           {previewTitle ? (
             <S.LinkPreview>
