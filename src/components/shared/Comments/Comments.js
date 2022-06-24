@@ -23,13 +23,13 @@ export default function Comments({ postId, showComment, commentPoster }) {
 
     function getFollows() {
         axios
-        .get(`${process.env.REACT_APP_API_URL}/comments/follows/${commentPoster}`)
-        .then((response) => {
-            setFollows([...response.data])
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+            .get(`${process.env.REACT_APP_API_URL}/comments/follows/${commentPoster}`)
+            .then((response) => {
+                setFollows([...response.data])
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     useEffect(() => {
@@ -48,9 +48,11 @@ export default function Comments({ postId, showComment, commentPoster }) {
                     <S.Comment>
                         <img src={comment.userImage} alt={comment.username} />
                         <div>
-                            <h1>{comment.username}</h1>
-                            <h2>{commentPoster === comment.userId ? `• post's author` : '' }</h2>
-                            <h2>{follows.includes(comment.userId) ? `• following` : '' }</h2>
+                            <h3>
+                                <h1>{comment.username}</h1>
+                                <h2>{commentPoster === comment.userId ? `• post's author` : ''}</h2>
+                                <h2>{follows.includes(comment.userId) ? `• following` : ''}</h2>
+                            </h3>
                             <p>{comment.message}</p>
                         </div>
                     </S.Comment>

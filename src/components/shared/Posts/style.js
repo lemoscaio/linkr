@@ -247,11 +247,6 @@ export const CommentsContainer = styled.div`
   cursor: default;
   user-select: none;
 
-  div {
-    font-size: 12px;
-    color: ${({ theme }) => theme.colors.tooltipText};
-    font-weight: 700;
-  }
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     font-size: 14px;
