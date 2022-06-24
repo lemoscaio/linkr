@@ -24,3 +24,40 @@ export const Button = styled.button`
     margin-top: 12px;
   }
 `
+
+export const LoadPostsButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+
+  cursor: pointer;
+`
+export const Button2 = styled.button`
+  font-family: ${({ theme }) => theme.fonts.mainFont};
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: 0;
+  padding: 10px;
+  width: 80%;
+
+  background: ${({ theme }) => theme.colors.buttonBackground};
+  color: ${({ theme }) => theme.colors.secondary};
+  border: none;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  svg {
+    margin-left: 10px;
+    font-size: 24px;
+    transform: translateY(5%);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    width: 100%;
+  }
+`
