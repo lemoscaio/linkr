@@ -8,7 +8,6 @@ import * as S from "../../../styles/style.js"
 export default function Comments({
   postId,
   commentPoster,
-  profileImage,
 }) {
   const URL = `${process.env.REACT_APP_API_URL}`
 
@@ -66,23 +65,23 @@ export default function Comments({
     <>
       <S.CommentsBox>
         {comments.map((comment) => (
-          <S.Comment>
+          <S.Comment key={comment.id}>
             <img src={comment.userImage} alt={comment.username} />
             <div>
-              <h3>
+              <span>
                 <h1>{comment.username}</h1>
                 <h2>
                   {commentPoster === comment.userId ? `• post's author` : ""}
                 </h2>
                 <h2>{follows.includes(comment.userId) ? `• following` : ""}</h2>
-              </h3>
+              </span>
               <p>{comment.message}</p>
             </div>
           </S.Comment>
         ))}
         <S.AddComment onSubmit={addComment}>
           <S.Comment>
-            <img src={profileImage} alt="user" />
+            <img src={user.profileImage} alt="user" />
             <input
               type="text"
               placeholder="write a comment..."

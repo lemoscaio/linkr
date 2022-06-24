@@ -55,7 +55,7 @@ h2 {
 
 }
 
-h3 {
+span {
   color: #F3F3F3;
   font-weight: bold;
   max-width: 510px;
