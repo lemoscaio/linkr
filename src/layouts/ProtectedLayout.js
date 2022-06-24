@@ -13,7 +13,7 @@ export default function ProtectedLayout(props) {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     }
 
@@ -26,6 +26,10 @@ export default function ProtectedLayout(props) {
         }
       })
   }, [])
+
+  if (!user) {
+    return <Navigate to="/" />
+  }
 
   return <Outlet />
 }

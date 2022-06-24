@@ -28,14 +28,14 @@ export default function Post(props) {
 
   const [likedByUser, setlikedByUser] = useState(false)
   const { user } = useAuth()
-  const onUserId = user.id
+  const onUserId = user?.id
   console.log(onUserId)
 
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   })
   api.interceptors.request.use(async (config) => {
-    const token = user.token
+    const token = user?.token
     config.headers.Authorization = `Bearer ${token}`
     return config
   })
@@ -102,7 +102,7 @@ export default function Post(props) {
       <S.PostCardRightColumn>
         <S.ContainerHeaderPost>
           <h3>{username}</h3>
-          {user.id === userId && (
+          {user?.id === userId && (
             <S.ContainerEditPost>
               <FaPencilAlt onClick={handleEdit} cursor="pointer" />
               <FaTrash

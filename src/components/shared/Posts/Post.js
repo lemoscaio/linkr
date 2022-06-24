@@ -120,7 +120,7 @@ export default function Post(props) {
   async function deletePost() {
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     }
 
@@ -164,7 +164,7 @@ export default function Post(props) {
   function getLikedByUser() {
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     }
     axios

@@ -44,8 +44,8 @@ export default function PublishBox(props) {
         setPosts([
           {
             ...response.data,
-            username: user.username,
-            profileImage: user.profileImage,
+            username: user?.username,
+            profileImage: user?.profileImage,
             likesCount: 0,
           },
           ...posts,
