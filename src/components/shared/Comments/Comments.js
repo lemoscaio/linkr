@@ -18,16 +18,14 @@ export default function Comments({
   const [follows, setFollows] = useState([])
   const [textComment, setTextComment] = useState("")
 
+
   function getComments() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/comments/${postId}`)
       .then((response) => {
-        console.log("🚀 ~ response", response)
         setComments([...response.data])
       })
-      .catch((error) => {
-        console.log("🚀 ~ error", error)
-      })
+      .catch((error) => {})
   }
 
   function getFollows() {
@@ -36,9 +34,7 @@ export default function Comments({
       .then((response) => {
         setFollows([...response.data])
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch((error) => {})
   }
 
   useEffect(() => {
@@ -62,7 +58,6 @@ export default function Comments({
           setTextComment("")
       })
       .catch((error) => {
-        console.log(error)
       })
 
   }

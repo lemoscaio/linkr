@@ -6,23 +6,28 @@ import axios from "axios"
 
 import { AiOutlineSearch } from "react-icons/ai"
 import * as S from "../../styles/style.js"
+import { useAuth } from "../../hooks/useAuth.js"
 
 export default function SearchBar() {
+  const { user } = useAuth()
   const [data, setData] = React.useState([])
 
   const navigate = useNavigate()
 
   async function sendSearchUsername(username) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
     const URL = `${process.env.REACT_APP_API_URL}/user?username=${username}`
     if (username.length > 2) {
       axios
-        .get(URL)
+        .get(URL, config)
         .then((res) => {
           setData(res.data)
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch((error) => {})
     } else {
       setData([])
     }
@@ -45,16 +50,24 @@ export default function SearchBar() {
         </IconContext.Provider>
       </S.SearchBarContainer>
       <S.SearchBarResults>
-        {data.map((user) => (
+        {data.map((userSearch) => (
           <S.SearchBarResultUser
-            key={user.userId}
+            key={userSearch.id}
             onClick={(e) => {
               setData([])
-              navigate(`/user/${user.userId}`)
+              navigate(`/user/${userSearch.id}`)
             }}
           >
-            <S.SearchBarResultImage src={user.profileImage} alt="profile" />
-            <S.SearchBarResultName>{user.username}</S.SearchBarResultName>
+            <S.SearchBarResultImage
+              src={userSearch.profile_image}
+              alt="profile"
+            />
+            <S.SearchBarResultName>{userSearch.username}</S.SearchBarResultName>
+            {userSearch.followed === user.id ? (
+              <S.SearchBarResultFollow>
+                <p> ● following </p>{" "}
+              </S.SearchBarResultFollow>
+            ) : null}
           </S.SearchBarResultUser>
         ))}
       </S.SearchBarResults>

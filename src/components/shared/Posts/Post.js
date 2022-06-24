@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react"
 import * as S from "../../../styles/style.js"
 import axios from "axios"
@@ -30,6 +31,7 @@ export default function Post(props) {
       repostUsername,
     },
     handleTryLoadAgain,
+    refreshPage,
   } = props
   const navigate = useNavigate()
   const inputRef = useRef()
@@ -59,8 +61,8 @@ export default function Post(props) {
     return config
   })
 
-  const [commentsCount, setCommentsCount] = useState([]);
-  const [showComment, setShowComment] = useState(false);
+  const [commentsCount, setCommentsCount] = useState([])
+  const [showComment, setShowComment] = useState(false)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -114,9 +116,7 @@ export default function Post(props) {
   }
 
   function openRepostModal() {
-    if (!repostUserId) {
-      setRepostModal(true)
-    }
+    setRepostModal(true)
   }
 
   function closeRepostModal() {
@@ -181,58 +181,69 @@ export default function Post(props) {
   }
 
   function handleLike() {
-    if (!repostUserId) {
-      const API_URL = process.env.REACT_APP_API_URL
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+    const API_URL = process.env.REACT_APP_API_URL
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+
+    if (!likedByUser) {
+      props.post.likesCount += 1
+      setlikedByUser(true)
+      likedBy && setLikedBy(["you", ...likedBy])
+
+      axios
+        .post(`${API_URL}/likes/${id}`, null, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount -= 1
+          setlikedByUser(false)
+          if (likedBy) {
+            likedBy.shift()
+            setLikedBy([...likedBy])
+          }
+        })
+    } else {
+      props.post.likesCount -= 1
+      setlikedByUser(false)
+      if (likedBy) {
+        likedBy.shift()
+        setLikedBy([...likedBy])
       }
 
-      if (!likedByUser) {
-        props.post.likesCount += 1
-        setlikedByUser(true)
-        likedBy && setLikedBy(["you", ...likedBy])
-
-        axios
-          .post(`${API_URL}/likes/${id}`, null, config)
-          .then((response) => { })
-          .catch((error) => {
-            props.post.likesCount -= 1
-            setlikedByUser(false)
-            if (likedBy) {
-              likedBy.shift()
-              setLikedBy([...likedBy])
-            }
-          })
-      } else {
-        props.post.likesCount -= 1
-        setlikedByUser(false)
-        if (likedBy) {
-          likedBy.shift()
-          setLikedBy([...likedBy])
-        }
-
-        axios
-          .delete(`${API_URL}/likes/${id}`, config)
-          .then((response) => { })
-          .catch((error) => {
-            props.post.likesCount += 1
-            setlikedByUser(true)
-            likedBy && setLikedBy(["you", ...likedBy])
-          })
-      }
+      axios
+        .delete(`${API_URL}/likes/${id}`, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount += 1
+          setlikedByUser(true)
+          likedBy && setLikedBy(["you", ...likedBy])
+        })
     }
   }
 
-
   function getLikedBy() {
-    const LIMIT = 2
+    const LIMIT = 3
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
 
     axios
-      .get(`${process.env.REACT_APP_API_URL}/likes?postId=${id}&limit=${LIMIT}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/likes?postId=${id}&limit=${LIMIT}`,
+        config,
+      )
       .then((response) => {
-        setLikedBy(response.data.likedBy)
+        console.log("🚀 ~ response", response)
+        console.log("🚀 ~ response", response.data)
+        if (response.data[0] === user?.username) {
+          response.data[0] = "you"
+        }
+        setLikedBy(response.data)
       })
   }
 
@@ -242,9 +253,7 @@ export default function Post(props) {
       .then((response) => {
         setCommentsCount([response.data])
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch((error) => {})
   }
 
   function toggleComments() {
@@ -258,6 +267,7 @@ export default function Post(props) {
 
   function handleClickOnUsername() {
     navigate(`/user/${userId}`)
+    refreshPage && window.location.reload(true)
   }
 
   async function handleRepost() {
@@ -302,11 +312,9 @@ export default function Post(props) {
     api
       .put(`/posts/${id}`, { message: editPostMessage.message })
       .then((res) => {
-        console.log(res)
-        window.location.reload()
+        handleTryLoadAgain()
       })
-      .catch((err) => {
-        console.log(err)
+      .catch((error) => {
         setActiveButton(false)
       })
   }
@@ -319,7 +327,6 @@ export default function Post(props) {
     if (e.key === "Enter") {
       setEditPostMessage({ message: e.target.value })
       sendUptadePost()
-      console.log("cheguei")
       return
     }
   }
@@ -374,7 +381,7 @@ export default function Post(props) {
         {repostUserId && (
           <S.RepostCard>
             <div>
-              <S.RepostIcon></S.RepostIcon>
+              <S.RepostIconHeader></S.RepostIconHeader>
               <span>
                 Re-posted by
                 <strong>
@@ -412,7 +419,7 @@ export default function Post(props) {
               {likedBy && <span>{likeTooltip}</span>}
             </ReactTooltip>
           </S.LikesContainer>
-          <S.CommentIcon onClick={(() => toggleComments())} />
+          <S.CommentIcon onClick={() => toggleComments()} />
           <S.CommentsContainer>
             {parseInt(commentsCount) === 1 ? (
               <>{commentsCount} comment</>
@@ -434,33 +441,35 @@ export default function Post(props) {
             <h3 onClick={handleClickOnUsername}>{username}</h3>
             {!repostUserId
               ? user?.id === userId && (
-                <S.ContainerEditPost>
-                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                  <FaTrash onClick={openModal} cursor="pointer" />
-                </S.ContainerEditPost>
-              )
+                  <S.ContainerEditPost>
+                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )
               : user?.id === repostUserId && (
-                <S.ContainerEditPost>
-                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                  <FaTrash onClick={openModal} cursor="pointer" />
-                </S.ContainerEditPost>
-              )}
+                  <S.ContainerEditPost>
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )}
           </S.ContainerHeaderPost>
           {editPostActive ? (
-            <S.InputEdit
-              ref={inputRef}
-              onKeyDown={(e) => {
-                handleKey(e)
-              }}
-              disabled={activeButton}
-              onChange={(e) =>
-                setEditPostMessage({
-                  ...editPostMessage,
-                  message: e.target.value,
-                })
-              }
-              value={editPostMessage.message}
-            />
+            <>
+              <S.InputEdit
+                ref={inputRef}
+                onKeyDown={(e) => {
+                  handleKey(e)
+                }}
+                disabled={activeButton}
+                onChange={(e) =>
+                  setEditPostMessage({
+                    ...editPostMessage,
+                    message: e.target.value,
+                  })
+                }
+                value={editPostMessage.message}
+              />
+              <S.SendIcon onClick={() => sendUptadePost()}></S.SendIcon>
+            </>
           ) : (
             <h6>
               <ReactHashtag

@@ -48,11 +48,14 @@ export default function Header() {
     try {
       await axios.delete(URL, config)
     } catch ({ response }) {
-      console.log("Delete session error!", response)
     } finally {
       handleMenuClick()
       logout()
     }
+  }
+
+  function handleClickOnImage() {
+    navigate(`/user/${user.id}`)
   }
 
   return (
@@ -94,7 +97,7 @@ export default function Header() {
         </NavItem>
         <NavItem>
           <img
-            onClick={handleMenuClick}
+            onClick={handleClickOnImage}
             src={
               user?.profileImage?.length > 0 ? user.profileImage : profilePic
             }
