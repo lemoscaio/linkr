@@ -37,10 +37,6 @@ export default function Comments({ postId, showComment, commentPoster }) {
         getFollows()
     }, [])
 
-    console.log(comments)
-    console.log(commentPoster)
-    console.log('os follows ai', follows)
-
     return (
         <S.CommentsBox showComment={showComment}>
             {
