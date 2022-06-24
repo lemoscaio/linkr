@@ -194,35 +194,37 @@ export default function Post(props) {
         setlikedByUser(true)
         likedBy && setLikedBy(["you", ...likedBy])
 
-      axios
-        .post(`${API_URL}/likes/${id}`, null, config)
-        .then((response) => { })
-        .catch((error) => {
-          props.post.likesCount -= 1
-          setlikedByUser(false)
-          if (likedBy) {
-            likedBy.shift()
-            setLikedBy([...likedBy])
-          }
-        })
-    } else {
-      props.post.likesCount -= 1
-      setlikedByUser(false)
-      if (likedBy) {
-        likedBy.shift()
-        setLikedBy([...likedBy])
-      }
+        axios
+          .post(`${API_URL}/likes/${id}`, null, config)
+          .then((response) => { })
+          .catch((error) => {
+            props.post.likesCount -= 1
+            setlikedByUser(false)
+            if (likedBy) {
+              likedBy.shift()
+              setLikedBy([...likedBy])
+            }
+          })
+      } else {
+        props.post.likesCount -= 1
+        setlikedByUser(false)
+        if (likedBy) {
+          likedBy.shift()
+          setLikedBy([...likedBy])
+        }
 
-      axios
-        .delete(`${API_URL}/likes/${id}`, config)
-        .then((response) => { })
-        .catch((error) => {
-          props.post.likesCount += 1
-          setlikedByUser(true)
-          likedBy && setLikedBy(["you", ...likedBy])
-        })
+        axios
+          .delete(`${API_URL}/likes/${id}`, config)
+          .then((response) => { })
+          .catch((error) => {
+            props.post.likesCount += 1
+            setlikedByUser(true)
+            likedBy && setLikedBy(["you", ...likedBy])
+          })
+      }
     }
   }
+
 
   function getLikedBy() {
     const LIMIT = 2
@@ -246,7 +248,7 @@ export default function Post(props) {
   }
 
   function toggleComments() {
-      setShowComment(!showComment)
+    setShowComment(!showComment)
   }
 
   function handleHashtagClick(hashtag) {
@@ -432,17 +434,17 @@ export default function Post(props) {
             <h3 onClick={handleClickOnUsername}>{username}</h3>
             {!repostUserId
               ? user?.id === userId && (
-                  <S.ContainerEditPost>
-                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                    <FaTrash onClick={openModal} cursor="pointer" />
-                  </S.ContainerEditPost>
-                )
+                <S.ContainerEditPost>
+                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                  <FaTrash onClick={openModal} cursor="pointer" />
+                </S.ContainerEditPost>
+              )
               : user?.id === repostUserId && (
-                  <S.ContainerEditPost>
-                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                    <FaTrash onClick={openModal} cursor="pointer" />
-                  </S.ContainerEditPost>
-                )}
+                <S.ContainerEditPost>
+                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                  <FaTrash onClick={openModal} cursor="pointer" />
+                </S.ContainerEditPost>
+              )}
           </S.ContainerHeaderPost>
           {editPostActive ? (
             <S.InputEdit
@@ -497,7 +499,7 @@ export default function Post(props) {
         </S.PostCardRightColumn>
       </S.PostCard>
       {showComment &&
-        <Comments postId={id} commentPoster={userId}/>
+        <Comments postId={id} commentPoster={userId} />
       }
     </>
   )
