@@ -289,7 +289,8 @@ export const SearchBarContainer = styled.div`
   width: 93%;
   height: 45px;
   background-color: #fff;
-  margin-left: 10px;
+  margin: 0 auto;
+  margin-top: 10px;
   background: ${({ theme }) => theme.colors.secondary};
   border-radius: 8px;
   padding-left: 16px;
@@ -399,6 +400,7 @@ export const SearchBarResultUser = styled.div`
   padding-bottom: 10px;
 `
 export const SearchBarResultImage = styled.img`
+  object-fit: cover;
   width: 39px;
   height: 39px;
   border-radius: 50%;
@@ -434,6 +436,11 @@ export const FollowButton = styled.button`
     line-height: 17px;
     color: ${({ theme }) => theme.colors.secondary};
   }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    margin-top: 25px;
+    width: 100%;
+  }
 `
 export const unFollowButton = styled.button`
   width: 112px;
@@ -454,6 +461,11 @@ export const unFollowButton = styled.button`
     line-height: 17px;
     color: ${({ theme }) => theme.colors.buttonBackground};
   }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    margin-top: 25px;
+    width: 100%;
+  }
 `
 
 export const SearchBarResultFollow = styled.div`
@@ -469,5 +481,12 @@ export const SearchBarResultFollow = styled.div`
     font-size: 19px;
     line-height: 23px;
     color: ${({ theme }) => theme.colors.followingText};
+  }
+`
+export const ContainerNameImage = styled.div`
+  display: flex;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    align-items: center;
   }
 `

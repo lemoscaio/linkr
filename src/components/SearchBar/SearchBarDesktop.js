@@ -56,6 +56,7 @@ export default function SearchBar() {
             onClick={(e) => {
               setData([])
               navigate(`/user/${userSearch.id}`)
+              window.location.reload()
             }}
           >
             <S.SearchBarResultImage
