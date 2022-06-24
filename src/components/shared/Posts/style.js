@@ -13,9 +13,12 @@ export const PostsContainer = styled.section`
   width: 100%;
 
   margin-bottom: 40px;
+
+  transition: all 300ms ease;
 `
 export const PostCard = styled.article`
   display: flex;
+  gap: 15px;
 
   position: relative;
 
@@ -47,6 +50,7 @@ export const PostCardLeftColumn = styled.div`
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
+  flex-grow: 1;
   gap: 10px;
 
   width: 15%;
@@ -80,11 +84,10 @@ export const PostCardRightColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-left: 15px;
   padding-left: 0px;
   width: 85%;
   height: 100%;
-  flex-grow: 1;
+  flex-grow: 5;
 
   h3 {
     font-size: 17px;
@@ -135,7 +138,7 @@ export const LikeIcon = styled(FiHeart)`
   cursor: pointer;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    font-size: 32px;
+    font-size: 28px;
   }
 `
 export const LikeIconFilled = styled(FaHeart)`
@@ -148,13 +151,14 @@ export const LikeIconFilled = styled(FaHeart)`
     font-size: 32px;
   }
 `
-
 export const RepostContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 5px;
+
+  text-align: center;
 
   span {
     cursor: default;
@@ -169,7 +173,6 @@ export const RepostContainer = styled.div`
     }
   }
 `
-
 export const RepostIconHeader = styled(BiRepost)`
   font-size: 18px;
   cursor: pointer;
@@ -177,19 +180,17 @@ export const RepostIconHeader = styled(BiRepost)`
     font-size: 22px;
   }
 `
-
 export const RepostIcon = styled(BiRepost)`
   font-size: 25px;
   cursor: pointer;
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    font-size: 32px;
+    font-size: 28px;
   }
 `
-
 export const RepostCard = styled.div`
   position: absolute;
   z-index: -1;
-  height: 200px;
+  height: 80px;
   top: -33px;
   left: 0;
   display: flex;
@@ -210,6 +211,7 @@ export const RepostCard = styled.div`
   }
   strong {
     font-weight: 700;
+    cursor: pointer;
   }
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     width: 100%;
@@ -223,7 +225,6 @@ export const RepostCard = styled.div`
     }
   }
 `
-
 export const LinkPreview = styled.article`
   a {
     display: flex;
@@ -299,14 +300,13 @@ export const LinkPreview = styled.article`
     }
   }
 `
-
 export const CommentIcon = styled(AiOutlineComment)`
   font-size: 25px;
 
   cursor: pointer;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    font-size: 32px;
+    font-size: 28px;
   }
 `
 export const CommentsContainer = styled.div`
@@ -322,6 +322,41 @@ export const CommentsContainer = styled.div`
     div {
       font-size: 16px;
     }
+  }
+`
+export const ContainerEditPost = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+`
+export const ContainerHeaderPost = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+export const InputEdit = styled.input`
+  position: relative;
+  background: ${({ theme }) => theme.colors.mainBackground};
+  border-radius: 7px;
+  height: 44px;
+  border: none;
+  padding: 0 15px;
+  color: ${({ theme }) => theme.colors.text1};
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s;
+`
+export const SendIcon = styled(FiSend)`
+  position: absolute;
+  right: 35px;
+  top: 58px;
+  font-size: 18px;
+  cursor: pointer;
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 20px;
+    right: 43px;
   }
 `
 
@@ -376,42 +411,5 @@ export const NoPostsContainer = styled.div`
 
   p {
     color: ${({ theme }) => theme.colors.secondary};
-  }
-`
-
-export const ContainerEditPost = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 15px;
-`
-export const ContainerHeaderPost = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
-export const InputEdit = styled.input`
-  position: relative;
-  background: ${({ theme }) => theme.colors.mainBackground};
-  border-radius: 7px;
-  height: 44px;
-  border: none;
-  padding: 0 15px;
-  color: ${({ theme }) => theme.colors.secondary};
-  width: 100%;
-  font-size: 16px;
-  outline: none;
-  transition: all 0.2s;
-`
-
-export const SendIcon = styled(FiSend)`
-  position: absolute;
-  right: 35px;
-  top: 58px;
-  font-size: 18px;
-  cursor: pointer;
-  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    font-size: 20px;
-    right: 43px;
   }
 `

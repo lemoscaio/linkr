@@ -238,8 +238,6 @@ export default function Post(props) {
         config,
       )
       .then((response) => {
-        console.log("🚀 ~ response", response)
-        console.log("🚀 ~ response", response.data)
         if (response.data[0] === user?.username) {
           response.data[0] = "you"
         }
@@ -265,7 +263,7 @@ export default function Post(props) {
     navigate(`/hashtag/${hashtagWithoutTag}`)
   }
 
-  function handleClickOnUsername() {
+  function handleClickOnUsername(userId) {
     navigate(`/user/${userId}`)
     refreshPage && window.location.reload(true)
   }
@@ -390,7 +388,11 @@ export default function Post(props) {
               <S.RepostIconHeader></S.RepostIconHeader>
               <span>
                 Re-posted by
-                <strong>
+                <strong
+                  onClick={() => {
+                    handleClickOnUsername(repostUserId)
+                  }}
+                >
                   {repostUserId === user?.id ? " you" : ` ${repostUsername}`}
                 </strong>
               </span>
@@ -401,7 +403,7 @@ export default function Post(props) {
           <S.CardProfileImage
             src={profileImage}
             alt={username}
-            onClick={handleClickOnUsername}
+            onClick={() => handleClickOnUsername(userId)}
           />
           {likedByUser ? (
             <S.LikeIconFilled onClick={handleLike} />
@@ -444,7 +446,7 @@ export default function Post(props) {
         </S.PostCardLeftColumn>
         <S.PostCardRightColumn>
           <S.ContainerHeaderPost>
-            <h3 onClick={handleClickOnUsername}>{username}</h3>
+            <h3 onClick={() => handleClickOnUsername(userId)}>{username}</h3>
             {!repostUserId
               ? user?.id === userId && (
                   <S.ContainerEditPost>
@@ -518,6 +520,7 @@ export default function Post(props) {
           postId={id}
           commentPoster={userId}
           profileImage={profileImage}
+          refreshPage={refreshPage}
         />
       )}
     </>

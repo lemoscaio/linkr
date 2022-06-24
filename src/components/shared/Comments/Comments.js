@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 import { useAuth } from "../../../hooks/useAuth.js"
 
 import * as S from "../../../styles/style.js"
 
-export default function Comments({
-  postId,
-  commentPoster,
-}) {
+export default function Comments({ postId, commentPoster }, refreshPage) {
   const URL = `${process.env.REACT_APP_API_URL}`
-
+  const navigate = useNavigate()
   const { user } = useAuth()
 
   const [comments, setComments] = useState([])
   const [follows, setFollows] = useState([])
   const [textComment, setTextComment] = useState("")
-
 
   function getComments() {
     axios
@@ -42,23 +39,26 @@ export default function Comments({
   }, [])
 
   function addComment(e) {
-      e.preventDefault()
-      const body = {message: textComment}
+    e.preventDefault()
+    const body = { message: textComment }
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     }
-      axios
+    axios
       .post(`${process.env.REACT_APP_API_URL}/comments/${postId}`, body, config)
       .then(() => {
-          getComments()
-          setTextComment("")
+        getComments()
+        setTextComment("")
       })
-      .catch((error) => {
-      })
+      .catch((error) => {})
+  }
 
+  function handleClickOnUsername(userId) {
+    navigate(`/user/${userId}`)
+    refreshPage && window.location.reload(true)
   }
 
   return (
@@ -66,10 +66,22 @@ export default function Comments({
       <S.CommentsBox>
         {comments.map((comment) => (
           <S.Comment key={comment.id}>
-            <img src={comment.userImage} alt={comment.username} />
+            <img
+              src={comment.userImage}
+              alt={comment.username}
+              onClick={() => {
+                handleClickOnUsername(comment.userId)
+              }}
+            />
             <div>
               <span>
-                <h1>{comment.username}</h1>
+                <h1
+                  onClick={() => {
+                    handleClickOnUsername(comment.userId)
+                  }}
+                >
+                  {comment.username}
+                </h1>
                 <h2>
                   {commentPoster === comment.userId ? `• post's author` : ""}
                 </h2>
@@ -90,7 +102,7 @@ export default function Comments({
               required
             />
             <S.ButtonSend type="submit">
-                <S.IconSend />
+              <S.IconSend />
             </S.ButtonSend>
           </S.Comment>
         </S.AddComment>

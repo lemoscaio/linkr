@@ -41,7 +41,6 @@ export default function PublishBox(props) {
     axios
       .post(`${process.env.REACT_APP_API_URL}/posts`, newPost, config)
       .then((response) => {
-        console.log("🚀 ~ response", response)
         setActivePublishButton(true)
         setLoadingPublish("Publish")
         setPosts([
