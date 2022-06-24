@@ -1,8 +1,9 @@
 import styled from "styled-components"
 
 import { AiOutlineComment } from "react-icons/ai"
-import { FiHeart, FiRepeat } from "react-icons/fi"
-import { FaHeart, FaRegTrashAlt } from "react-icons/fa"
+import { FiHeart } from "react-icons/fi"
+import { FaHeart } from "react-icons/fa"
+import { BiRepost } from "react-icons/bi"
 
 export const PostsContainer = styled.section`
   display: flex;
@@ -147,15 +148,6 @@ export const LikeIconFilled = styled(FaHeart)`
     font-size: 32px;
   }
 `
-export const TrashIcon = styled(FaRegTrashAlt)`
-  font-size: 12px;
-  position: absolute;
-  right: 22px;
-  cursor: pointer;
-  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    font-size: 14px;
-  }
-`
 
 export const RepostContainer = styled.div`
   display: flex;
@@ -166,23 +158,31 @@ export const RepostContainer = styled.div`
 
   span {
     cursor: default;
-    font-size: 10px;
+    font-size: 12px;
     color: ${({ theme }) => theme.colors.secondary};
     font-weight: 400;
   }
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     span {
-      font-size: 11px;
+      font-size: 14px;
     }
   }
 `
 
-export const RepostIcon = styled(FiRepeat)`
-  font-size: 16px;
+export const RepostIconHeader = styled(BiRepost)`
+  font-size: 18px;
   cursor: pointer;
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    font-size: 20px;
+    font-size: 22px;
+  }
+`
+
+export const RepostIcon = styled(BiRepost)`
+  font-size: 25px;
+  cursor: pointer;
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 32px;
   }
 `
 
@@ -315,7 +315,6 @@ export const CommentsContainer = styled.div`
 
   cursor: default;
   user-select: none;
-
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
     font-size: 14px;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react"
 import * as S from "../../../styles/style.js"
 import axios from "axios"
@@ -59,8 +60,8 @@ export default function Post(props) {
     return config
   })
 
-  const [commentsCount, setCommentsCount] = useState([]);
-  const [showComment, setShowComment] = useState(false);
+  const [commentsCount, setCommentsCount] = useState([])
+  const [showComment, setShowComment] = useState(false)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -114,9 +115,7 @@ export default function Post(props) {
   }
 
   function openRepostModal() {
-    if (!repostUserId) {
-      setRepostModal(true)
-    }
+    setRepostModal(true)
   }
 
   function closeRepostModal() {
@@ -181,50 +180,47 @@ export default function Post(props) {
   }
 
   function handleLike() {
-    if (!repostUserId) {
-      const API_URL = process.env.REACT_APP_API_URL
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+    const API_URL = process.env.REACT_APP_API_URL
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+
+    if (!likedByUser) {
+      props.post.likesCount += 1
+      setlikedByUser(true)
+      likedBy && setLikedBy(["you", ...likedBy])
+
+      axios
+        .post(`${API_URL}/likes/${id}`, null, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount -= 1
+          setlikedByUser(false)
+          if (likedBy) {
+            likedBy.shift()
+            setLikedBy([...likedBy])
+          }
+        })
+    } else {
+      props.post.likesCount -= 1
+      setlikedByUser(false)
+      if (likedBy) {
+        likedBy.shift()
+        setLikedBy([...likedBy])
       }
 
-      if (!likedByUser) {
-        props.post.likesCount += 1
-        setlikedByUser(true)
-        likedBy && setLikedBy(["you", ...likedBy])
-
-        axios
-          .post(`${API_URL}/likes/${id}`, null, config)
-          .then((response) => { })
-          .catch((error) => {
-            props.post.likesCount -= 1
-            setlikedByUser(false)
-            if (likedBy) {
-              likedBy.shift()
-              setLikedBy([...likedBy])
-            }
-          })
-      } else {
-        props.post.likesCount -= 1
-        setlikedByUser(false)
-        if (likedBy) {
-          likedBy.shift()
-          setLikedBy([...likedBy])
-        }
-
-        axios
-          .delete(`${API_URL}/likes/${id}`, config)
-          .then((response) => { })
-          .catch((error) => {
-            props.post.likesCount += 1
-            setlikedByUser(true)
-            likedBy && setLikedBy(["you", ...likedBy])
-          })
-      }
+      axios
+        .delete(`${API_URL}/likes/${id}`, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount += 1
+          setlikedByUser(true)
+          likedBy && setLikedBy(["you", ...likedBy])
+        })
     }
   }
-
 
   function getLikedBy() {
     const LIMIT = 2
@@ -374,7 +370,7 @@ export default function Post(props) {
         {repostUserId && (
           <S.RepostCard>
             <div>
-              <S.RepostIcon></S.RepostIcon>
+              <S.RepostIconHeader></S.RepostIconHeader>
               <span>
                 Re-posted by
                 <strong>
@@ -412,7 +408,7 @@ export default function Post(props) {
               {likedBy && <span>{likeTooltip}</span>}
             </ReactTooltip>
           </S.LikesContainer>
-          <S.CommentIcon onClick={(() => toggleComments())} />
+          <S.CommentIcon onClick={() => toggleComments()} />
           <S.CommentsContainer>
             {parseInt(commentsCount) === 1 ? (
               <>{commentsCount} comment</>
@@ -434,17 +430,17 @@ export default function Post(props) {
             <h3 onClick={handleClickOnUsername}>{username}</h3>
             {!repostUserId
               ? user?.id === userId && (
-                <S.ContainerEditPost>
-                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                  <FaTrash onClick={openModal} cursor="pointer" />
-                </S.ContainerEditPost>
-              )
+                  <S.ContainerEditPost>
+                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )
               : user?.id === repostUserId && (
-                <S.ContainerEditPost>
-                  <FaPencilAlt onClick={handleEdit} cursor="pointer" />
-                  <FaTrash onClick={openModal} cursor="pointer" />
-                </S.ContainerEditPost>
-              )}
+                  <S.ContainerEditPost>
+                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
+                    <FaTrash onClick={openModal} cursor="pointer" />
+                  </S.ContainerEditPost>
+                )}
           </S.ContainerHeaderPost>
           {editPostActive ? (
             <S.InputEdit
@@ -498,9 +494,7 @@ export default function Post(props) {
           )}
         </S.PostCardRightColumn>
       </S.PostCard>
-      {showComment &&
-        <Comments postId={id} commentPoster={userId} />
-      }
+      {showComment && <Comments postId={id} commentPoster={userId} />}
     </>
   )
 }
