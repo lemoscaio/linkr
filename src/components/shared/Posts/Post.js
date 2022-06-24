@@ -115,9 +115,7 @@ export default function Post(props) {
   }
 
   function openRepostModal() {
-    if (!repostUserId) {
-      setRepostModal(true)
-    }
+    setRepostModal(true)
   }
 
   function closeRepostModal() {
@@ -182,47 +180,45 @@ export default function Post(props) {
   }
 
   function handleLike() {
-    if (!repostUserId) {
-      const API_URL = process.env.REACT_APP_API_URL
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+    const API_URL = process.env.REACT_APP_API_URL
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }
+
+    if (!likedByUser) {
+      props.post.likesCount += 1
+      setlikedByUser(true)
+      likedBy && setLikedBy(["you", ...likedBy])
+
+      axios
+        .post(`${API_URL}/likes/${id}`, null, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount -= 1
+          setlikedByUser(false)
+          if (likedBy) {
+            likedBy.shift()
+            setLikedBy([...likedBy])
+          }
+        })
+    } else {
+      props.post.likesCount -= 1
+      setlikedByUser(false)
+      if (likedBy) {
+        likedBy.shift()
+        setLikedBy([...likedBy])
       }
 
-      if (!likedByUser) {
-        props.post.likesCount += 1
-        setlikedByUser(true)
-        likedBy && setLikedBy(["you", ...likedBy])
-
-        axios
-          .post(`${API_URL}/likes/${id}`, null, config)
-          .then((response) => {})
-          .catch((error) => {
-            props.post.likesCount -= 1
-            setlikedByUser(false)
-            if (likedBy) {
-              likedBy.shift()
-              setLikedBy([...likedBy])
-            }
-          })
-      } else {
-        props.post.likesCount -= 1
-        setlikedByUser(false)
-        if (likedBy) {
-          likedBy.shift()
-          setLikedBy([...likedBy])
-        }
-
-        axios
-          .delete(`${API_URL}/likes/${id}`, config)
-          .then((response) => {})
-          .catch((error) => {
-            props.post.likesCount += 1
-            setlikedByUser(true)
-            likedBy && setLikedBy(["you", ...likedBy])
-          })
-      }
+      axios
+        .delete(`${API_URL}/likes/${id}`, config)
+        .then((response) => {})
+        .catch((error) => {
+          props.post.likesCount += 1
+          setlikedByUser(true)
+          likedBy && setLikedBy(["you", ...likedBy])
+        })
     }
   }
 
