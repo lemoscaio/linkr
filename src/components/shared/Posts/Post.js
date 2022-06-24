@@ -224,12 +224,26 @@ export default function Post(props) {
   }
 
   function getLikedBy() {
-    const LIMIT = 2
+    const LIMIT = 3
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
 
     axios
-      .get(`${process.env.REACT_APP_API_URL}/likes?postId=${id}&limit=${LIMIT}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/likes?postId=${id}&limit=${LIMIT}`,
+        config,
+      )
       .then((response) => {
-        setLikedBy(response.data.likedBy)
+        console.log("🚀 ~ response", response)
+        console.log("🚀 ~ response", response.data)
+        if (response.data[0] === user?.username) {
+          response.data[0] = "you"
+        }
+        setLikedBy(response.data)
       })
   }
 
