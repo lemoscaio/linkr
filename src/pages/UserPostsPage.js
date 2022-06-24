@@ -31,6 +31,7 @@ export default function UserPostsPage() {
     getButtonFollow()
   })
   const [buttonActive, setButtonActive] = useState(false)
+  const [refreshPage, setRefreshPage] = useState(false)
 
   const theme = useTheme()
 
@@ -38,7 +39,7 @@ export default function UserPostsPage() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/user/${userId}`)
       .then((response) => {
-        setUserInfo(response.data)
+        setUserInfo({ ...response.data })
       })
       .catch((error) => {
         setLoadUserInfoFail(true)
@@ -56,7 +57,7 @@ export default function UserPostsPage() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/posts/${userId}`, config)
       .then((response) => {
-        setPosts(response.data)
+        setPosts([...response.data])
         setLoadedPosts(true)
       })
       .catch((error) => {
@@ -219,6 +220,7 @@ export default function UserPostsPage() {
                     key={i}
                     post={post}
                     handleTryLoadAgain={() => handleTryLoadAgain()}
+                    refreshPage={() => setRefreshPage(!refreshPage)}
                   />
                 )
               })}

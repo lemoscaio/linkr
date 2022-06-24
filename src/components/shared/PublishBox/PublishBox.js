@@ -4,8 +4,10 @@ import axios from "axios"
 import profilePic from "../../../assets/profile-placeholder.jpg"
 import * as S from "./../../../styles/style.js"
 import { useAuth } from "../../../hooks/useAuth.js"
+import { useNavigate } from "react-router-dom"
 
 export default function PublishBox(props) {
+  const navigate = useNavigate()
   const posts = props?.posts
   const setPosts = props?.setPosts
   const [newPost, setNewPost] = useState({
@@ -59,6 +61,10 @@ export default function PublishBox(props) {
       })
   }
 
+  function handleClickOnImage() {
+    navigate(`/user/${user.id}`)
+  }
+
   return (
     <>
       {errorContainer && <S.PublishError>{errorContainer}</S.PublishError>}
@@ -67,6 +73,7 @@ export default function PublishBox(props) {
           <S.PublishCardProfileImage
             src={user?.profileImage ? user.profileImage : profilePic}
             alt={user?.username}
+            onClick={handleClickOnImage}
           />
         </S.PublishCardLeftColumn>
         <S.PublishCardRightColumn>
