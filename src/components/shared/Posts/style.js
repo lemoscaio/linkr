@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 import { AiOutlineComment } from "react-icons/ai"
-import { FiHeart } from "react-icons/fi"
+import { FiHeart, FiSend } from "react-icons/fi"
 import { FaHeart } from "react-icons/fa"
 import { BiRepost } from "react-icons/bi"
 
@@ -402,4 +402,16 @@ export const InputEdit = styled.input`
   font-size: 16px;
   outline: none;
   transition: all 0.2s;
+`
+
+export const SendIcon = styled(FiSend)`
+  position: absolute;
+  right: 35px;
+  top: 58px;
+  font-size: 18px;
+  cursor: pointer;
+  @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    font-size: 20px;
+    right: 43px;
+  }
 `

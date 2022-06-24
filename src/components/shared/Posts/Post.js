@@ -31,6 +31,7 @@ export default function Post(props) {
       repostUsername,
     },
     handleTryLoadAgain,
+    refreshPage,
   } = props
   const navigate = useNavigate()
   const inputRef = useRef()
@@ -254,6 +255,7 @@ export default function Post(props) {
 
   function handleClickOnUsername() {
     navigate(`/user/${userId}`)
+    refreshPage && window.location.reload(true)
   }
 
   async function handleRepost() {
@@ -299,7 +301,7 @@ export default function Post(props) {
       .put(`/posts/${id}`, { message: editPostMessage.message })
       .then((res) => {
         console.log(res)
-        window.location.reload()
+        handleTryLoadAgain()
       })
       .catch((err) => {
         console.log(err)
@@ -437,26 +439,28 @@ export default function Post(props) {
                 )
               : user?.id === repostUserId && (
                   <S.ContainerEditPost>
-                    <FaPencilAlt onClick={handleEdit} cursor="pointer" />
                     <FaTrash onClick={openModal} cursor="pointer" />
                   </S.ContainerEditPost>
                 )}
           </S.ContainerHeaderPost>
           {editPostActive ? (
-            <S.InputEdit
-              ref={inputRef}
-              onKeyDown={(e) => {
-                handleKey(e)
-              }}
-              disabled={activeButton}
-              onChange={(e) =>
-                setEditPostMessage({
-                  ...editPostMessage,
-                  message: e.target.value,
-                })
-              }
-              value={editPostMessage.message}
-            />
+            <>
+              <S.InputEdit
+                ref={inputRef}
+                onKeyDown={(e) => {
+                  handleKey(e)
+                }}
+                disabled={activeButton}
+                onChange={(e) =>
+                  setEditPostMessage({
+                    ...editPostMessage,
+                    message: e.target.value,
+                  })
+                }
+                value={editPostMessage.message}
+              />
+              <S.SendIcon onClick={() => sendUptadePost()}></S.SendIcon>
+            </>
           ) : (
             <h6>
               <ReactHashtag
