@@ -507,7 +507,9 @@ export default function Post(props) {
           )}
         </S.PostCardRightColumn>
       </S.PostCard>
-      {showComment && <Comments postId={id} commentPoster={userId} />}
+      {showComment &&
+        <Comments postId={id} commentPoster={userId} profileImage={profileImage}/>
+      }
     </>
   )
 }
