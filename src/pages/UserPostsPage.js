@@ -8,6 +8,7 @@ import PageLabel from "../components/shared/Labels/PageLabel.js"
 import Posts from "../components/shared/Posts/Posts.js"
 import Post from "../components/shared/Posts/Post"
 import Trending from "../components/shared/Trending/Trending.js"
+import SearchBarMobile from "../components/SearchBar/SearchBarMobile.js"
 
 import * as S from "../styles/style.js"
 import { useAuth } from "../hooks/useAuth.js"
@@ -190,15 +191,16 @@ export default function UserPostsPage() {
 
   return (
     <S.PageContainer>
+      <SearchBarMobile />
       {userInfo && (
         <PageLabel>
-          <div>
+          <S.ContainerNameImage>
             <S.LabelProfileImage
               src={userInfo.profileImage}
               alt={userInfo.username}
             />{" "}
             {userInfo.username}'s posts
-          </div>
+          </S.ContainerNameImage>
           {verifyPageUser()}
         </PageLabel>
       )}

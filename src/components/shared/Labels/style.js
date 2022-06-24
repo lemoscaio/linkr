@@ -21,6 +21,10 @@ export const PageLabel = styled.h1`
     font-size: 43px;
     padding: 30px 0;
   }
+  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `
 
 export const LabelProfileImage = styled.img`
