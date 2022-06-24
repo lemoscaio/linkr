@@ -418,7 +418,7 @@ export const SearchBarResultName = styled.div`
 export const FollowButton = styled.button`
   width: 112px;
   height: 31px;
-  background-color: #1877f2;
+  background-color: {({ theme }) => theme.colors.buttonBackground};
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -432,7 +432,7 @@ export const FollowButton = styled.button`
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: #ffffff;
+    color: {({ theme }) => theme.colors.secondary};
   }
 `
 export const unFollowButton = styled.button`
@@ -453,6 +453,6 @@ export const unFollowButton = styled.button`
     font-weight: 700;
     font-size:14px;
     line-height: 17px;
-    color: #1877F2;
+    color: {({ theme }) => theme.colors.buttonBackground};
   }
 `
