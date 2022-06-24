@@ -21,11 +21,15 @@ export const PageLabel = styled.h1`
     font-size: 43px;
     padding: 30px 0;
   }
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `
 
 export const LabelProfileImage = styled.img`
   position: relative;
-  transform: translateY(25%);
+  transform: translateY(0%);
 
   width: 50px;
   height: 50px;
@@ -36,6 +40,6 @@ export const LabelProfileImage = styled.img`
   margin-right: 15px;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.laptop}) {
-    transform: translateY(10%);
+    transform: translateY(0%);
   }
 `

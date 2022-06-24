@@ -333,6 +333,12 @@ export default function Post(props) {
     setEditPostActive(!editPostActive)
   }
 
+  useEffect(() => {
+    if (editPostActive) {
+      inputRef.current.focus()
+    }
+  }, [editPostActive])
+
   return (
     <>
       <Modal
