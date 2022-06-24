@@ -100,7 +100,7 @@ export default function TimelinePage() {
         })
         .catch((error) => {})
     } else if (posts && !lastPostCreateTime) {
-      setLastPostCreateTime(posts[0].createdAt)
+      setLastPostCreateTime(posts[0]?.createdAt)
     }
   }
 
