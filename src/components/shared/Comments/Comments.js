@@ -49,8 +49,7 @@ export default function Comments({
   function addComment(e) {
       e.preventDefault()
       const body = {message: textComment}
-      console.log(body)
-      console.log(postId)
+
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`
@@ -60,7 +59,10 @@ export default function Comments({
       .post(`${process.env.REACT_APP_API_URL}/comments/${postId}`, body, config)
       .then(() => {
           getComments()
-          setTextComment('')
+          setTextComment("")
+      })
+      .catch((error) => {
+        console.log(error)
       })
 
   }
