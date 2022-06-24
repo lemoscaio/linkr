@@ -239,9 +239,7 @@ export default function Post(props) {
       .then((response) => {
         setCommentsCount([response.data])
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch((error) => {})
   }
 
   function toggleComments() {
@@ -300,11 +298,9 @@ export default function Post(props) {
     api
       .put(`/posts/${id}`, { message: editPostMessage.message })
       .then((res) => {
-        console.log(res)
         handleTryLoadAgain()
       })
-      .catch((err) => {
-        console.log(err)
+      .catch((error) => {
         setActiveButton(false)
       })
   }
@@ -317,7 +313,6 @@ export default function Post(props) {
     if (e.key === "Enter") {
       setEditPostMessage({ message: e.target.value })
       sendUptadePost()
-      console.log("cheguei")
       return
     }
   }

@@ -20,9 +20,7 @@ export default function SearchBar() {
         .then((res) => {
           setData(res.data)
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch((error) => {})
     } else {
       setData([])
     }

@@ -48,7 +48,6 @@ export default function Header() {
     try {
       await axios.delete(URL, config)
     } catch ({ response }) {
-      console.log("Delete session error!", response)
     } finally {
       handleMenuClick()
       logout()

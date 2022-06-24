@@ -20,7 +20,6 @@ export default function Trending() {
         setHashtags([...response.data])
       })
       .catch((error) => {
-        console.log("🚀 ~ error", error)
         setLoadTrendingsFail(true)
       })
   }

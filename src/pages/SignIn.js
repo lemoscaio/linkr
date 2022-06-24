@@ -30,12 +30,9 @@ export default function SignIn() {
         try {
           await login(data)
           navigate("/timeline", { replace: true })
-        } catch (error) {
-          console.log("🚀 ~ error", error)
-        }
+        } catch (error) {}
       })
       .catch((error) => {
-        console.log("🚀 ~ error", error)
         setDisabled(false)
         const { status } = error
         if (
