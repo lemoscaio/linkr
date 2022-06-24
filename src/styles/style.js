@@ -437,7 +437,7 @@ export const FollowButton = styled.button`
     color: ${({ theme }) => theme.colors.secondary};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     margin-top: 25px;
     width: 100%;
   }
@@ -462,7 +462,7 @@ export const unFollowButton = styled.button`
     color: ${({ theme }) => theme.colors.buttonBackground};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.laptop}) {
     margin-top: 25px;
     width: 100%;
   }
