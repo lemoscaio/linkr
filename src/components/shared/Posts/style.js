@@ -13,6 +13,8 @@ export const PostsContainer = styled.section`
   width: 100%;
 
   margin-bottom: 40px;
+
+  transition: all 300ms ease;
 `
 export const PostCard = styled.article`
   display: flex;

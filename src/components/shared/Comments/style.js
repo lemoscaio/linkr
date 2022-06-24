@@ -79,7 +79,7 @@ export const Comment = styled.div`
 
 export const AddComment = styled.form`
   input {
-    width: 600px;
+    width: 100%;
     padding: 0 40px 0 11px;
     height: 39px;
     background-color: #252525;
