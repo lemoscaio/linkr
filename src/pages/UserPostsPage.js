@@ -43,7 +43,6 @@ export default function UserPostsPage() {
       })
       .catch((error) => {
         setLoadUserInfoFail(true)
-        console.log(1)
       })
   }
 
@@ -63,7 +62,6 @@ export default function UserPostsPage() {
       .catch((error) => {
         setLoadedPosts(true)
         setLoadPostsFail(true)
-        console.log(2)
       })
   }
 
@@ -94,7 +92,6 @@ export default function UserPostsPage() {
       )
       .then((response) => {
         setButtonActive(false)
-        console.log(response)
       })
       .catch((error) => {
         setButtonActive(false)
@@ -131,7 +128,6 @@ export default function UserPostsPage() {
       .delete(`${process.env.REACT_APP_API_URL}/follows/${userId}`, config)
       .then((response) => {
         setButtonActive(false)
-        console.log(response)
       })
       .catch((error) => {
         setButtonActive(false)
@@ -189,9 +185,7 @@ export default function UserPostsPage() {
       .then((response) => {
         setButtonFollow(response.data.followState)
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch((error) => {})
   }
 
   return (
