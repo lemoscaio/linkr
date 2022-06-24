@@ -414,3 +414,45 @@ export const SearchBarResultName = styled.div`
   color: ${({ theme }) => theme.colors.searchResultName};
   margin-left: 12px;
 `
+//FOLLOW BUTTON
+export const FollowButton = styled.button`
+  width: 112px;
+  height: 31px;
+  background-color: {({ theme }) => theme.colors.buttonBackground};
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+
+  p {
+    font-family: ${({ theme }) => theme.fonts.mainFont};
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: {({ theme }) => theme.colors.secondary};
+  }
+`
+export const unFollowButton = styled.button`
+  width: 112px;
+  height: 31px;
+  background-color: {({ theme }) => theme.colors.secondary};
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:none;
+  cursor: pointer;
+
+
+  p{
+    font-family: ${({ theme }) => theme.fonts.mainFont};
+    font-style: normal;
+    font-weight: 700;
+    font-size:14px;
+    line-height: 17px;
+    color: {({ theme }) => theme.colors.buttonBackground};
+  }
+`

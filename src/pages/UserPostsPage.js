@@ -11,6 +11,7 @@ import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
 import { useAuth } from "../hooks/useAuth.js"
+import Swal from "sweetalert2"
 
 export default function UserPostsPage() {
   const { user } = useAuth()
@@ -26,6 +27,10 @@ export default function UserPostsPage() {
   })
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
+  const [buttonFollow, setButtonFollow] = useState(() => {
+    getButtonFollow()
+  })
+  const [buttonActive, setButtonActive] = useState(false)
 
   const theme = useTheme()
 
@@ -69,15 +74,137 @@ export default function UserPostsPage() {
     getUserPosts()
   }
 
+  function sendFollow() {
+    setButtonFollow(true)
+    setButtonActive(true)
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/follows/${userId}`,
+        {
+          followerId: user.id,
+          followedId: userId,
+        },
+        config,
+      )
+      .then((response) => {
+        setButtonActive(false)
+        console.log(response)
+      })
+      .catch((error) => {
+        setButtonActive(false)
+        const { status } = error
+        if (
+          status === 400 ||
+          status === 401 ||
+          status === 422 ||
+          status === 500
+        ) {
+          return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.data,
+          })
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Follow error!",
+        })
+      })
+  }
+
+  function sendUnfollow() {
+    setButtonFollow(false)
+    setButtonActive(true)
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/follows/${userId}`, config)
+      .then((response) => {
+        setButtonActive(false)
+        console.log(response)
+      })
+      .catch((error) => {
+        setButtonActive(false)
+        const { status } = error
+        if (
+          status === 400 ||
+          status === 401 ||
+          status === 422 ||
+          status === 500
+        ) {
+          return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.data,
+          })
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Unfollow error!",
+        })
+      })
+  }
+
+  function verifyPageUser() {
+    if (user.id === parseInt(userId)) {
+      return null
+    } else {
+      return showFollowButton()
+    }
+  }
+
+  function showFollowButton() {
+    return buttonFollow === true ? (
+      <S.unFollowButton onClick={sendUnfollow} disabled={buttonActive}>
+        {" "}
+        <p>Unfollow</p>{" "}
+      </S.unFollowButton>
+    ) : (
+      <S.FollowButton onClick={sendFollow} disabled={buttonActive}>
+        {" "}
+        <p>Follow</p>{" "}
+      </S.FollowButton>
+    )
+  }
+
+  function getButtonFollow() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/follows/${userId}`, config)
+      .then((response) => {
+        setButtonFollow(response.data.followState)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <S.PageContainer>
       {userInfo && (
         <PageLabel>
-          <S.LabelProfileImage
-            src={userInfo.profileImage}
-            alt={userInfo.username}
-          />{" "}
-          {userInfo.username}'s posts
+          <div>
+            <S.LabelProfileImage
+              src={userInfo.profileImage}
+              alt={userInfo.username}
+            />{" "}
+            {userInfo.username}'s posts
+          </div>
+          {verifyPageUser()}
         </PageLabel>
       )}
       {loadUserInfoFail && <PageLabel>Oops...</PageLabel>}
