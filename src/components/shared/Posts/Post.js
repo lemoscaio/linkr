@@ -335,6 +335,12 @@ export default function Post(props) {
     setEditPostActive(!editPostActive)
   }
 
+  useEffect(() => {
+    if (editPostActive) {
+      inputRef.current.focus()
+    }
+  }, [editPostActive])
+
   return (
     <>
       <Modal
@@ -507,9 +513,13 @@ export default function Post(props) {
           )}
         </S.PostCardRightColumn>
       </S.PostCard>
-      {showComment &&
-        <Comments postId={id} commentPoster={userId} profileImage={profileImage}/>
-      }
+      {showComment && (
+        <Comments
+          postId={id}
+          commentPoster={userId}
+          profileImage={profileImage}
+        />
+      )}
     </>
   )
 }

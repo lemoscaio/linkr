@@ -399,6 +399,7 @@ export const SearchBarResultUser = styled.div`
   padding-bottom: 10px;
 `
 export const SearchBarResultImage = styled.img`
+  object-fit: cover;
   width: 39px;
   height: 39px;
   border-radius: 50%;

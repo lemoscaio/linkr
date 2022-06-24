@@ -397,7 +397,7 @@ export const InputEdit = styled.input`
   height: 44px;
   border: none;
   padding: 0 15px;
-  color: ${({ theme }) => theme.colors.text1};
+  color: ${({ theme }) => theme.colors.secondary};
   width: 100%;
   font-size: 16px;
   outline: none;
