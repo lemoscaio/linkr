@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 
 import profilePic from "../../../assets/profile-placeholder.jpg"
-
 import * as S from "./../../../styles/style.js"
-import { UserContext } from "../../../contexts/UserContext.js"
+import { useAuth } from "../../../hooks/useAuth.js"
 
 export default function PublishBox(props) {
   const posts = props?.posts
@@ -17,10 +16,10 @@ export default function PublishBox(props) {
   const [activePublishButton, setActivePublishButton] = useState(true)
   const [errorContainer, setErrorContainer] = useState()
 
-  const { user } = useContext(UserContext)
+  const { user } = useAuth()
   const config = {
     headers: {
-      Authorization: `Bearer ${user.token}`,
+      Authorization: `Bearer ${user?.token}`,
     },
   }
 
@@ -45,8 +44,8 @@ export default function PublishBox(props) {
         setPosts([
           {
             ...response.data,
-            username: user.username,
-            profileImage: user.profileImage,
+            username: user?.username,
+            profileImage: user?.profileImage,
             likesCount: 0,
           },
           ...posts,
@@ -66,8 +65,8 @@ export default function PublishBox(props) {
       <S.PublishCard>
         <S.PublishCardLeftColumn>
           <S.PublishCardProfileImage
-            src={user.profileImage ? user.profileImage : profilePic}
-            alt={user.username}
+            src={user?.profileImage ? user.profileImage : profilePic}
+            alt={user?.username}
           />
         </S.PublishCardLeftColumn>
         <S.PublishCardRightColumn>

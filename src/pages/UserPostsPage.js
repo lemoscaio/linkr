@@ -6,12 +6,14 @@ import { useTheme } from "styled-components"
 
 import PageLabel from "../components/shared/Labels/PageLabel.js"
 import Posts from "../components/shared/Posts/Posts.js"
-import UpdatePost from "../components/shared/Posts/updatePost.js"
+import Post from "../components/shared/Posts/Post"
 import Trending from "../components/shared/Trending/Trending.js"
 
 import * as S from "../styles/style.js"
+import { useAuth } from "../hooks/useAuth.js"
 
 export default function UserPostsPage() {
+  const { user } = useAuth()
   const { userId } = useParams()
 
   const [userInfo, setUserInfo] = useState(() => {
@@ -35,12 +37,19 @@ export default function UserPostsPage() {
       })
       .catch((error) => {
         setLoadUserInfoFail(true)
+        console.log(1)
       })
   }
 
   function getUserPosts() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/posts/${userId}`)
+      .get(`${process.env.REACT_APP_API_URL}/posts/${userId}`, config)
       .then((response) => {
         setPosts(response.data)
         setLoadedPosts(true)
@@ -48,6 +57,7 @@ export default function UserPostsPage() {
       .catch((error) => {
         setLoadedPosts(true)
         setLoadPostsFail(true)
+        console.log(2)
       })
   }
 
@@ -74,9 +84,16 @@ export default function UserPostsPage() {
       <S.ContentWrapper>
         <S.MainContentWrapper>
           <Posts>
-            {posts &&
-              posts.map((post) => {
-                return <UpdatePost key={post.id} post={post}  />
+            {loadedPosts &&
+              posts &&
+              posts.map((post, i) => {
+                return (
+                  <Post
+                    key={i}
+                    post={post}
+                    handleTryLoadAgain={() => handleTryLoadAgain()}
+                  />
+                )
               })}
             {!loadedPosts && (
               <S.LoadingPosts>

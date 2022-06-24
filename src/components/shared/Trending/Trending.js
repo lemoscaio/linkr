@@ -17,7 +17,6 @@ export default function Trending() {
     axios
       .get(URL)
       .then((response) => {
-        console.log("🚀 ~ response", response)
         setHashtags([...response.data])
       })
       .catch((error) => {

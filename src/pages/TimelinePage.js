@@ -9,28 +9,55 @@ import Posts from "../components/shared/Posts/Posts.js"
 import Post from "../components/shared/Posts/Post"
 import Trending from "../components/shared/Trending/Trending.js"
 import SearchBarMobile from "../components/SearchBar/SearchBarMobile.js"
-import profilePic from "../assets/profile-placeholder.jpg"
+//import profilePic from "../assets/profile-placeholder.jpg"
 
 import * as S from "../styles/style.js"
+import { useAuth } from "../hooks/useAuth.js"
 
 export default function TimelinePage() {
+  const { user } = useAuth()
   const [posts, setPosts] = useState(() => {
     getPosts()
   })
-  console.log("🚀 ~ posts", posts)
   const [loadedPosts, setLoadedPosts] = useState(false)
   const [loadPostsFail, setLoadPostsFail] = useState(false)
+  const [followCount, setFollowCount] = useState(() => {
+    getFollowCount()
+  })
 
   const theme = useTheme()
+
+  function getFollowCount() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/follows`, config)
+      .then((response) => {
+        if (response.status === 204) setFollowCount(0)
+        else setFollowCount(response.data)
+      })
+      .catch((error) => {})
+  }
 
   function getPosts() {
     const LIMIT = 20
     const ORDERBY = "created_at"
     const ORDER_DIR = "desc"
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/posts?limit=${LIMIT}&order=${ORDERBY}&direction=${ORDER_DIR}`,
+        config,
       )
       .then((response) => {
         setPosts([...response.data])
@@ -43,8 +70,6 @@ export default function TimelinePage() {
   }
 
   function handleTryLoadAgain() {
-    console.log("rodei")
-
     setLoadedPosts(false)
     setLoadPostsFail(false)
     getPosts()
@@ -52,7 +77,7 @@ export default function TimelinePage() {
 
   return (
     <S.PageContainer>
-      <SearchBarMobile/>
+      <SearchBarMobile />
       <PageLabel>timeline</PageLabel>
       <S.ContentWrapper>
         <S.MainContentWrapper>
@@ -60,10 +85,10 @@ export default function TimelinePage() {
           <Posts>
             {loadedPosts &&
               posts &&
-              posts.map((post) => {
+              posts.map((post, i) => {
                 return (
                   <Post
-                    key={post.id}
+                    key={i}
                     post={post}
                     handleTryLoadAgain={() => handleTryLoadAgain()}
                   />
@@ -93,7 +118,11 @@ export default function TimelinePage() {
             )}
             {posts && posts.length === 0 && (
               <S.NoPostsContainer>
-                <p>There are no posts yet.</p>
+                {followCount === 0 ? (
+                  <p>You don't follow anyone yet. Search for new friends!</p>
+                ) : (
+                  <p>No posts found from your friends.</p>
+                )}
               </S.NoPostsContainer>
             )}
           </Posts>
