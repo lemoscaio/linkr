@@ -418,7 +418,7 @@ export const SearchBarResultName = styled.div`
 export const FollowButton = styled.button`
   width: 112px;
   height: 31px;
-  background-color: {({ theme }) => theme.colors.buttonBackground};
+  background-color: ${({ theme }) => theme.colors.buttonBackground};
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -432,27 +432,42 @@ export const FollowButton = styled.button`
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: {({ theme }) => theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.secondary};
   }
 `
 export const unFollowButton = styled.button`
   width: 112px;
   height: 31px;
-  background-color: {({ theme }) => theme.colors.secondary};
+  background-color: ${({ theme }) => theme.colors.secondary};
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border:none;
+  border: none;
   cursor: pointer;
 
-
-  p{
+  p {
     font-family: ${({ theme }) => theme.fonts.mainFont};
     font-style: normal;
     font-weight: 700;
-    font-size:14px;
+    font-size: 14px;
     line-height: 17px;
-    color: {({ theme }) => theme.colors.buttonBackground};
+    color: ${({ theme }) => theme.colors.buttonBackground};
+  }
+`
+
+export const SearchBarResultFollow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 7px;
+
+  p {
+    font-family: ${({ theme }) => theme.fonts.mainFont};
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: ${({ theme }) => theme.colors.followingText};
   }
 `
